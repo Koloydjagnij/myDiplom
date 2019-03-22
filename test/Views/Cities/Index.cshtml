@@ -1,0 +1,43 @@
+﻿@model IEnumerable<test.City>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+<p>
+    <div class="form-group">
+        <a asp-action="Create"><input type="submit" value="Создать новую запись" class="btn btn-default" /></a>
+    </div>
+    
+</p>
+<table class="table">
+    <thead>
+        <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.NameCity)
+                </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdAreaNavigation)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.NameCity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdAreaNavigation.NameArea)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.IdTown">Изменить</a> |
+                <a asp-action="Details" asp-route-id="@item.IdTown">Информация</a> |
+                <a asp-action="Delete" asp-route-id="@item.IdTown">Удалить</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

@@ -1,0 +1,24 @@
+﻿@model test.FamilyType
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>FamilyType</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.NameFamilyType)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.NameFamilyType)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.IdFamilyType">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
