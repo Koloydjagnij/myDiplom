@@ -20,7 +20,9 @@
             </div>
             <div class="form-group">
                 <label asp-for="IdMilitaryDistrict" class="control-label"></label>
-                <select asp-for="IdMilitaryDistrict" class="form-control" asp-items="ViewBag.IdMilitaryDistrict"></select>
+                <select asp-for="IdMilitaryDistrict" class="form-control" asp-items="ViewBag.IdMilitaryDistrict">
+                    <option selected="selected" disabled="disabled">---</option>
+                </select>
                 <span asp-validation-for="IdMilitaryDistrict" class="text-danger"></span>
             </div>
             <div class="form-group">

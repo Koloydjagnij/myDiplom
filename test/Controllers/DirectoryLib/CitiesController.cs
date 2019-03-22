@@ -48,7 +48,7 @@ namespace test.Controllers
         // GET: Cities/Create
         public IActionResult Create()
         {
-            ViewData["IdArea"] = new SelectList(_context.Area, "IdArea", "IdRegion");
+            ViewData["IdArea"] = new SelectList(_context.Area, "IdArea", "NameArea");
             return View();
         }
 
@@ -65,7 +65,7 @@ namespace test.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdArea"] = new SelectList(_context.Area, "IdArea", "IdRegion", city.IdArea);
+            ViewData["IdArea"] = new SelectList(_context.Area, "IdArea", "NameArea", city.IdArea);
             return View(city);
         }
 
@@ -82,7 +82,7 @@ namespace test.Controllers
             {
                 return NotFound();
             }
-            ViewData["IdArea"] = new SelectList(_context.Area, "IdArea", "IdRegion", city.IdArea);
+            ViewData["IdArea"] = new SelectList(_context.Area, "IdArea", "NameArea", city.IdArea);
             return View(city);
         }
 
@@ -118,7 +118,7 @@ namespace test.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdArea"] = new SelectList(_context.Area, "IdArea", "IdRegion", city.IdArea);
+            ViewData["IdArea"] = new SelectList(_context.Area, "IdArea", "NameArea", city.IdArea);
             return View(city);
         }
 

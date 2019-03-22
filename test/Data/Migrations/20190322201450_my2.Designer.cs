@@ -11,9 +11,10 @@ using test.Data;
 namespace test.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190322201450_my2")]
+    partial class my2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -183,8 +184,7 @@ namespace test.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnName("id_area");
 
-                    b.Property<int?>("IdRegion")
-                        .IsRequired()
+                    b.Property<int>("IdRegion")
                         .HasColumnName("id_region");
 
                     b.Property<string>("NameArea")
@@ -236,7 +236,7 @@ namespace test.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnName("id_educational_institution");
 
-                    b.Property<int?>("IdTown")
+                    b.Property<int>("IdTown")
                         .HasColumnName("id_town");
 
                     b.Property<string>("NameEducationalInstitution")

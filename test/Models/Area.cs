@@ -13,7 +13,7 @@ namespace test
 
         public int IdArea { get; set; }
         public string NameArea { get; set; }
-        public int IdRegion { get; set; }
+        public int? IdRegion { get; set; }
 
         public Region IdRegionNavigation { get; set; }
         public ICollection<City> City { get; set; }

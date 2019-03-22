@@ -12,7 +12,7 @@ namespace test
 
         public int IdEducationalInstitution { get; set; }
         public string NameEducationalInstitution { get; set; }
-        public int IdTown { get; set; }
+        public int? IdTown { get; set; }
 
         public City IdTownNavigation { get; set; }
         public ICollection<Enrollee> Enrollee { get; set; }

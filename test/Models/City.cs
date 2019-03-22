@@ -15,7 +15,7 @@ namespace test
 
         public int IdTown { get; set; }
         public string NameCity { get; set; }
-        public int IdArea { get; set; }
+        public int? IdArea { get; set; }
 
         public Area IdAreaNavigation { get; set; }
         public ICollection<EducationalInstitution> EducationalInstitution { get; set; }

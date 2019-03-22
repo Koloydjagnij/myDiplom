@@ -48,7 +48,7 @@ namespace test.Controllers.DirectoryLib
         // GET: Regions/Create
         public IActionResult Create()
         {
-            ViewData["IdMilitaryDistrict"] = new SelectList(_context.MilitaryDistrict, "IdMilitaryDistrict", "IdMilitaryDistrict");
+            ViewData["IdMilitaryDistrict"] = new SelectList(_context.MilitaryDistrict, "IdMilitaryDistrict", "NameMilitaryDistrict");
             return View();
         }
 
@@ -65,7 +65,7 @@ namespace test.Controllers.DirectoryLib
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdMilitaryDistrict"] = new SelectList(_context.MilitaryDistrict, "IdMilitaryDistrict", "IdMilitaryDistrict", region.IdMilitaryDistrict);
+            ViewData["IdMilitaryDistrict"] = new SelectList(_context.MilitaryDistrict, "IdMilitaryDistrict", "NameMilitaryDistrict", region.IdMilitaryDistrict);
             return View(region);
         }
 
@@ -82,7 +82,7 @@ namespace test.Controllers.DirectoryLib
             {
                 return NotFound();
             }
-            ViewData["IdMilitaryDistrict"] = new SelectList(_context.MilitaryDistrict, "IdMilitaryDistrict", "IdMilitaryDistrict", region.IdMilitaryDistrict);
+            ViewData["IdMilitaryDistrict"] = new SelectList(_context.MilitaryDistrict, "IdMilitaryDistrict", "NameMilitaryDistrict", region.IdMilitaryDistrict);
             return View(region);
         }
 
@@ -118,7 +118,7 @@ namespace test.Controllers.DirectoryLib
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdMilitaryDistrict"] = new SelectList(_context.MilitaryDistrict, "IdMilitaryDistrict", "IdMilitaryDistrict", region.IdMilitaryDistrict);
+            ViewData["IdMilitaryDistrict"] = new SelectList(_context.MilitaryDistrict, "IdMilitaryDistrict", "NameMilitaryDistrict", region.IdMilitaryDistrict);
             return View(region);
         }
 

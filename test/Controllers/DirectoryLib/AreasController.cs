@@ -48,7 +48,7 @@ namespace test.Controllers.DirectoryLib
         // GET: Areas/Create
         public IActionResult Create()
         {
-            ViewData["IdRegion"] = new SelectList(_context.Region, "IdRegion", "IdRegion");
+            ViewData["IdRegion"] = new SelectList(_context.Region, "IdRegion", "NameRegion");
             return View();
         }
 
@@ -65,7 +65,7 @@ namespace test.Controllers.DirectoryLib
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdRegion"] = new SelectList(_context.Region, "IdRegion", "IdRegion", area.IdRegion);
+            ViewData["IdRegion"] = new SelectList(_context.Region, "IdRegion", "NameRegion", area.IdRegion);
             return View(area);
         }
 
@@ -82,7 +82,7 @@ namespace test.Controllers.DirectoryLib
             {
                 return NotFound();
             }
-            ViewData["IdRegion"] = new SelectList(_context.Region, "IdRegion", "IdRegion", area.IdRegion);
+            ViewData["IdRegion"] = new SelectList(_context.Region, "IdRegion", "NameRegion", area.IdRegion);
             return View(area);
         }
 
@@ -118,7 +118,7 @@ namespace test.Controllers.DirectoryLib
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdRegion"] = new SelectList(_context.Region, "IdRegion", "IdRegion", area.IdRegion);
+            ViewData["IdRegion"] = new SelectList(_context.Region, "IdRegion", "NameRegion", area.IdRegion);
             return View(area);
         }
 
