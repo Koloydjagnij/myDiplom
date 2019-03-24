@@ -5,6 +5,10 @@
     <UserSecretsId>aspnet-test-3A6BCFA5-7C56-472F-8D75-EDD25150277C</UserSecretsId>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <WarningLevel>0</WarningLevel>
+  </PropertyGroup>
+
   <ItemGroup>
     <Compile Remove="Data\Migrations\20190322165317_my1.cs" />
     <Compile Remove="Data\Migrations\20190322165317_my1.Designer.cs" />

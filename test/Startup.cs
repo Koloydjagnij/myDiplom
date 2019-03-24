@@ -12,6 +12,7 @@ using test.Data;
 using test.Models;
 using test.Services;
 using Npgsql.EntityFrameworkCore.PostgreSQL;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace test
 {
@@ -30,10 +31,21 @@ namespace test
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddIdentity<ApplicationUser, IdentityRole>()
-                .AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddDefaultTokenProviders();
+      
 
+            services.AddIdentity<ApplicationUser, IdentityRole>(opts => {
+                opts.User.RequireUniqueEmail = true;    // уникальный email
+                //opts.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyz"; // допустимые символы
+            })
+            .AddEntityFrameworkStores<ApplicationDbContext>()
+            .AddDefaultTokenProviders();
+
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options =>
+                {
+                    options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/Account/Login");
+                    options.AccessDeniedPath = new Microsoft.AspNetCore.Http.PathString("/Account/Login");
+                });
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
 

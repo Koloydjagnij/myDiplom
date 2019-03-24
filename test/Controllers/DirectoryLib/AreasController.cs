@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +11,7 @@ using test.Data;
 
 namespace test.Controllers.DirectoryLib
 {
+    [Authorize(Roles = "Admin")]
     public class AreasController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -70,6 +72,7 @@ namespace test.Controllers.DirectoryLib
         }
 
         // GET: Areas/Edit/5
+
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
