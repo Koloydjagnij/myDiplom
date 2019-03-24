@@ -1,12 +1,11 @@
 ﻿@model test.MaritalStatus
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Добавление нового семейного положения";
 }
 
-<h2>Create</h2>
 
-<h4>MaritalStatus</h4>
+<h4>Семейное положение</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -19,14 +18,14 @@
                 <span asp-validation-for="NameMaritalStatus" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="Создать" class="btn btn-default" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Назад</a>
 </div>
 
 @section Scripts {

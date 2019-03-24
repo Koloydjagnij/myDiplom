@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace test
 {
@@ -11,9 +12,12 @@ namespace test
         }
 
         public int IdEducationalInstitution { get; set; }
+        [Display(Name = "Учебное заведение")]
         public string NameEducationalInstitution { get; set; }
+        [Display(Name = "Город")]
         public int? IdTown { get; set; }
 
+        [Display(Name = "Город")]
         public City IdTownNavigation { get; set; }
         public ICollection<Enrollee> Enrollee { get; set; }
     }

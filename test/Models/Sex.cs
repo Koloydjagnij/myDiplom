@@ -14,6 +14,7 @@ namespace test
         }
         
         public int IdSex { get; set; }
+        [Display(Name = "Пол")]
         public string NameSex { get; set; }
 
         public ICollection<Enrollee> Enrollee { get; set; }

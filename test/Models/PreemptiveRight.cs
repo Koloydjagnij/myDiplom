@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace test
 {
@@ -11,6 +12,7 @@ namespace test
         }
 
         public int IdPreemptiveRight { get; set; }
+        [Display(Name = "Преимущественное право")]
         public string NamePreemptiveRight { get; set; }
 
         public ICollection<Enrollee> Enrollee { get; set; }

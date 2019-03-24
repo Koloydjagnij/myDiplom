@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace test
 {
@@ -11,6 +12,7 @@ namespace test
         }
 
         public int IdSocialBackground { get; set; }
+        [Display(Name = "Социальное происхождение")]
         public string NameSocialBackground { get; set; }
 
         public ICollection<Enrollee> Enrollee { get; set; }

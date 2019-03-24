@@ -1,12 +1,11 @@
 ﻿@model test.EducationalInstitution
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Добавление нового учебного заведения";
 }
 
-<h2>Create</h2>
 
-<h4>EducationalInstitution</h4>
+<h4>Учебное заведение</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -20,18 +19,18 @@
             <div class="form-group">
                 <label asp-for="IdTown" class="control-label"></label>
                 <select asp-antiforgery="true" asp-for="IdTown" class ="form-control" asp-items="ViewBag.IdTown">
-                <option selected="selected" disabled="disabled">Выберите город</option>
+                    <option selected="selected" disabled="disabled">---</option>
                 </select>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="Создать" class="btn btn-default" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Назад</a>
 </div>
 
 @section Scripts {

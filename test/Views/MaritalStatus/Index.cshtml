@@ -1,13 +1,15 @@
 ﻿@model IEnumerable<test.MaritalStatus>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Семейные положения";
 }
 
-<h2>Index</h2>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <div class="form-group">
+        <a asp-action="Create"><input type="submit" value="Создать новую запись" class="btn btn-default" /></a>
+    </div>
+
 </p>
 <table class="table">
     <thead>
@@ -25,9 +27,9 @@
                 @Html.DisplayFor(modelItem => item.NameMaritalStatus)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.IdMaritalStatus">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.IdMaritalStatus">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.IdMaritalStatus">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.IdMaritalStatus">Изменить</a> |
+                <a asp-action="Details" asp-route-id="@item.IdMaritalStatus">Информация</a> |
+                <a asp-action="Delete" asp-route-id="@item.IdMaritalStatus">Удалить</a>
             </td>
         </tr>
 }
