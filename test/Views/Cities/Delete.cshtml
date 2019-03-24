@@ -1,0 +1,32 @@
+﻿@model test.City
+
+@{
+    ViewData["Title"] = "Удаление записи";
+}
+
+
+<h3>Вы хотите удалить данную запись?</h3>
+<div>
+    <h4>Город</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Название
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.NameCity)
+        </dd>
+        <dt>
+            Район
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IdAreaNavigation.NameArea)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="IdTown" />
+        <input type="submit" value="Удалить" class="btn btn-default" /> |
+        <a asp-action="Index">назад</a>
+    </form>
+</div>
