@@ -1,4 +1,9 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Identity
+@using test.Models
+
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -30,10 +35,13 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Справочники</a></li>
+                    @if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+                    {
+                        <li><a asp-area="" asp-controller="AdminUnit" asp-action="Index">Администрирование приложения</a></li>
+                    }
                     <li><a asp-area="" asp-controller="Home" asp-action="About">О разработчиках</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="Contact">Контактная информация</a></li>
-                    <li><a asp-area="" asp-controller="Roles" asp-action="Index">Пользователи</a></li>
+                    
                 </ul>
                 @await Html.PartialAsync("_LoginPartial")
             </div>
@@ -43,7 +51,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; 2019 - test</p>
+            <p>&copy; 2019 – test</p>
         </footer>
     </div>
 
