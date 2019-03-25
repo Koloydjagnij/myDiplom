@@ -12,7 +12,7 @@ namespace test.Controllers
     [Authorize(Roles = "User,Admin")]
     public class HomeController : Controller
     {
-        [Authorize(Roles = "Admin")]
+        
         public IActionResult Index()
         {
             return View();
