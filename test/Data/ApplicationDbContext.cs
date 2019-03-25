@@ -48,6 +48,7 @@ namespace test.Data
         public virtual DbSet<Subject> Subject { get; set; }
         public virtual DbSet<SubjectMark> SubjectMark { get; set; }
         public virtual DbSet<TestType> TestType { get; set; }
+        public virtual DbSet<AppConfig> AppConfig { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
