@@ -14,6 +14,7 @@ using test.Models;
 using test.Models.AccountViewModels;
 using test.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using test.Data;
 
 namespace test.Controllers
 {
@@ -25,17 +26,19 @@ namespace test.Controllers
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IEmailSender _emailSender;
         private readonly ILogger _logger;
+        private readonly ApplicationDbContext _context;
 
         public AccountController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             IEmailSender emailSender,
-            ILogger<AccountController> logger)
+            ILogger<AccountController> logger, ApplicationDbContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
             _logger = logger;
+            _context = context;
         }
 
         [TempData]
@@ -207,7 +210,6 @@ namespace test.Controllers
         }
 
         [HttpGet]
-        [AllowAnonymous]
         [Authorize(Roles = "Admin")]
         public IActionResult Register(string returnUrl = null)
         {
@@ -216,7 +218,6 @@ namespace test.Controllers
         }
 
         [HttpPost]
-        [AllowAnonymous]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Register(RegisterViewModel model, string returnUrl = null)
@@ -366,18 +367,23 @@ namespace test.Controllers
             if (ModelState.IsValid)
             {
                 var user = await _userManager.FindByEmailAsync(model.Email);
-                if (user == null || !(await _userManager.IsEmailConfirmedAsync(user)))
+                if (user == null )
                 {
                     // Don't reveal that the user does not exist or is not confirmed
                     return RedirectToAction(nameof(ForgotPasswordConfirmation));
                 }
 
-                // For more information on how to enable account confirmation and password reset please
-                // visit https://go.microsoft.com/fwlink/?LinkID=532713
+                
                 var code = await _userManager.GeneratePasswordResetTokenAsync(user);
-                var callbackUrl = Url.ResetPasswordCallbackLink(user.Id, code, Request.Scheme);
-                await _emailSender.SendEmailAsync(model.Email, "Reset Password",
-                   $"Please reset your password by clicking here: <a href='{callbackUrl}'>link</a>");
+               // var callbackUrl = Url.ResetPasswordCallbackLink(user.Id, code, Request.Scheme);
+               // await _emailSender.SendEmailAsync(model.Email, "Reset Password",
+                 //  $"Please reset your password by clicking here: <a href='{callbackUrl}'>link</a>");
+
+                var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
+                EmailService emailService = new EmailService();
+                await emailService.SendEmailAsync(_context, model.Email, "Reset Password",
+                    $"Для сброса пароля пройдите по ссылке: <a href='{callbackUrl}'>link</a>");
+
                 return RedirectToAction(nameof(ForgotPasswordConfirmation));
             }
 
