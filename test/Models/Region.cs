@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace test
 {
@@ -11,9 +12,12 @@ namespace test
         }
 
         public int IdRegion { get; set; }
+        [Display(Name = "Область")]
         public string NameRegion { get; set; }
+        [Display(Name = "Военный округ")]
         public int IdMilitaryDistrict { get; set; }
 
+        [Display(Name = "Военный округ")]
         public MilitaryDistrict IdMilitaryDistrictNavigation { get; set; }
         public ICollection<Area> Area { get; set; }
     }

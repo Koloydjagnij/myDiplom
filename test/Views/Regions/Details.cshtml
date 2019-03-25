@@ -1,13 +1,11 @@
 ﻿@model test.Region
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Информация";
 }
 
-<h2>Details</h2>
-
 <div>
-    <h4>Region</h4>
+    <h4>Область</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -20,11 +18,11 @@
             @Html.DisplayNameFor(model => model.IdMilitaryDistrictNavigation)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.IdMilitaryDistrictNavigation.IdMilitaryDistrict)
+            @Html.DisplayFor(model => model.IdMilitaryDistrictNavigation.NameMilitaryDistrict)
         </dd>
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.IdRegion">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Edit" asp-route-id="@Model.IdRegion">Изменить</a> |
+    <a asp-action="Index">Назад</a>
 </div>

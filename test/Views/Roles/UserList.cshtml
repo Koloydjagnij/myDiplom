@@ -1,0 +1,22 @@
+﻿@model IEnumerable<IdentityUser>
+<table style="margin-bottom: 20px;">
+    <tr style="font-size: 200%;">
+        <td >
+            Список пользователей
+        </td>
+        <td>
+            <a class="btn btn-sm btn-primary" style="margin-left: 20px;background-color: cornflowerblue" asp-area="" asp-controller="Account" asp-action="Register">Добавить нового пользователя</a>
+        </td>
+    </tr>
+</table>
+    <table class="table">
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>@user.Email</td>
+                <td>
+                    <a class="btn btn-sm btn-primary" asp-action="Edit" asp-route-userid="@user.Id">Права доступа</a>
+                </td>
+            </tr>
+        }
+    </table>

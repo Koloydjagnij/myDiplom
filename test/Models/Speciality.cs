@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace test
 {
@@ -11,6 +12,7 @@ namespace test
         }
 
         public int IdSpeciality { get; set; }
+        [Display(Name = "Специальность")]
         public string NameSpeciality { get; set; }
 
         public ICollection<ExamForSpeciality> ExamForSpeciality { get; set; }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace test
 {
@@ -11,6 +12,7 @@ namespace test
         }
 
         public int IdFamilyType { get; set; }
+        [Display(Name = "Тип семьи")]
         public string NameFamilyType { get; set; }
 
         public ICollection<Family> Family { get; set; }
