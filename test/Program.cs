@@ -10,6 +10,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Identity;
 using test.Models;
+using test.Data;
 
 /*namespace test
 {
@@ -33,9 +34,12 @@ namespace test
 {
     public class Program
     {
+        
 
         public static  void Main(string[] args)
         {
+            // системные настройки
+            
             //BuildWebHost(args).Run();
             var host = BuildWebHost(args);
 
@@ -44,9 +48,12 @@ namespace test
                 var services = scope.ServiceProvider;
                 try
                 {
+                    var context = services.GetRequiredService<ApplicationDbContext>();
+                    
                     var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
                     var rolesManager = services.GetRequiredService<RoleManager<IdentityRole>>();
-                    RoleInitializer.InitializeAsync(userManager, rolesManager).Wait();  
+                    RoleInitializer.InitializeAsync(userManager, rolesManager).Wait();
+                    AddAppConfig.InitializAppConfig(context).Wait();
                 }
                 catch (Exception ex)
                 {
