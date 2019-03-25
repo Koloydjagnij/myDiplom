@@ -25,6 +25,8 @@ namespace test
             var Password = AP.Value;
             AP = _context.AppConfig.Where(p => p.Key == "host").FirstOrDefault();
             var Host = AP.Value;
+            AP = _context.AppConfig.Where(p => p.Key == "Sender").FirstOrDefault();
+            var Sender = AP.Value;
             AP = _context.AppConfig.Where(p => p.Key == "port").FirstOrDefault();
             int port = Int32.Parse(AP.Value);
             AP = _context.AppConfig.Where(p => p.Key == "useSsl").FirstOrDefault();
@@ -32,7 +34,7 @@ namespace test
 
 
             var emailMessage = new MimeMessage();
-            emailMessage.From.Add(new MailboxAddress("Администрация приемной комиссии", Email));
+            emailMessage.From.Add(new MailboxAddress(Sender, Email));
             emailMessage.To.Add(new MailboxAddress("", email));
             emailMessage.Subject = subject;
             emailMessage.Body = new TextPart(MimeKit.Text.TextFormat.Html)
