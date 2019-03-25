@@ -17,6 +17,7 @@ namespace test
             Seting.Add(new AppConfig { Key = "host", Value = "Требуется заполнить" });
             Seting.Add(new AppConfig { Key = "port", Value = "Требуется заполнить" });
             Seting.Add(new AppConfig { Key = "useSsl", Value = "Требуется заполнить" });
+            Seting.Add(new AppConfig { Key = "Sender", Value = "Требуется заполнить" });
 
             foreach (var i in Seting)
                 if (applicationDbContext.AppConfig.Where(p => p.Key == i.Key).FirstOrDefault() == null)
