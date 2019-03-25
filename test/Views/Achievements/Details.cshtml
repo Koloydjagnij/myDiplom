@@ -1,0 +1,22 @@
+﻿@model test.Achievement
+
+@{
+    ViewData["Title"] = "Информация";
+}
+
+<div>
+    <h4>Достижения</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.NameAchievement)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.NameAchievement)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.IdAchievement">Изменить</a> |
+    <a asp-action="Index">Назад</a>
+</div>

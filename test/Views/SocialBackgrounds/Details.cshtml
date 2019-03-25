@@ -1,0 +1,22 @@
+﻿@model test.SocialBackground
+
+@{
+    ViewData["Title"] = "Информация";
+}
+
+<div>
+    <h4>Социальное происхождение</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.NameSocialBackground)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.NameSocialBackground)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.IdSocialBackground">Изменить</a> |
+    <a asp-action="Index">Назад</a>
+</div>

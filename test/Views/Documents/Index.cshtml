@@ -1,0 +1,36 @@
+﻿@model IEnumerable<test.Document>
+
+@{
+    ViewData["Title"] = "Документы";
+}
+
+<p>
+    <div class="form-group">
+        <a asp-action="Create"><input type="submit" value="Создать новую запись" class="btn btn-default" /></a>
+    </div>
+
+</p>
+<table class="table">
+    <thead>
+        <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.NameDocument)
+                </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.NameDocument)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.IdDocument">Изменить</a> |
+                <a asp-action="Details" asp-route-id="@item.IdDocument">Информация</a> |
+                <a asp-action="Delete" asp-route-id="@item.IdDocument">Удалить</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

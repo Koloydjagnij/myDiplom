@@ -1,0 +1,29 @@
+﻿@model test.EntranceExams
+
+@{
+    ViewData["Title"] = "Информация";
+}
+
+
+<div>
+    <h4>Экзамен для поступления</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.NameEntranceExam)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.NameEntranceExam)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Necessarily)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Necessarily)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.IdEntranceExam">Изменить</a> |
+    <a asp-action="Index">Назад</a>
+</div>

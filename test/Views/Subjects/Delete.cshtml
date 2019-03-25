@@ -1,0 +1,25 @@
+﻿@model test.Subject
+
+@{
+    ViewData["Title"] = "Удаление записи";
+}
+
+<h3>Вы хотите удалить данную запись?</h3>
+<div>
+    <h4>Предмет обучения</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.NameSubject)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.NameSubject)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="IdSubject" />
+        <input type="submit" value="Удалить" class="btn btn-default" /> |
+        <a asp-action="Index">Назад</a>
+    </form>
+</div>

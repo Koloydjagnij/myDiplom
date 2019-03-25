@@ -1,0 +1,25 @@
+﻿@model test.SocialBackground
+
+@{
+    ViewData["Title"] = "Удаление записи";
+}
+
+<h3>Вы хотите удалить данную запись?</h3>
+<div>
+    <h4>Социальное происхождение</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.NameSocialBackground)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.NameSocialBackground)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="IdSocialBackground" />
+        <input type="submit" value="Удалить" class="btn btn-default" /> |
+        <a asp-action="Index">Назад</a>
+    </form>
+</div>

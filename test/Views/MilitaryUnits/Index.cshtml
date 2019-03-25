@@ -1,0 +1,43 @@
+﻿@model IEnumerable<test.MilitaryUnit>
+
+@{
+    ViewData["Title"] = "Войсковые части";
+}
+
+<p>
+    <div class="form-group">
+        <a asp-action="Create"><input type="submit" value="Создать новую запись" class="btn btn-default" /></a>
+    </div>
+
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.NameMilitaryUnit)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdAreaNavigation)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NameMilitaryUnit)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IdAreaNavigation.NameArea)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.IdMilitaryUnit">Изменить</a> |
+                    <a asp-action="Details" asp-route-id="@item.IdMilitaryUnit">Информация</a> |
+                    <a asp-action="Delete" asp-route-id="@item.IdMilitaryUnit">Удалить</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

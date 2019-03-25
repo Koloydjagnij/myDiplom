@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace test
 {
@@ -12,6 +13,7 @@ namespace test
         }
 
         public int IdFactOfProsecution { get; set; }
+        [Display(Name = "Факт привлечения к ответственности")]
         public string NameFactOfProsecution { get; set; }
 
         public ICollection<Enrollee> Enrollee { get; set; }

@@ -1,0 +1,36 @@
+﻿@model IEnumerable<test.FactOfProsecution>
+
+@{
+    ViewData["Title"] = "Факты привлечения к ответственности";
+}
+
+<p>
+    <div class="form-group">
+        <a asp-action="Create"><input type="submit" value="Создать новую запись" class="btn btn-default" /></a>
+    </div>
+
+</p>
+<table class="table">
+    <thead>
+        <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.NameFactOfProsecution)
+                </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.NameFactOfProsecution)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.IdFactOfProsecution">Изменить</a> |
+                <a asp-action="Details" asp-route-id="@item.IdFactOfProsecution">Информация</a> |
+                <a asp-action="Delete" asp-route-id="@item.IdFactOfProsecution">Удалить</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

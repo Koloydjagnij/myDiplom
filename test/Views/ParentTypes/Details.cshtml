@@ -1,0 +1,22 @@
+﻿@model test.ParentType
+
+@{
+    ViewData["Title"] = "Информация";
+}
+
+<div>
+    <h4>Тип родителя</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.NameParentType)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.NameParentType)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.IdParentType">Изменить</a> |
+    <a asp-action="Index">Назад</a>
+</div>
