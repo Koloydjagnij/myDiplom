@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace test
 {
@@ -11,6 +12,7 @@ namespace test
         }
 
         public int IdDocument { get; set; }
+        [Display(Name = "Наименование документа")]
         public string NameDocument { get; set; }
 
         public ICollection<EnrolleeDocuments> EnrolleeDocuments { get; set; }

@@ -1,0 +1,22 @@
+﻿@model test.ReasonForDeduction
+
+@{
+    ViewData["Title"] = "Информация";
+}
+
+<div>
+    <h4>Причина отчисления</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.NameReasonForDeduction)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.NameReasonForDeduction)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.IdReasonForDeduction">Изменить</a> |
+    <a asp-action="Index">Назад</a>
+</div>

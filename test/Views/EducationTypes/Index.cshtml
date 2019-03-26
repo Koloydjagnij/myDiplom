@@ -1,0 +1,36 @@
+﻿@model IEnumerable<test.EducationType>
+
+@{
+    ViewData["Title"] = "Типы обучения";
+}
+
+<p>
+    <div class="form-group">
+        <a asp-action="Create"><input type="submit" value="Создать новую запись" class="btn btn-default" /></a>
+    </div>
+
+</p>
+<table class="table">
+    <thead>
+        <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.NameEducationType)
+                </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.NameEducationType)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.IdEducationType">Изменить</a> |
+                <a asp-action="Details" asp-route-id="@item.IdEducationType">Информация</a> |
+                <a asp-action="Delete" asp-route-id="@item.IdEducationType">Удалить</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

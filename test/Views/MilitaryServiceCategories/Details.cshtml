@@ -1,0 +1,22 @@
+﻿@model test.MilitaryServiceCategory
+
+@{
+    ViewData["Title"] = "Информация";
+}
+
+<div>
+    <h4>Категория военной службы</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.NameCategoryMs)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.NameCategoryMs)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.IdCategoryMs">Изменить</a> |
+    <a asp-action="Index">Назад</a>
+</div>

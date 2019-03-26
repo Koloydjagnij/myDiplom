@@ -1,0 +1,36 @@
+﻿@model IEnumerable<test.ReasonForDeduction>
+
+@{
+    ViewData["Title"] = "Причины отчисления";
+}
+
+<p>
+    <div class="form-group">
+        <a asp-action="Create"><input type="submit" value="Создать новую запись" class="btn btn-default" /></a>
+    </div>
+
+</p>
+<table class="table">
+    <thead>
+        <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.NameReasonForDeduction)
+                </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.NameReasonForDeduction)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.IdReasonForDeduction">Изменить</a> |
+                <a asp-action="Details" asp-route-id="@item.IdReasonForDeduction">Информация</a> |
+                <a asp-action="Delete" asp-route-id="@item.IdReasonForDeduction">Удалить</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

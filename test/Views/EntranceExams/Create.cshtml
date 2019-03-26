@@ -1,0 +1,37 @@
+﻿@model test.EntranceExams
+
+@{
+    ViewData["Title"] = "Добавленние нового экзамена для поступления";
+}
+
+
+<h4>Экзамен для поступления</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="NameEntranceExam" class="control-label"></label>
+                <input asp-for="NameEntranceExam" class="form-control" />
+                <span asp-validation-for="NameEntranceExam" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Necessarily" class="control-label"></label>
+                <input asp-for="Necessarily" class="form-control" />
+                <span asp-validation-for="Necessarily" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Создать" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Назад</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

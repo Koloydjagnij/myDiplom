@@ -1,0 +1,22 @@
+﻿@model test.PreemptiveRight
+
+@{
+    ViewData["Title"] = "Информация";
+}
+
+<div>
+    <h4>Преимущественное право</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.NamePreemptiveRight)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.NamePreemptiveRight)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.IdPreemptiveRight">Изменить</a> |
+    <a asp-action="Index">Назад</a>
+</div>

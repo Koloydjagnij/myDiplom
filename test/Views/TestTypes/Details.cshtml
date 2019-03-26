@@ -1,0 +1,22 @@
+﻿@model test.TestType
+
+@{
+    ViewData["Title"] = "Информация";
+}
+
+<div>
+    <h4>Тип испытания</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.NameTestType)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.NameTestType)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.IdTestType">Изменить</a> |
+    <a asp-action="Index">Назад</a>
+</div>
