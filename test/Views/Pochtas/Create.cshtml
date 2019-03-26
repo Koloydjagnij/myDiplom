@@ -1,0 +1,83 @@
+﻿@model test.Models.Pochta
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h2>Create</h2>
+
+<h4>Pochta</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Index" class="control-label"></label>
+                <input asp-for="Index" class="form-control" />
+                <span asp-validation-for="Index" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OPSName" class="control-label"></label>
+                <input asp-for="OPSName" class="form-control" />
+                <span asp-validation-for="OPSName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OPSType" class="control-label"></label>
+                <input asp-for="OPSType" class="form-control" />
+                <span asp-validation-for="OPSType" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OPSSubm" class="control-label"></label>
+                <input asp-for="OPSSubm" class="form-control" />
+                <span asp-validation-for="OPSSubm" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Region" class="control-label"></label>
+                <input asp-for="Region" class="form-control" />
+                <span asp-validation-for="Region" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Autonom" class="control-label"></label>
+                <input asp-for="Autonom" class="form-control" />
+                <span asp-validation-for="Autonom" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Area" class="control-label"></label>
+                <input asp-for="Area" class="form-control" />
+                <span asp-validation-for="Area" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="City" class="control-label"></label>
+                <input asp-for="City" class="form-control" />
+                <span asp-validation-for="City" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="City1" class="control-label"></label>
+                <input asp-for="City1" class="form-control" />
+                <span asp-validation-for="City1" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ActDate" class="control-label"></label>
+                <input asp-for="ActDate" class="form-control" />
+                <span asp-validation-for="ActDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IndexOld" class="control-label"></label>
+                <input asp-for="IndexOld" class="form-control" />
+                <span asp-validation-for="IndexOld" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

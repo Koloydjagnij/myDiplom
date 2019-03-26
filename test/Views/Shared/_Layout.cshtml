@@ -39,10 +39,14 @@
                     {
                         <li><a asp-area="" asp-controller="AdminUnit" asp-action="Index">Администрирование приложения</a></li>
                     }
-                    <li><a asp-area="" asp-controller="Home" asp-action="About">О разработчиках</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="Contact">Контактная информация</a></li>
-                    
-                </ul>
+                    @if (SignInManager.IsSignedIn(User) && (User.IsInRole("Admin")||User.IsInRole("Secretary")))
+                    {
+                        <li><a >Абитуриенты(пока пусто)</a></li>
+                    }
+                        <li><a asp-area="" asp-controller="Home" asp-action="About">О разработчиках</a></li>
+                        <li><a asp-area="" asp-controller="Home" asp-action="Contact">Контактная информация</a></li>
+
+                    </ul>
                 @await Html.PartialAsync("_LoginPartial")
             </div>
         </div>

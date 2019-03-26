@@ -703,6 +703,38 @@ namespace test.Data.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("test.Models.Pochta", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("ActDate");
+
+                    b.Property<string>("Area");
+
+                    b.Property<string>("Autonom");
+
+                    b.Property<string>("City");
+
+                    b.Property<string>("City1");
+
+                    b.Property<string>("Index");
+
+                    b.Property<string>("IndexOld");
+
+                    b.Property<string>("OPSName");
+
+                    b.Property<string>("OPSSubm");
+
+                    b.Property<string>("OPSType");
+
+                    b.Property<string>("Region");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Pochta");
+                });
+
             modelBuilder.Entity("test.Nationality", b =>
                 {
                     b.Property<int>("IdNationality")

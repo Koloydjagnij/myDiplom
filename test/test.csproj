@@ -31,6 +31,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Controllers\EnrolleeControl\" />
     <Folder Include="Models\ArmyVIewModel\" />
   </ItemGroup>
 
