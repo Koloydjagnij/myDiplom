@@ -54,6 +54,7 @@ namespace test
                     var rolesManager = services.GetRequiredService<RoleManager<IdentityRole>>();
                     RoleInitializer.InitializeAsync(userManager, rolesManager).Wait();
                     AddAppConfig.InitializAppConfig(context).Wait();
+                    AddAppConfig.InitializDefaultValue(context).Wait();
                 }
                 catch (Exception ex)
                 {
