@@ -15,6 +15,7 @@ namespace test
         
         public int IdSex { get; set; }
         [Display(Name = "Пол")]
+        [Required (ErrorMessage = "Не указано название пола")]
         public string NameSex { get; set; }
 
         public ICollection<Enrollee> Enrollee { get; set; }

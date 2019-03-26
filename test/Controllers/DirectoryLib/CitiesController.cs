@@ -63,6 +63,7 @@ namespace test.Controllers
         {
             if (ModelState.IsValid)
             {
+                city.NameCity = city.NameCity.ToUpper().Trim();
                 var anyCity = _context.City.Any(p => (string.Compare(p.NameCity, city.NameCity) == 0)&&(p.IdArea==city.IdArea));
                 if (anyCity)
                 {
@@ -116,6 +117,7 @@ namespace test.Controllers
             {
                 try
                 {
+                    city.NameCity = city.NameCity.ToUpper().Trim();
                     var anyCity = _context.City.Any(p => (string.Compare(p.NameCity, city.NameCity) == 0) && (p.IdArea == city.IdArea));
                     if (anyCity)
                     {

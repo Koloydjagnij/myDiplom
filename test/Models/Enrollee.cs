@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace test
 {
@@ -16,10 +17,15 @@ namespace test
 
         public int IdEnrollee { get; set; }
         public int? NumOfPersonalFile { get; set; }
+        [Required]
         public string Surname { get; set; }
+        [Required]
         public string Name { get; set; }
+        [Required]
         public string Patronymic { get; set; }
+        [Required]
         public DateTime? DateOfBirth { get; set; }
+        [Required]
         public string PlaceOfBirth { get; set; }
         public int? PassportSeries { get; set; }
         public int? PassportNumber { get; set; }
