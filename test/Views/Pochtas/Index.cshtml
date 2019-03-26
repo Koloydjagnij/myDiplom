@@ -1,0 +1,122 @@
+﻿
+@using test.Views.Pochtas
+@model test.Views.Pochtas.IndexViewModel
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+    <a asp-action="LoadAddressPochtaFromFile">Загрузить данные из файла</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Почтовый индекс
+            </th>
+            <th>
+                Наименование объекта почтовой связи
+            </th>
+            <th>
+                Тип объекта почтовой связи
+            </th>
+            <th>
+                Индекс вышестоящего по иерархии подчиненности объекта почтовой связи
+            </th>
+            <th>
+                Наименование области, края, республики, в которой находится объект почтовой связи
+            </th>
+            <th>
+                Наименование автономной области, в которой находится объект почтовой связи
+            </th>
+            <th>
+                Наименование района
+            </th>
+            <th>
+                Наименование населенного пункта, в котором находится объект почтовой связи
+            </th>
+            <th>
+                Наименование подчиненного населенного пункта, в котором находится объект почтовой связи
+            </th>
+            <th>
+                Дата актуализации информации об объекте почтовой связи
+            </th>
+            <th>
+                Почтовый индекс объект почтовой связи до ввода действующей системы индексации
+            </th>
+            <th></th>
+        </tr>
+
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Pochta)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Index)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OPSName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OPSType)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OPSSubm)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Region)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Autonom)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Area)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.City)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.City1)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ActDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IndexOld)
+                </td>
+                <td>
+
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+@if (Model.PageViewModel.HasPreviousPage)
+{
+    <a asp-action="Index"
+       asp-route-page="@(Model.PageViewModel.PageNumber - 1)"
+       class="btn btn-default btn">
+        <i class="glyphicon glyphicon-chevron-left"></i>
+        Назад
+    </a>
+}
+@if (Model.PageViewModel.HasNextPage)
+{
+    <a asp-action="Index"
+       asp-route-page="@(Model.PageViewModel.PageNumber + 1)"
+       class="btn btn-default btn">
+        Вперед
+        <i class="glyphicon glyphicon-chevron-right"></i>
+    </a>
+}

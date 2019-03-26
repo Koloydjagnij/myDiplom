@@ -55,6 +55,7 @@ namespace test
                     RoleInitializer.InitializeAsync(userManager, rolesManager).Wait();
                     AddAppConfig.InitializAppConfig(context).Wait();
                     AddAppConfig.InitializDefaultValue(context).Wait();
+                    //AddAppConfig.InitializAddressFromFile(context).Wait();
                 }
                 catch (Exception ex)
                 {

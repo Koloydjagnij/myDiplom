@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 using test.Data;
@@ -9,6 +10,17 @@ namespace test
 {
     public class AddAppConfig
     {
+        public static async Task InitializAddressFromFile(ApplicationDbContext applicationDbContext)
+        {
+            var AP = applicationDbContext.AppConfig.Where(p => p.Key == "AddressPochtaLib").FirstOrDefault();
+            var AddressPochtaLib = AP.Value;
+            string sql = " copy \"Pochta\" (\"Index\",\"OPSName\", \"OPSType\",\"OPSSubm\", \"Region\",\"Autonom\",\"Area\",\"City\",\"City1\",\"IndexOld\",\"ActDate\") from \'"+AddressPochtaLib +"\' delimiter \';\' csv header";
+            using (applicationDbContext)
+            {
+                var comps = applicationDbContext.Database.ExecuteSqlCommand(sql);
+            }
+        }
+
         public static async Task InitializAppConfig(ApplicationDbContext applicationDbContext)
         {
             
@@ -19,6 +31,7 @@ namespace test
             Seting.Add(new AppConfig { Key = "port", Value = "Требуется заполнить" });
             Seting.Add(new AppConfig { Key = "useSsl", Value = "Требуется заполнить" });
             Seting.Add(new AppConfig { Key = "Sender", Value = "Требуется заполнить" });
+            Seting.Add(new AppConfig { Key = "AddressPochtaLib", Value = "Требуется заполнить" });
 
             foreach (var i in Seting)
                 if (applicationDbContext.AppConfig.Where(p => p.Key == i.Key).FirstOrDefault() == null)
