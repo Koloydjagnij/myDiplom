@@ -41,12 +41,15 @@ namespace test
         public DateTime? DateOfDeduction { get; set; }
         public int? Children { get; set; }
         public int IdSocialBackground { get; set; }
+        [Required]
         public int IdSex { get; set; }
+        [Required]
         public int IdMaritalStatus { get; set; }
         public int IdNationality { get; set; }
         public int IdPreemptiveRight { get; set; }
         public int IdMilitaryOffice { get; set; }
         public int IdReasonForDeduction { get; set; }
+        [Required]
         public int IdTown { get; set; }
         public int IdFactOfProsecution { get; set; }
         public int IdEducationalInstitution { get; set; }

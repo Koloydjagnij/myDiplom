@@ -140,7 +140,7 @@ namespace test.Controllers
                     {
                         ModelState.AddModelError("", "Город с таким названием  и в данном районе уже зарегистрирован");
                         ViewData["IdArea"] = new SelectList(_context.Area, "IdArea", "NameArea", city.IdArea);
-                        return View(city); ;
+                        return View(city);
                     }
                     _context.Update(city);
                     await _context.SaveChangesAsync();

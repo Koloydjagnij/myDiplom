@@ -12,6 +12,7 @@ namespace test
         }
 
         public int IdMaritalStatus { get; set; }
+        [Required(ErrorMessage ="Введите название семейного положения")]
         [Display(Name = "Семейное положение")]
         public string NameMaritalStatus { get; set; }
 

@@ -12,6 +12,7 @@ namespace test
         }
 
         public int IdPreemptiveRight { get; set; }
+        [Required(ErrorMessage ="Не указан тип примемущественного права")]
         [Display(Name = "Преимущественное право")]
         public string NamePreemptiveRight { get; set; }
 

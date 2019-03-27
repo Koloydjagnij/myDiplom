@@ -81,6 +81,14 @@ namespace test.Controllers.DirectoryLib
         {
             if (ModelState.IsValid)
             {
+                region.NameRegion = region.NameRegion.ToUpper().Trim();
+                var anyRegion = _context.Region.Any(p => (string.Compare(p.NameRegion, region.NameRegion) == 0) && (p.IdMilitaryDistrict == region.IdMilitaryDistrict));
+                if (anyRegion)
+                {
+                    ModelState.AddModelError("", "Регион с таким названием в данном военном округе уже зарегистрирован");
+                    ViewData["IdMilitaryDistrict"] = new SelectList(_context.MilitaryDistrict, "IdMilitaryDistrict", "NameMilitaryDistrict", region.IdMilitaryDistrict);
+                    return View(region);
+                }
                 _context.Add(region);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -122,6 +130,14 @@ namespace test.Controllers.DirectoryLib
             {
                 try
                 {
+                    region.NameRegion = region.NameRegion.ToUpper().Trim();
+                    var anyRegion = _context.Region.Any(p => (string.Compare(p.NameRegion, region.NameRegion) == 0) && (p.IdMilitaryDistrict == region.IdMilitaryDistrict));
+                    if (anyRegion)
+                    {
+                        ModelState.AddModelError("", "Регион с таким названием в данном военном округе уже зарегистрирован");
+                        ViewData["IdMilitaryDistrict"] = new SelectList(_context.MilitaryDistrict, "IdMilitaryDistrict", "NameMilitaryDistrict", region.IdMilitaryDistrict);
+                        return View(region);
+                    }
                     _context.Update(region);
                     await _context.SaveChangesAsync();
                 }

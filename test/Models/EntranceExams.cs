@@ -12,6 +12,7 @@ namespace test
         }
 
         public int IdEntranceExam { get; set; }
+        [Required(ErrorMessage ="Не указано название экзамена")]
         [Display(Name = "Название экзамена")]
         public string NameEntranceExam { get; set; }
         [Display(Name = "Обязательность")]

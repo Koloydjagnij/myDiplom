@@ -12,6 +12,7 @@ namespace test
         }
 
         public int IdNationality { get; set; }
+        [Required(ErrorMessage ="Не указано название национальности")]
         [Display(Name = "Национальность")]
         public string NameNationality { get; set; }
 

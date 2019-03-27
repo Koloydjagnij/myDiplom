@@ -12,6 +12,7 @@ namespace test
         }
 
         public int IdSubject { get; set; }
+        [Required(ErrorMessage ="Не указано название предмета")]
         [Display(Name = "Предмет")]
         public string NameSubject { get; set; }
 

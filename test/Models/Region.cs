@@ -12,9 +12,11 @@ namespace test
         }
 
         public int IdRegion { get; set; }
-        [Display(Name = "Область")]
+        [Display(Name = "Регион")]
+        [Required(ErrorMessage ="Не указано название региона")]
         public string NameRegion { get; set; }
         [Display(Name = "Военный округ")]
+        [Required]
         public int IdMilitaryDistrict { get; set; }
 
         [Display(Name = "Военный округ")]

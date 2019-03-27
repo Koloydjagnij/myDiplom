@@ -12,6 +12,7 @@ namespace test
         }
 
         public int IdSocialBackground { get; set; }
+        [Required(ErrorMessage ="Не указано социальное происхождение")]
         [Display(Name = "Социальное происхождение")]
         public string NameSocialBackground { get; set; }
 
