@@ -13,6 +13,7 @@ namespace test
 
         public int IdTestType { get; set; }
         [Display(Name = "Тип испытания")]
+        [Required(ErrorMessage ="Не указано название типа испытания")]
         public string NameTestType { get; set; }
 
         public ICollection<ApplicationToSpeciality> ApplicationToSpeciality { get; set; }

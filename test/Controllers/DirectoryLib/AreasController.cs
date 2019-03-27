@@ -80,6 +80,14 @@ namespace test.Controllers.DirectoryLib
         {
             if (ModelState.IsValid)
             {
+                area.NameArea = area.NameArea.ToUpper().Trim();
+                var anyArea = _context.Area.Any(p => (string.Compare(p.NameArea,area.NameArea)==0)&&(p.IdRegion==area.IdRegion));
+                if (anyArea)
+                {
+                    ModelState.AddModelError("", "Район с таким названием в данном регионе уже зарегистрирован");
+                    ViewData["IdRegion"] = new SelectList(_context.Region, "IdRegion", "NameRegion", area.IdRegion);
+                    return View(area);
+                }
                 _context.Add(area);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -122,6 +130,14 @@ namespace test.Controllers.DirectoryLib
             {
                 try
                 {
+                    area.NameArea = area.NameArea.ToUpper().Trim();
+                    var anyArea = _context.Area.Any(p => (string.Compare(p.NameArea, area.NameArea) == 0) && (p.IdRegion == area.IdRegion));
+                    if (anyArea)
+                    {
+                        ModelState.AddModelError("", "Район с таким названием в данном регионе уже зарегистрирован");
+                        ViewData["IdRegion"] = new SelectList(_context.Region, "IdRegion", "NameRegion", area.IdRegion);
+                        return View(area);
+                    }
                     _context.Update(area);
                     await _context.SaveChangesAsync();
                 }

@@ -80,12 +80,25 @@ namespace test.Controllers
         {
             if (ModelState.IsValid)
             {
+                city.NameCity = city.NameCity.ToUpper().Trim();
+                var anyCity = _context.City.Any(p => (string.Compare(p.NameCity, city.NameCity) == 0)&&(p.IdArea==city.IdArea));
+                if (anyCity)
+                {
+                    ModelState.AddModelError("", "Город с таким названием  и в данном районе уже зарегистрирован");
+                    ViewData["IdArea"] = new SelectList(_context.Area, "IdArea", "NameArea", city.IdArea);
+                    return View(city); ;
+                }
                 _context.Add(city);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             ViewData["IdArea"] = new SelectList(_context.Area, "IdArea", "NameArea", city.IdArea);
             return View(city);
+        }
+
+        private IActionResult AddErrors(string v)
+        {
+            throw new NotImplementedException();
         }
 
         // GET: Cities/Edit/5
@@ -121,6 +134,14 @@ namespace test.Controllers
             {
                 try
                 {
+                    city.NameCity = city.NameCity.ToUpper().Trim();
+                    var anyCity = _context.City.Any(p => (string.Compare(p.NameCity, city.NameCity) == 0) && (p.IdArea == city.IdArea));
+                    if (anyCity)
+                    {
+                        ModelState.AddModelError("", "Город с таким названием  и в данном районе уже зарегистрирован");
+                        ViewData["IdArea"] = new SelectList(_context.Area, "IdArea", "NameArea", city.IdArea);
+                        return View(city); ;
+                    }
                     _context.Update(city);
                     await _context.SaveChangesAsync();
                 }
