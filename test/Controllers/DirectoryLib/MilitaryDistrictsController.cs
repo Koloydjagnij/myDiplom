@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using test;
 using test.Data;
+using test.ViewsModels;
+using test.Views.MilitaryDistricts;
 
 namespace test.Controllers
 {
@@ -22,9 +24,23 @@ namespace test.Controllers
         }
 
         // GET: MilitaryDistricts
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int page = 1)
         {
-            return View(await _context.MilitaryDistrict.ToListAsync());
+            int pageSize = 15;   // количество элементов на странице
+
+            IQueryable<MilitaryDistrict> source = _context.MilitaryDistrict;
+            var count = await source.CountAsync();
+            var items = await source.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
+
+            PageViewModel pageViewModel = new PageViewModel(count, page, pageSize);
+            IndexViewModel viewModel = new IndexViewModel
+            {
+                PageViewModel = pageViewModel,
+                MilitaryDistrict = items
+            };
+            return View(viewModel);
+
+            //return View(await _context.MilitaryDistrict.ToListAsync());
         }
 
         // GET: MilitaryDistricts/Details/5

@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using test;
 using test.Data;
+using test.ViewsModels;
+using test.Views.Areas;
 
 namespace test.Controllers.DirectoryLib
 {
@@ -22,10 +24,25 @@ namespace test.Controllers.DirectoryLib
         }
 
         // GET: Areas
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int page = 1)
         {
-            var applicationDbContext = _context.Area.Include(a => a.IdRegionNavigation);
-            return View(await applicationDbContext.ToListAsync());
+            int pageSize = 15;   // количество элементов на странице
+
+            IQueryable<Area> source = _context.Area.Include(a => a.IdRegionNavigation); ;//.ToListAsync();// Include(x => x.Company);
+            var count = await source.CountAsync();
+            var items = await source.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
+
+            PageViewModel pageViewModel = new PageViewModel(count, page, pageSize);
+            IndexViewModel viewModel = new IndexViewModel
+            {
+                PageViewModel = pageViewModel,
+                Area = items
+            };
+            return View(viewModel);
+
+
+            //var applicationDbContext = _context.Area.Include(a => a.IdRegionNavigation);
+            //return View(await applicationDbContext.ToListAsync());
         }
 
         // GET: Areas/Details/5

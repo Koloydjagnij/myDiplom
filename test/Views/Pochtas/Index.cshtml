@@ -1,18 +1,13 @@
-﻿
-@using test.Views.Pochtas
+﻿@using test.ViewModels
 @model test.Views.Pochtas.IndexViewModel
-@{
-    ViewData["Title"] = "Home Page";
-}
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Почта";
 }
 
-<h2>Index</h2>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Создать новую запись</a> | 
     <a asp-action="LoadAddressPochtaFromFile">Загрузить данные из файла</a>
 </p>
 <table class="table">
@@ -94,9 +89,9 @@
                 </td>
                 <td>
 
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Изменить</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Информация</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Удалить</a>
                 </td>
             </tr>
         }

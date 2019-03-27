@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace test.Views.Pochtas
+namespace test.ViewsModels
 {
     public class PageViewModel
     {
