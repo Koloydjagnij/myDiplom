@@ -1,19 +1,20 @@
-﻿
-@using test.Views.Pochtas
+@using test.ViewModels
 @model test.Views.Pochtas.IndexViewModel
-@{
-    ViewData["Title"] = "Home Page";
-}
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Почтовые адреса";
 }
 
-<h2>Index</h2>
+
+
 
 <p>
-    <a asp-action="Create">Create New</a>
-    <a asp-action="LoadAddressPochtaFromFile">Загрузить данные из файла</a>
+
+    <a asp-action="Create"><input type="submit" value="Создать новую запись" class="btn btn-default" /></a>
+    <a asp-action="LoadAddressPochtaFromFile"><input type="submit" value="Загрузить данные из файла" class="btn btn-default" /></a>
+    <a asp-action="LoadAddressLib"><input type="submit" value="Загрузить данные в справочники" class="btn btn-default" /></a>
+
+
 </p>
 <table class="table">
     <thead>
@@ -25,33 +26,20 @@
                 Наименование объекта почтовой связи
             </th>
             <th>
-                Тип объекта почтовой связи
+                Индекс вышестоящего по иерархии подчиненности объекта
             </th>
             <th>
-                Индекс вышестоящего по иерархии подчиненности объекта почтовой связи
+                Наименование области, края, республики
             </th>
             <th>
-                Наименование области, края, республики, в которой находится объект почтовой связи
-            </th>
-            <th>
-                Наименование автономной области, в которой находится объект почтовой связи
+                Наименование автономной области
             </th>
             <th>
                 Наименование района
             </th>
             <th>
-                Наименование населенного пункта, в котором находится объект почтовой связи
+                Наименование населенного пункта
             </th>
-            <th>
-                Наименование подчиненного населенного пункта, в котором находится объект почтовой связи
-            </th>
-            <th>
-                Дата актуализации информации об объекте почтовой связи
-            </th>
-            <th>
-                Почтовый индекс объект почтовой связи до ввода действующей системы индексации
-            </th>
-            <th></th>
         </tr>
 
     </thead>
@@ -65,9 +53,7 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.OPSName)
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.OPSType)
-                </td>
+
                 <td>
                     @Html.DisplayFor(modelItem => item.OPSSubm)
                 </td>
@@ -83,20 +69,12 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.City)
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.City1)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ActDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.IndexOld)
-                </td>
+
                 <td>
 
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Изменить</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Информация</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Удалить</a>
                 </td>
             </tr>
         }

@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using test.Data;
 using test.Models;
 using test.Views.Pochtas;
+using test.ViewsModels;
 
 namespace test.Controllers
 {
@@ -24,6 +25,12 @@ namespace test.Controllers
         public IActionResult LoadAddressPochtaFromFile()
         {
             AddAppConfig.InitializAddressFromFile(_context).Wait();
+            return RedirectToAction(nameof(Index));
+        }
+
+        public IActionResult LoadAddressLib()
+        {
+            AddAppConfig.InitializAddressLibFromPochta(_context).Wait();
             return RedirectToAction(nameof(Index));
         }
 

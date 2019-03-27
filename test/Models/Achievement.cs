@@ -13,6 +13,7 @@ namespace test
 
         public int IdAchievement { get; set; }
         [Display(Name = "Достижение")]
+        [Required (ErrorMessage = "Не указано название достижения")]
         public string NameAchievement { get; set; }
 
         public ICollection<EnrolleeAchievement> EnrolleeAchievement { get; set; }

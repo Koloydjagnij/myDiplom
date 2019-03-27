@@ -1,5 +1,5 @@
-﻿@model IEnumerable<test.Area>
-
+﻿@using test.ViewsModels
+@model test.Views.Areas.IndexViewModel
 @{
     ViewData["Title"] = "Районы";
 }
@@ -8,22 +8,21 @@
     <div class="form-group">
         <a asp-action="Create"><input type="submit" value="Создать новую запись" class="btn btn-default" /></a>
     </div>
-
 </p>
 <table class="table">
     <thead>
         <tr>
                 <th>
-                    @Html.DisplayNameFor(model => model.NameArea)
+                    @Html.DisplayNameFor(model => model.Area.First().NameArea)
                 </th>
             <th>
-                @Html.DisplayNameFor(model => model.IdRegionNavigation)
+                @Html.DisplayNameFor(model => model.Area.First().IdRegionNavigation)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+@foreach (var item in Model.Area) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.NameArea)
@@ -40,3 +39,22 @@
 }
     </tbody>
 </table>
+
+@if (Model.PageViewModel.HasPreviousPage)
+{
+    <a asp-action="Index"
+       asp-route-page="@(Model.PageViewModel.PageNumber - 1)"
+       class="btn btn-default btn">
+        <i class="glyphicon glyphicon-chevron-left"></i>
+        Назад
+    </a>
+}
+@if (Model.PageViewModel.HasNextPage)
+{
+    <a asp-action="Index"
+       asp-route-page="@(Model.PageViewModel.PageNumber + 1)"
+       class="btn btn-default btn">
+        Вперед
+        <i class="glyphicon glyphicon-chevron-right"></i>
+    </a>
+}

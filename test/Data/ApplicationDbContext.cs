@@ -121,6 +121,8 @@ namespace test.Data
 
             modelBuilder.Entity<Area>(entity =>
             {
+                entity.HasIndex(p => new { p.NameArea, p.IdRegion })
+                .IsUnique(true);
                 entity.HasKey(e => e.IdArea);
 
                 entity.ToTable("area");
@@ -145,6 +147,8 @@ namespace test.Data
 
             modelBuilder.Entity<City>(entity =>
             {
+                entity.HasIndex(p => new { p.NameCity, p.IdArea })
+                .IsUnique(true);
                 entity.HasKey(e => e.IdTown);
 
                 entity.ToTable("city");
@@ -750,6 +754,8 @@ namespace test.Data
 
             modelBuilder.Entity<Region>(entity =>
             {
+                entity.HasIndex(p => new { p.NameRegion, p.IdMilitaryDistrict })
+                .IsUnique(true);
                 entity.HasKey(e => e.IdRegion);
 
                 entity.ToTable("region");

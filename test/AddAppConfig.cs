@@ -20,6 +20,79 @@ namespace test
                 var comps = applicationDbContext.Database.ExecuteSqlCommand(sql);
             }
         }
+        public static async Task InitializAddressLibFromPochta(ApplicationDbContext applicationDbContext)
+        {
+            string DefValue = "Не выбрано";
+            using (applicationDbContext)
+            {
+                #region
+                /*
+                //импорт областей
+                var DefMD = applicationDbContext.MilitaryDistrict.Where(p => p.NameMilitaryDistrict == DefValue).FirstOrDefault().IdMilitaryDistrict;
+                var Reg = applicationDbContext.Pochta.Select(m => m.Region).Distinct().ToList();
+                foreach (var r in Reg)
+                    if (!string.IsNullOrEmpty(r)&&applicationDbContext.Region.Where(p => p.NameRegion == r).FirstOrDefault() == null)
+                        applicationDbContext.Region.AddAsync(new Region { NameRegion = r, IdMilitaryDistrict = DefMD });
+                applicationDbContext.SaveChanges();
+
+                //импорт районов
+                var Area = applicationDbContext.Pochta.Select(m => new { m.Region, m.Area }).Distinct().ToList();
+                foreach (var a in Area)
+                    if (!string.IsNullOrEmpty(a.Region) && !string.IsNullOrEmpty(a.Area))
+                    {
+                        var regId = applicationDbContext.Region.Where(r => r.NameRegion == a.Region).FirstOrDefault().IdRegion;
+                        if (applicationDbContext.Area.Where(p => p.NameArea == a.Area&& p.IdRegion==regId).FirstOrDefault() == null)
+                            applicationDbContext.Area.AddAsync(new Area { NameArea = a.Area, IdRegion= regId });
+                    }
+                applicationDbContext.SaveChanges();
+
+                // импорт городов
+                var City = applicationDbContext.Pochta.Select(m => new { m.Region, m.Area, m.City }).Distinct().ToList();
+
+                foreach(var c in City)
+                    if (!string.IsNullOrEmpty(c.Region) && !string.IsNullOrEmpty(c.Area)&& !string.IsNullOrEmpty(c.City))
+                    {
+                        var AreaId = applicationDbContext.Area.Where(r => r.NameArea == c.Area && r.IdRegionNavigation.NameRegion==c.Region).FirstOrDefault().IdArea;
+                        if (applicationDbContext.City.Where(p => p.NameCity == c.City && p.IdArea == AreaId).FirstOrDefault() == null)
+                            applicationDbContext.City.AddAsync(new City { NameCity = c.City, IdArea = AreaId });
+                    }
+                applicationDbContext.SaveChanges();
+                */
+                #endregion
+                string UpdateRegionString = "INSERT INTO \"region\" (\"name_region\",\"id_military_district\" ) "+ 
+                            "select distinct  \"Region\", md.\"id_military_district\" "+
+                            "from \"Pochta\" as p " +
+                            "left join \"military_district\" as md on md.\"name_military_district\" = 'Не выбрано' " +
+                            "where p.\"Region\" != '' " +
+                            "ON CONFLICT(\"name_region\",\"id_military_district\") DO UPDATE " +
+                            "Set \"name_region\" = EXCLUDED.\"name_region\",\"id_military_district\" = EXCLUDED.\"id_military_district\"";
+
+                string UpdateAreaString = "INSERT INTO \"area\" (\"name_area\",\"id_region\" ) " +
+                            "select distinct \"Area\", r.\"id_region\" " +
+                            "from \"Pochta\" as p " +
+                            "left join \"region\" as r on r.\"name_region\" = p.\"Region\" " +
+                            "where p.\"Area\" != '' and p.\"Region\" != '' " +
+                            "ON CONFLICT(\"name_area\",\"id_region\") DO UPDATE " +
+                            "Set \"name_area\" = EXCLUDED.\"name_area\",\"id_region\" = EXCLUDED.\"id_region\"";
+
+                string UpdateCityString = "INSERT INTO \"city\" (\"name_city\",\"id_area\" ) "+ 
+                            "select distinct \"City\", a.\"id_area\" "+
+                            "from \"Pochta\" as p "+
+                            "left join \"region\" as r on p.\"Region\" = r.\"name_region\" "+
+                            "left join \"area\" as a on p.\"Area\" = a.\"name_area\" and p.\"Region\" = r.\"name_region\" "+
+                            "where p.\"Area\" != '' and p.\"Region\" != '' "+
+                            "ON CONFLICT(\"name_city\",\"id_area\" ) DO UPDATE "+
+                            "Set \"name_city\" = EXCLUDED.\"name_city\",\"id_area\" = EXCLUDED.\"id_area\"";
+
+                using (applicationDbContext)
+                {
+                    var Region = applicationDbContext.Database.ExecuteSqlCommand(UpdateRegionString);
+                    var Area = applicationDbContext.Database.ExecuteSqlCommand(UpdateAreaString);
+                    var City = applicationDbContext.Database.ExecuteSqlCommand(UpdateCityString);
+
+                }
+            }
+        }
 
         public static async Task InitializAppConfig(ApplicationDbContext applicationDbContext)
         {
