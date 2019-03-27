@@ -12,6 +12,7 @@ namespace test
         }
 
         public int IdMilitaryDistrict { get; set; }
+        [Required (ErrorMessage = "Не указано название военного округа")]
         [Display(Name = "Военный округ")]
         public string NameMilitaryDistrict { get; set; }
 

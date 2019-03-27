@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using test;
 using test.Data;
+using test.ViewsModels;
+using test.Views.Cities;
 
 namespace test.Controllers
 {
@@ -22,10 +24,25 @@ namespace test.Controllers
         }
 
         // GET: Cities
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int page = 1)
         {
-            var applicationDbContext = _context.City.Include(c => c.IdAreaNavigation);
-            return View(await applicationDbContext.ToListAsync());
+            int pageSize = 15;   // количество элементов на странице
+
+            IQueryable<City> source = _context.City.Include(c => c.IdAreaNavigation);
+            var count = await source.CountAsync();
+            var items = await source.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
+
+            PageViewModel pageViewModel = new PageViewModel(count, page, pageSize);
+            IndexViewModel viewModel = new IndexViewModel
+            {
+                PageViewModel = pageViewModel,
+                City = items
+            };
+            return View(viewModel);
+
+
+            //var applicationDbContext = _context.City.Include(c => c.IdAreaNavigation);
+            //return View(await applicationDbContext.ToListAsync());
         }
 
         // GET: Cities/Details/5
@@ -63,6 +80,7 @@ namespace test.Controllers
         {
             if (ModelState.IsValid)
             {
+                city.NameCity = city.NameCity.ToUpper().Trim();
                 var anyCity = _context.City.Any(p => (string.Compare(p.NameCity, city.NameCity) == 0)&&(p.IdArea==city.IdArea));
                 if (anyCity)
                 {
@@ -116,6 +134,7 @@ namespace test.Controllers
             {
                 try
                 {
+                    city.NameCity = city.NameCity.ToUpper().Trim();
                     var anyCity = _context.City.Any(p => (string.Compare(p.NameCity, city.NameCity) == 0) && (p.IdArea == city.IdArea));
                     if (anyCity)
                     {

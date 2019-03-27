@@ -13,6 +13,7 @@ namespace test
 
         public int IdDocument { get; set; }
         [Display(Name = "Наименование документа")]
+        [Required (ErrorMessage ="Не указано название документа")]
         public string NameDocument { get; set; }
 
         public ICollection<EnrolleeDocuments> EnrolleeDocuments { get; set; }

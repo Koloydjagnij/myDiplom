@@ -1,19 +1,19 @@
-﻿
-@using test.Views.Pochtas
+@using test.ViewModels
 @model test.Views.Pochtas.IndexViewModel
-@{
-    ViewData["Title"] = "Почтовые адреса";
-}
 
 @{
     ViewData["Title"] = "Почтовые адреса";
 }
+
+
 
 
 <p>
+
     <a asp-action="Create"><input type="submit" value="Создать новую запись" class="btn btn-default" /></a>
     <a asp-action="LoadAddressPochtaFromFile"><input type="submit" value="Загрузить данные из файла" class="btn btn-default" /></a>
     <a asp-action="LoadAddressLib"><input type="submit" value="Загрузить данные в справочники" class="btn btn-default" /></a>
+
 
 </p>
 <table class="table">

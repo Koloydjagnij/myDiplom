@@ -13,7 +13,9 @@ namespace test
 
         public int IdEducationalInstitution { get; set; }
         [Display(Name = "Учебное заведение")]
+        [Required(ErrorMessage ="Не указано название учебного заведения")]
         public string NameEducationalInstitution { get; set; }
+        [Required]
         [Display(Name = "Город")]
         public int? IdTown { get; set; }
 

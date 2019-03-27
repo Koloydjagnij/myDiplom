@@ -1,4 +1,5 @@
-﻿@model IEnumerable<test.Region>
+﻿@using test.ViewModels
+@model test.Views.Regions.IndexViewModel
 
 @{
     ViewData["Title"] = "Области";
@@ -14,16 +15,16 @@
     <thead>
         <tr>
                 <th>
-                    @Html.DisplayNameFor(model => model.NameRegion)
+                    @Html.DisplayNameFor(model => model.Region.First().NameRegion)
                 </th>
             <th>
-                @Html.DisplayNameFor(model => model.IdMilitaryDistrictNavigation)
+                @Html.DisplayNameFor(model => model.Region.First().IdMilitaryDistrictNavigation)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+@foreach (var item in Model.Region) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.NameRegion)
@@ -40,3 +41,21 @@
 }
     </tbody>
 </table>
+@if (Model.PageViewModel.HasPreviousPage)
+{
+    <a asp-action="Index"
+       asp-route-page="@(Model.PageViewModel.PageNumber - 1)"
+       class="btn btn-default btn">
+        <i class="glyphicon glyphicon-chevron-left"></i>
+        Назад
+    </a>
+}
+@if (Model.PageViewModel.HasNextPage)
+{
+    <a asp-action="Index"
+       asp-route-page="@(Model.PageViewModel.PageNumber + 1)"
+       class="btn btn-default btn">
+        Вперед
+        <i class="glyphicon glyphicon-chevron-right"></i>
+    </a>
+}

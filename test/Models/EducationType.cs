@@ -13,6 +13,7 @@ namespace test
 
         public int IdEducationType { get; set; }
         [Display(Name = "Тип обучения")]
+        [Required(ErrorMessage ="Не указано название типа обучения")]
         public string NameEducationType { get; set; }
 
         public ICollection<Enrollee> Enrollee { get; set; }
