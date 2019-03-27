@@ -27,6 +27,12 @@ namespace test.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        public IActionResult LoadAddressLib()
+        {
+            AddAppConfig.InitializAddressLibFromPochta(_context).Wait();
+            return RedirectToAction(nameof(Index));
+        }
+
         // GET: Pochtas
         public async Task<IActionResult> Index(int page = 1)
         {
