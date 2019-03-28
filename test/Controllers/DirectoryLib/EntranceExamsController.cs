@@ -60,6 +60,13 @@ namespace test.Controllers.DirectoryLib
         {
             if (ModelState.IsValid)
             {
+                entranceExams.NameEntranceExam = entranceExams.NameEntranceExam.Trim();
+                var anyEntranceExams = _context.EntranceExams.Any(p => (String.Compare(p.NameEntranceExam,entranceExams.NameEntranceExam) == 0));
+                if (anyEntranceExams)
+                {
+                    ModelState.AddModelError("", "Данный экзамен уже зарегистрирован");
+                    return View();
+                }
                 _context.Add(entranceExams);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -99,6 +106,13 @@ namespace test.Controllers.DirectoryLib
             {
                 try
                 {
+                    entranceExams.NameEntranceExam = entranceExams.NameEntranceExam.Trim();
+                    var anyEntranceExams = _context.EntranceExams.Any(p => (String.Compare(p.NameEntranceExam, entranceExams.NameEntranceExam) == 0));
+                    if (anyEntranceExams)
+                    {
+                        ModelState.AddModelError("", "Данный экзамен уже зарегистрирован");
+                        return View();
+                    }
                     _context.Update(entranceExams);
                     await _context.SaveChangesAsync();
                 }

@@ -60,6 +60,13 @@ namespace test.Controllers.DirectoryLib
         {
             if (ModelState.IsValid)
             {
+                socialBackground.NameSocialBackground = socialBackground.NameSocialBackground.Trim();
+                var any = _context.SocialBackground.Any(p => (String.Compare(p.NameSocialBackground,socialBackground.NameSocialBackground) == 0));
+                if (any)
+                {
+                    ModelState.AddModelError("", "Данный тип социального происхождения уже зарегистрирован");
+                    return View();
+                }
                 _context.Add(socialBackground);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -99,6 +106,13 @@ namespace test.Controllers.DirectoryLib
             {
                 try
                 {
+                    socialBackground.NameSocialBackground = socialBackground.NameSocialBackground.Trim();
+                    var any = _context.SocialBackground.Any(p => (String.Compare(p.NameSocialBackground, socialBackground.NameSocialBackground) == 0));
+                    if (any)
+                    {
+                        ModelState.AddModelError("", "Данный тип социального происхождения уже зарегистрирован");
+                        return View();
+                    }
                     _context.Update(socialBackground);
                     await _context.SaveChangesAsync();
                 }

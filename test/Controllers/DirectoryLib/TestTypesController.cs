@@ -60,6 +60,12 @@ namespace test.Controllers.DirectoryLib
         {
             if (ModelState.IsValid)
             {
+                testType.NameTestType = testType.NameTestType.Trim();
+                var anyTestType = _context.TestType.Any(p=>(String.Compare(p.NameTestType,testType.NameTestType)==0));
+                if (anyTestType)
+                {
+                    ModelState.AddModelError("", "Данное испытание уже зарегистрировано");
+                }
                 _context.Add(testType);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -99,6 +105,12 @@ namespace test.Controllers.DirectoryLib
             {
                 try
                 {
+                    testType.NameTestType = testType.NameTestType.Trim();
+                    var anyTestType = _context.TestType.Any(p => (String.Compare(p.NameTestType, testType.NameTestType) == 0));
+                    if (anyTestType)
+                    {
+                        ModelState.AddModelError("", "Данное испытание уже зарегистрировано");
+                    }
                     _context.Update(testType);
                     await _context.SaveChangesAsync();
                 }

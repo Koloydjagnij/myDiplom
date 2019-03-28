@@ -60,6 +60,13 @@ namespace test.Controllers.DirectoryLib
         {
             if (ModelState.IsValid)
             {
+                parentType.NameParentType = parentType.NameParentType.Trim();
+                var anyParentType = _context.ParentType.Any(p => (String.Compare(p.NameParentType,parentType.NameParentType) == 0));
+                if (anyParentType)
+                {
+                    ModelState.AddModelError("", "Данный тип родителя уже зарегистрирован");
+                    return View();
+                }
                 _context.Add(parentType);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -99,6 +106,13 @@ namespace test.Controllers.DirectoryLib
             {
                 try
                 {
+                    parentType.NameParentType = parentType.NameParentType.Trim();
+                    var anyParentType = _context.ParentType.Any(p => (String.Compare(p.NameParentType, parentType.NameParentType) == 0));
+                    if (anyParentType)
+                    {
+                        ModelState.AddModelError("", "Данный тип родителя уже зарегистрирован");
+                        return View();
+                    }
                     _context.Update(parentType);
                     await _context.SaveChangesAsync();
                 }

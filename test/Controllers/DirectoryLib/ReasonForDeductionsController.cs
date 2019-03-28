@@ -60,6 +60,13 @@ namespace test.Controllers.DirectoryLib
         {
             if (ModelState.IsValid)
             {
+                reasonForDeduction.NameReasonForDeduction = reasonForDeduction.NameReasonForDeduction.Trim();
+                var any = _context.ReasonForDeduction.Any(p => (String.Compare(p.NameReasonForDeduction,reasonForDeduction.NameReasonForDeduction) == 0));
+                if (any)
+                {
+                    ModelState.AddModelError("", "Данная причина отчисления уже зарегистрирована");
+                    return View();
+                }
                 _context.Add(reasonForDeduction);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -99,6 +106,13 @@ namespace test.Controllers.DirectoryLib
             {
                 try
                 {
+                    reasonForDeduction.NameReasonForDeduction = reasonForDeduction.NameReasonForDeduction.Trim();
+                    var any = _context.ReasonForDeduction.Any(p => (String.Compare(p.NameReasonForDeduction, reasonForDeduction.NameReasonForDeduction) == 0));
+                    if (any)
+                    {
+                        ModelState.AddModelError("", "Данная причина отчисления уже зарегистрирована");
+                        return View();
+                    }
                     _context.Update(reasonForDeduction);
                     await _context.SaveChangesAsync();
                 }

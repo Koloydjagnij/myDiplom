@@ -60,6 +60,13 @@ namespace test.Controllers.DirectoryLib
         {
             if (ModelState.IsValid)
             {
+                speciality.NameSpeciality = speciality.NameSpeciality.Trim();
+                var anySpeciality = _context.Speciality.Any(p => (String.Compare(p.NameSpeciality, speciality.NameSpeciality) == 0));
+                if (anySpeciality)
+                {
+                    ModelState.AddModelError("", "Данная специальность уже зарегистрирована");
+                    return View(speciality);
+                }
                 _context.Add(speciality);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -99,6 +106,13 @@ namespace test.Controllers.DirectoryLib
             {
                 try
                 {
+                    speciality.NameSpeciality = speciality.NameSpeciality.Trim();
+                    var anySpeciality = _context.Speciality.Any(p => (String.Compare(p.NameSpeciality, speciality.NameSpeciality) == 0));
+                    if (anySpeciality)
+                    {
+                        ModelState.AddModelError("", "Данная специальность уже зарегистрирована");
+                        return View(speciality);
+                    }
                     _context.Update(speciality);
                     await _context.SaveChangesAsync();
                 }

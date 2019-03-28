@@ -60,6 +60,13 @@ namespace test.Controllers
         {
             if (ModelState.IsValid)
             {
+                sex.NameSex = sex.NameSex.Trim();
+                var any = _context.Sex.Any(p => (String.Compare(p.NameSex,sex.NameSex) == 0));
+                if (any)
+                {
+                    ModelState.AddModelError("", "Данный пол уже зарегистрирован");
+                    return View();
+                }
                 _context.Add(sex);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -99,6 +106,13 @@ namespace test.Controllers
             {
                 try
                 {
+                    sex.NameSex = sex.NameSex.Trim();
+                    var any = _context.Sex.Any(p => (String.Compare(p.NameSex, sex.NameSex) == 0));
+                    if (any)
+                    {
+                        ModelState.AddModelError("", "Данный пол уже зарегистрирован");
+                        return View();
+                    }
                     _context.Update(sex);
                     await _context.SaveChangesAsync();
                 }

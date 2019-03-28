@@ -60,6 +60,14 @@ namespace test.Controllers.DirectoryLib
         {
             if (ModelState.IsValid)
             {
+                militaryRank.NameMilitaryRank = militaryRank.NameMilitaryRank.Trim();
+                var anyMilRank = _context.MilitaryRank.Any(p => (String.Compare(p.NameMilitaryRank,militaryRank.NameMilitaryRank) == 0));
+                if (anyMilRank)
+                {
+                    ModelState.AddModelError("", "Данное воинское звание уже зарегистрировано");
+                    return View();
+                }
+
                 _context.Add(militaryRank);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -99,6 +107,13 @@ namespace test.Controllers.DirectoryLib
             {
                 try
                 {
+                    militaryRank.NameMilitaryRank = militaryRank.NameMilitaryRank.Trim();
+                    var anyMilRank = _context.MilitaryRank.Any(p => (String.Compare(p.NameMilitaryRank, militaryRank.NameMilitaryRank) == 0));
+                    if (anyMilRank)
+                    {
+                        ModelState.AddModelError("", "Данное воинское звание уже зарегистрировано");
+                        return View();
+                    }
                     _context.Update(militaryRank);
                     await _context.SaveChangesAsync();
                 }

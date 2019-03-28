@@ -60,6 +60,13 @@ namespace test.Controllers.DirectoryLib
         {
             if (ModelState.IsValid)
             {
+                achievement.NameAchievement = achievement.NameAchievement.Trim();
+                var anyAchievment = _context.Achievement.Any(p=> string.Compare(p.NameAchievement,achievement.NameAchievement)==0);
+                if (anyAchievment)
+                {
+                    ModelState.AddModelError("", "Достижение с таким названием уже зарегистрированно");
+                    return View(achievement);
+                }
                 _context.Add(achievement);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -99,6 +106,13 @@ namespace test.Controllers.DirectoryLib
             {
                 try
                 {
+                    achievement.NameAchievement = achievement.NameAchievement.Trim();
+                    var anyAchievment = _context.Achievement.Any(p => string.Compare(p.NameAchievement, achievement.NameAchievement) == 0);
+                    if (anyAchievment)
+                    {
+                        ModelState.AddModelError("", "Достижение с таким названием уже зарегистрированно");
+                        return View(achievement);
+                    }
                     _context.Update(achievement);
                     await _context.SaveChangesAsync();
                 }

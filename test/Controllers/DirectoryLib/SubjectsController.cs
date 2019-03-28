@@ -60,6 +60,13 @@ namespace test.Controllers.DirectoryLib
         {
             if (ModelState.IsValid)
             {
+                subject.NameSubject = subject.NameSubject.Trim();
+                var anySubject = _context.Subject.Any(p => (String.Compare(p.NameSubject, subject.NameSubject) == 0));
+                if (anySubject)
+                {
+                    ModelState.AddModelError("", "Данный предмет уже зарегистрирован");
+                    return View(subject);
+                }
                 _context.Add(subject);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -99,6 +106,13 @@ namespace test.Controllers.DirectoryLib
             {
                 try
                 {
+                    subject.NameSubject = subject.NameSubject.Trim();
+                    var anySubject = _context.Subject.Any(p => (String.Compare(p.NameSubject, subject.NameSubject) == 0));
+                    if (anySubject)
+                    {
+                        ModelState.AddModelError("", "Данный предмет уже зарегистрирован");
+                        return View(subject);
+                    }
                     _context.Update(subject);
                     await _context.SaveChangesAsync();
                 }

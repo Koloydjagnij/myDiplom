@@ -60,6 +60,13 @@ namespace test.Controllers.DirectoryLib
         {
             if (ModelState.IsValid)
             {
+                document.NameDocument = document.NameDocument.Trim();
+                var anyDocument = _context.Document.Any(p => (string.Compare(p.NameDocument, document.NameDocument) == 0));
+                if (anyDocument)
+                {
+                    ModelState.AddModelError("", "Тип документа с таким названием уже зарегистрирован");
+                    return View(document);
+                }
                 _context.Add(document);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -99,6 +106,13 @@ namespace test.Controllers.DirectoryLib
             {
                 try
                 {
+                    document.NameDocument = document.NameDocument.Trim();
+                    var anyDocument = _context.Document.Any(p => (string.Compare(p.NameDocument, document.NameDocument) == 0));
+                    if (anyDocument)
+                    {
+                        ModelState.AddModelError("", "Тип документа с таким названием уже зарегистрирован");
+                        return View(document);
+                    }
                     _context.Update(document);
                     await _context.SaveChangesAsync();
                 }

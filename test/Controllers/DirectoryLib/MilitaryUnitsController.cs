@@ -63,6 +63,13 @@ namespace test.Controllers.DirectoryLib
         {
             if (ModelState.IsValid)
             {
+                militaryUnit.NameMilitaryUnit = militaryUnit.NameMilitaryUnit.Trim();
+                var anyMilitaryUnit = _context.MilitaryUnit.Any(p => (String.Compare(p.NameMilitaryUnit,militaryUnit.NameMilitaryUnit) == 0)&&(p.IdArea==militaryUnit.IdArea));
+                if (anyMilitaryUnit)
+                {
+                    ModelState.AddModelError("", "Данная в/ч в данном регионе уже зарегистрирована");
+                    return View();
+                }
                 _context.Add(militaryUnit);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -104,6 +111,13 @@ namespace test.Controllers.DirectoryLib
             {
                 try
                 {
+                    militaryUnit.NameMilitaryUnit = militaryUnit.NameMilitaryUnit.Trim();
+                    var anyMilitaryUnit = _context.MilitaryUnit.Any(p => (String.Compare(p.NameMilitaryUnit, militaryUnit.NameMilitaryUnit) == 0) && (p.IdArea == militaryUnit.IdArea));
+                    if (anyMilitaryUnit)
+                    {
+                        ModelState.AddModelError("", "Данная в/ч в данном регионе уже зарегистрирована");
+                        return View();
+                    }
                     _context.Update(militaryUnit);
                     await _context.SaveChangesAsync();
                 }

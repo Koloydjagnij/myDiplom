@@ -60,6 +60,13 @@ namespace test.Controllers.DirectoryLib
         {
             if (ModelState.IsValid)
             {
+                nationality.NameNationality = nationality.NameNationality.Trim();
+                var anyNationality = _context.Nationality.Any(p => (String.Compare(p.NameNationality,nationality.NameNationality) == 0));
+                if (anyNationality)
+                {
+                    ModelState.AddModelError("", "Данная национальность уже зарегистрирована");
+                    return View();
+                }
                 _context.Add(nationality);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -99,6 +106,13 @@ namespace test.Controllers.DirectoryLib
             {
                 try
                 {
+                    nationality.NameNationality = nationality.NameNationality.Trim();
+                    var anyNationality = _context.Nationality.Any(p => (String.Compare(p.NameNationality, nationality.NameNationality) == 0));
+                    if (anyNationality)
+                    {
+                        ModelState.AddModelError("", "Данная национальность уже зарегистрирована");
+                        return View();
+                    }
                     _context.Update(nationality);
                     await _context.SaveChangesAsync();
                 }

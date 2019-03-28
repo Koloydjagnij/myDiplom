@@ -60,6 +60,13 @@ namespace test.Controllers.DirectoryLib
         {
             if (ModelState.IsValid)
             {
+                preemptiveRight.NamePreemptiveRight = preemptiveRight.NamePreemptiveRight.Trim();
+                var any = _context.PreemptiveRight.Any(p => (String.Compare(p.NamePreemptiveRight,preemptiveRight.NamePreemptiveRight) == 0));
+                if (any)
+                {
+                    ModelState.AddModelError("", "Данное приемущественное право уже зарегистрировано");
+                    return View();
+                }
                 _context.Add(preemptiveRight);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -99,6 +106,13 @@ namespace test.Controllers.DirectoryLib
             {
                 try
                 {
+                    preemptiveRight.NamePreemptiveRight = preemptiveRight.NamePreemptiveRight.Trim();
+                    var any = _context.PreemptiveRight.Any(p => (String.Compare(p.NamePreemptiveRight, preemptiveRight.NamePreemptiveRight) == 0));
+                    if (any)
+                    {
+                        ModelState.AddModelError("", "Данное приемущественное право уже зарегистрировано");
+                        return View();
+                    }
                     _context.Update(preemptiveRight);
                     await _context.SaveChangesAsync();
                 }

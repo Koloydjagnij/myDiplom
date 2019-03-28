@@ -60,6 +60,13 @@ namespace test.Controllers.DirectoryLib
         {
             if (ModelState.IsValid)
             {
+                familyType.NameFamilyType = familyType.NameFamilyType.Trim();
+                var anyFT = _context.FamilyType.Any(p => (String.Compare(p.NameFamilyType,familyType.NameFamilyType) == 0));
+                if (anyFT)
+                {
+                    ModelState.AddModelError("", "Данный тип семьи уже зарегистрирован");
+                    return View();
+                }
                 _context.Add(familyType);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -99,6 +106,13 @@ namespace test.Controllers.DirectoryLib
             {
                 try
                 {
+                    familyType.NameFamilyType = familyType.NameFamilyType.Trim();
+                    var anyFT = _context.FamilyType.Any(p => (String.Compare(p.NameFamilyType, familyType.NameFamilyType) == 0));
+                    if (anyFT)
+                    {
+                        ModelState.AddModelError("", "Данный тип семьи уже зарегистрирован");
+                        return View();
+                    }
                     _context.Update(familyType);
                     await _context.SaveChangesAsync();
                 }

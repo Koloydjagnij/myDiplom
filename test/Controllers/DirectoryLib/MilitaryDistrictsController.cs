@@ -76,6 +76,13 @@ namespace test.Controllers
         {
             if (ModelState.IsValid)
             {
+                militaryDistrict.NameMilitaryDistrict = militaryDistrict.NameMilitaryDistrict.Trim();
+                var anyMilDis = _context.MilitaryDistrict.Any(p => (String.Compare(p.NameMilitaryDistrict,militaryDistrict.NameMilitaryDistrict) == 0));
+                if (anyMilDis)
+                {
+                    ModelState.AddModelError("", "Данный военный округ уже зарегистрирован");
+                    return View();
+                }
                 _context.Add(militaryDistrict);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -115,6 +122,13 @@ namespace test.Controllers
             {
                 try
                 {
+                    militaryDistrict.NameMilitaryDistrict = militaryDistrict.NameMilitaryDistrict.Trim();
+                    var anyMilDis = _context.MilitaryDistrict.Any(p => (String.Compare(p.NameMilitaryDistrict, militaryDistrict.NameMilitaryDistrict) == 0));
+                    if (anyMilDis)
+                    {
+                        ModelState.AddModelError("", "Данный военный округ уже зарегистрирован");
+                        return View();
+                    }
                     _context.Update(militaryDistrict);
                     await _context.SaveChangesAsync();
                 }

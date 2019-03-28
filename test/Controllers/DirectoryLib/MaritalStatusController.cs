@@ -60,6 +60,13 @@ namespace test.Controllers
         {
             if (ModelState.IsValid)
             {
+                maritalStatus.NameMaritalStatus = maritalStatus.NameMaritalStatus.Trim();
+                var anyMarialStatus = _context.MaritalStatus.Any(p => (String.Compare(p.NameMaritalStatus,maritalStatus.NameMaritalStatus) == 0));
+                if (anyMarialStatus)
+                {
+                    ModelState.AddModelError("", "Данный тип семейного положения уже зарегистрирован");
+                    return View();
+                }
                 _context.Add(maritalStatus);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -99,6 +106,13 @@ namespace test.Controllers
             {
                 try
                 {
+                    maritalStatus.NameMaritalStatus = maritalStatus.NameMaritalStatus.Trim();
+                    var anyMarialStatus = _context.MaritalStatus.Any(p => (String.Compare(p.NameMaritalStatus, maritalStatus.NameMaritalStatus) == 0));
+                    if (anyMarialStatus)
+                    {
+                        ModelState.AddModelError("", "Данный тип семейного положения уже зарегистрирован");
+                        return View();
+                    }
                     _context.Update(maritalStatus);
                     await _context.SaveChangesAsync();
                 }

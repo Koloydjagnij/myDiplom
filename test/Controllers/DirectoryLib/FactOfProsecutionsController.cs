@@ -60,6 +60,13 @@ namespace test.Controllers.DirectoryLib
         {
             if (ModelState.IsValid)
             {
+                factOfProsecution.NameFactOfProsecution = factOfProsecution.NameFactOfProsecution.Trim();
+                var anyFP = _context.FactOfProsecution.Any(p => (String.Compare(p.NameFactOfProsecution,factOfProsecution.NameFactOfProsecution) == 0));
+                if (anyFP)
+                {
+                    ModelState.AddModelError("", "Данный тип привлечения к ответственности уже зарегистрирован");
+                    return View();
+                }
                 _context.Add(factOfProsecution);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -99,6 +106,13 @@ namespace test.Controllers.DirectoryLib
             {
                 try
                 {
+                    factOfProsecution.NameFactOfProsecution = factOfProsecution.NameFactOfProsecution.Trim();
+                    var anyFP = _context.FactOfProsecution.Any(p => (String.Compare(p.NameFactOfProsecution, factOfProsecution.NameFactOfProsecution) == 0));
+                    if (anyFP)
+                    {
+                        ModelState.AddModelError("", "Данный тип привлечения к ответственности уже зарегистрирован");
+                        return View();
+                    }
                     _context.Update(factOfProsecution);
                     await _context.SaveChangesAsync();
                 }

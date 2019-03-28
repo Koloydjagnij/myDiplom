@@ -60,6 +60,13 @@ namespace test.Controllers.DirectoryLib
         {
             if (ModelState.IsValid)
             {
+                socialStatus.NameSocialStatus = socialStatus.NameSocialStatus.Trim();
+                var any = _context.SocialStatus.Any(p => (String.Compare(p.NameSocialStatus,socialStatus.NameSocialStatus) == 0));
+                if (any)
+                {
+                    ModelState.AddModelError("", "Данный социальный статус уже зарегистрирован");
+                    return View();
+                }
                 _context.Add(socialStatus);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

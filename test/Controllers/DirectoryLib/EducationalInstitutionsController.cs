@@ -63,6 +63,14 @@ namespace test.Controllers.DirectoryLib
         {
             if (ModelState.IsValid)
             {
+                educationalInstitution.NameEducationalInstitution = educationalInstitution.NameEducationalInstitution.Trim();
+                var anyEdInst = _context.EducationalInstitution.Any(p => (String.Compare(p.NameEducationalInstitution, educationalInstitution.NameEducationalInstitution) == 0)&&(p.IdTown==educationalInstitution.IdTown));
+                if (anyEdInst)
+                {
+                    ModelState.AddModelError("", "Данное учебное заведение уже зарегистрировано в данном населенном пункте");
+                    ViewData["IdTown"] = new SelectList(_context.City, "IdTown", "NameCity", educationalInstitution.IdTown);
+                    return View(educationalInstitution);
+                }
                 _context.Add(educationalInstitution);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -104,6 +112,14 @@ namespace test.Controllers.DirectoryLib
             {
                 try
                 {
+                    educationalInstitution.NameEducationalInstitution = educationalInstitution.NameEducationalInstitution.Trim();
+                    var anyEdInst = _context.EducationalInstitution.Any(p => (String.Compare(p.NameEducationalInstitution, educationalInstitution.NameEducationalInstitution) == 0) && (p.IdTown == educationalInstitution.IdTown));
+                    if (anyEdInst)
+                    {
+                        ModelState.AddModelError("", "Данное учебное заведение уже зарегистрировано в данном населенном пункте");
+                        ViewData["IdTown"] = new SelectList(_context.City, "IdTown", "NameCity", educationalInstitution.IdTown);
+                        return View(educationalInstitution);
+                    }
                     _context.Update(educationalInstitution);
                     await _context.SaveChangesAsync();
                 }

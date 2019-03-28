@@ -60,6 +60,13 @@ namespace test.Controllers.DirectoryLib
         {
             if (ModelState.IsValid)
             {
+                militaryServiceCategory.NameCategoryMs = militaryServiceCategory.NameCategoryMs.Trim();
+                var anyMilSericeCategory = _context.MilitaryServiceCategory.Any(p => (String.Compare(p.NameCategoryMs,militaryServiceCategory.NameCategoryMs) == 0));
+                if (anyMilSericeCategory)
+                {
+                    ModelState.AddModelError("", "Данная категория годности к в/с уже зарегистрирована");
+                    return View();
+                }
                 _context.Add(militaryServiceCategory);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -99,6 +106,13 @@ namespace test.Controllers.DirectoryLib
             {
                 try
                 {
+                    militaryServiceCategory.NameCategoryMs = militaryServiceCategory.NameCategoryMs.Trim();
+                    var anyMilSericeCategory = _context.MilitaryServiceCategory.Any(p => (String.Compare(p.NameCategoryMs, militaryServiceCategory.NameCategoryMs) == 0));
+                    if (anyMilSericeCategory)
+                    {
+                        ModelState.AddModelError("", "Данная категория годности к в/с уже зарегистрирована");
+                        return View();
+                    }
                     _context.Update(militaryServiceCategory);
                     await _context.SaveChangesAsync();
                 }

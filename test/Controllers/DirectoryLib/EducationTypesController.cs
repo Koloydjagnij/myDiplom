@@ -60,6 +60,13 @@ namespace test.Controllers.DirectoryLib
         {
             if (ModelState.IsValid)
             {
+                educationType.NameEducationType = educationType.NameEducationType.Trim();
+                var anyEdType = _context.EducationType.Any(p => (String.Compare(p.NameEducationType, educationType.NameEducationType) == 0));
+                if (anyEdType)
+                {
+                    ModelState.AddModelError("", "Тип образования с таким названием уже зарегистрирован");
+                    return View(educationType);
+                }
                 _context.Add(educationType);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -99,6 +106,13 @@ namespace test.Controllers.DirectoryLib
             {
                 try
                 {
+                    educationType.NameEducationType = educationType.NameEducationType.Trim();
+                    var anyEdType = _context.EducationType.Any(p => (String.Compare(p.NameEducationType, educationType.NameEducationType) == 0));
+                    if (anyEdType)
+                    {
+                        ModelState.AddModelError("", "Тип образования с таким названием уже зарегистрирован");
+                        return View(educationType);
+                    }
                     _context.Update(educationType);
                     await _context.SaveChangesAsync();
                 }
