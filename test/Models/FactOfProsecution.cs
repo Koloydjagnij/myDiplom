@@ -13,6 +13,7 @@ namespace test
         }
 
         public int IdFactOfProsecution { get; set; }
+        [RegularExpression(@"[А-Яа-я \-0-9]*", ErrorMessage = "Некорректное название факта привлечения")]
         [Required(ErrorMessage ="Название факта привлечения к ответственности")]
         [Display(Name = "Факт привлечения к ответственности")]
         public string NameFactOfProsecution { get; set; }

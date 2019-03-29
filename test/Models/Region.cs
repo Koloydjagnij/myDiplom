@@ -13,6 +13,7 @@ namespace test
 
         public int IdRegion { get; set; }
         [Display(Name = "Регион")]
+        [RegularExpression(@"[А-Яа-я \-0-9]*", ErrorMessage = "Некорректное название региона")]
         [Required(ErrorMessage ="Не указано название региона")]
         public string NameRegion { get; set; }
         [Display(Name = "Военный округ")]

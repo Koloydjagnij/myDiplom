@@ -12,6 +12,7 @@ namespace test
         }
 
         public int IdSubject { get; set; }
+        [RegularExpression(@"[А-Яа-я \-0-9.]*", ErrorMessage = "Некорректное название предмета")]
         [Required(ErrorMessage ="Не указано название предмета")]
         [Display(Name = "Предмет")]
         public string NameSubject { get; set; }

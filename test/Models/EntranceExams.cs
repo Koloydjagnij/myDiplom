@@ -12,6 +12,7 @@ namespace test
         }
 
         public int IdEntranceExam { get; set; }
+        [RegularExpression(@"[А-Яа-я \-0-9]*", ErrorMessage = "Некорректное название экзамена")]
         [Required(ErrorMessage ="Не указано название экзамена")]
         [Display(Name = "Название экзамена")]
         public string NameEntranceExam { get; set; }

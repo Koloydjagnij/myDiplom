@@ -13,6 +13,7 @@ namespace test
 
         public int IdTestType { get; set; }
         [Display(Name = "Тип испытания")]
+        [RegularExpression(@"[А-Яа-я \-0-9.]*", ErrorMessage = "Некорректное название типа испытания")]
         [Required(ErrorMessage ="Не указано название типа испытания")]
         public string NameTestType { get; set; }
 

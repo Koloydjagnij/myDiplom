@@ -12,6 +12,7 @@ namespace test
         }
 
         public int IdMilitaryRank { get; set; }
+        [RegularExpression(@"[А-Яа-я \-0-9]*", ErrorMessage = "Некорректное название в/з")]
         [Required(ErrorMessage ="Не указано воинское звание")]
         [Display(Name = "Воинское звание")]
         public string NameMilitaryRank { get; set; }

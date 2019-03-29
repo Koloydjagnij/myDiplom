@@ -14,6 +14,7 @@ namespace test
         }
         
         public int IdSex { get; set; }
+        [RegularExpression(@"[А-Яа-я]*", ErrorMessage = "Некорректное название пола")]
         [Display(Name = "Пол")]
         [Required (ErrorMessage = "Не указано название пола")]
         public string NameSex { get; set; }

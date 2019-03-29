@@ -13,6 +13,7 @@ namespace test
 
         public int IdEducationalInstitution { get; set; }
         [Display(Name = "Учебное заведение")]
+        [RegularExpression(@"[А-Яа-я \-0-9]*", ErrorMessage = "Некорректное название учебного заведения")]
         [Required(ErrorMessage ="Не указано название учебного заведения")]
         public string NameEducationalInstitution { get; set; }
         [Required]

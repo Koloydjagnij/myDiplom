@@ -12,6 +12,7 @@ namespace test
         }
 
         public int IdFamilyType { get; set; }
+        [RegularExpression(@"[А-Яа-я]*", ErrorMessage = "Некорректное название типа семьи")]
         [Required(ErrorMessage ="Введите название типа семьи")]
         [Display(Name = "Тип семьи")]
         public string NameFamilyType { get; set; }

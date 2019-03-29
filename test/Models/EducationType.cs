@@ -13,7 +13,8 @@ namespace test
 
         public int IdEducationType { get; set; }
         [Display(Name = "Тип обучения")]
-        [Required(ErrorMessage ="Не указано название типа обучения")]
+        [RegularExpression(@"[А-Яа-я \-]*", ErrorMessage = "Некорректное название типа образования")]
+        [Required(ErrorMessage ="Не указано название типа образования")]
         public string NameEducationType { get; set; }
 
         public ICollection<Enrollee> Enrollee { get; set; }

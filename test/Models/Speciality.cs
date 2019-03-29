@@ -12,6 +12,7 @@ namespace test
         }
 
         public int IdSpeciality { get; set; }
+        [RegularExpression(@"[А-Яа-я \-0-9.]*", ErrorMessage = "Некорректное название специальности")]
         [Required(ErrorMessage ="Не указано название специальности")]
         [Display(Name = "Специальность")]
         public string NameSpeciality { get; set; }

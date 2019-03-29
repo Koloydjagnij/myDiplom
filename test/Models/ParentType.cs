@@ -12,6 +12,7 @@ namespace test
         }
 
         public int IdParentType { get; set; }
+        [RegularExpression(@"[А-Яа-я]*", ErrorMessage = "Некорректное название типа родителя")]
         [Required(ErrorMessage ="Не указано название типа родителя")]
         [Display(Name = "Тип родителя")]
         public string NameParentType { get; set; }

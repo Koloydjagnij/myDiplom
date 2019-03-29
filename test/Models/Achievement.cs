@@ -13,6 +13,7 @@ namespace test
 
         public int IdAchievement { get; set; }
         [Display(Name = "Достижение")]
+        [RegularExpression(@"[А-Яа-я \-0-9]*", ErrorMessage = "Некорректное название достижения")]
         [Required (ErrorMessage = "Не указано название достижения")]
         public string NameAchievement { get; set; }
 
