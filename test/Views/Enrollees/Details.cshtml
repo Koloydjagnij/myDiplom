@@ -80,7 +80,18 @@
             @Html.DisplayNameFor(model => model.InteernationalPassport)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.InteernationalPassport)
+            @switch (Model.InteernationalPassport)
+            {
+                case null:
+                    <span>Не выбрано</span>
+                    break;
+                case false:
+                    <span>Нет</span>
+                    break;
+                case true:
+                    <span>Да</span>
+                    break;
+            }
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.CardPpo)
@@ -110,7 +121,18 @@
             @Html.DisplayNameFor(model => model.LiveInCamp)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.LiveInCamp)
+            @switch (Model.LiveInCamp)
+            {
+                case null:
+                    <span>Не выбрано</span>
+                    break;
+                case false:
+                    <span>Нет</span>
+                    break;
+                case true:
+                     <span>Да</span>
+                    break;
+            }
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.DateOfDeduction)

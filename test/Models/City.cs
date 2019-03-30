@@ -17,7 +17,7 @@ namespace test
         public int IdTown { get; set; }
         [Display(Name = "Город")]
         [Required(ErrorMessage = "Не указано название города")]
-        [RegularExpression(@"[А-Яа-я \-0-9]*", ErrorMessage = "Некорректное название города")]
+        [RegularExpression(@"[А-Яа-я .\-0-9]*", ErrorMessage = "Некорректное название города")]
         public string NameCity { get; set; }
         [Display(Name = "Район")]
         [Required]

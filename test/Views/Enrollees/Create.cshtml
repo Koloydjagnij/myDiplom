@@ -69,8 +69,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="InteernationalPassport" class="control-label"></label>
-                <input asp-for="InteernationalPassport" class="form-control" />
-                <span asp-validation-for="InteernationalPassport" class="text-danger"></span>
+                <select asp-for="InteernationalPassport" class ="form-control" asp-items="ViewBag.InteernationalPassport"></select>
             </div>
             <div class="form-group">
                 <label asp-for="CardPpo" class="control-label"></label>
@@ -94,8 +93,10 @@
             </div>
             <div class="form-group">
                 <label asp-for="LiveInCamp" class="control-label"></label>
-                <input asp-for="LiveInCamp" class="form-control" />
-                <span asp-validation-for="LiveInCamp" class="text-danger"></span>
+                <select asp-for="LiveInCamp" class ="form-control" asp-items="ViewBag.LiveInCamp"></select>
+                <!--
+             <input asp-for="LiveInCamp" class="form-control" />
+             <span asp-validation-for="LiveInCamp" class="text-danger"></span>-->
             </div>
             <div class="form-group">
                 <label asp-for="DateOfDeduction" class="control-label"></label>

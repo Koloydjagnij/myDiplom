@@ -14,7 +14,7 @@ namespace test
         public int IdMilitaryUnit { get; set; }
         [Required(ErrorMessage ="Не указано название войсковой части")]
         [Display(Name = "Войсковая часть")]
-        [RegularExpression(@"[А-Яа-я \-0-9]*", ErrorMessage = "Некорректное название в/ч")]
+        [RegularExpression(@"[А-Яа-я .\-0-9]*", ErrorMessage = "Некорректное название в/ч")]
         public string NameMilitaryUnit { get; set; }
         [Required]
         [Display(Name = "Район")]

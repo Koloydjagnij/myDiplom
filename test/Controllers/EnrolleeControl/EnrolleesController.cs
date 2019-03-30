@@ -19,6 +19,19 @@ namespace test.Models.ArmyVIewModel
             _context = context;
         }
 
+        private List<SelectListItem> NullableYesNoList { get; } = new List<SelectListItem>
+        {
+            new SelectListItem { Value = "", Text = "Значение не указано" },
+            new SelectListItem { Value = "true", Text = "Да" },
+            new SelectListItem { Value = "false", Text = "Нет"  },
+        };
+
+        private List<SelectListItem> YesNoList { get; } = new List<SelectListItem>
+        {
+            new SelectListItem { Value = "true", Text = "Да" },
+            new SelectListItem { Value = "false", Text = "Нет"  },
+        };
+
         // GET: Enrollees
         public async Task<IActionResult> Index()
         {
@@ -75,6 +88,8 @@ namespace test.Models.ArmyVIewModel
             ViewData["IdSex"] = new SelectList(_context.Sex, "IdSex", "NameSex");
             ViewData["IdSocialBackground"] = new SelectList(_context.SocialBackground, "IdSocialBackground", "NameSocialBackground");
             ViewData["IdTown"] = new SelectList(_context.City, "IdTown", "NameCity");
+            ViewData["LiveInCamp"] = NullableYesNoList;
+            ViewData["InteernationalPassport"] = NullableYesNoList;
             return View();
         }
 
@@ -105,6 +120,8 @@ namespace test.Models.ArmyVIewModel
             ViewData["IdSex"] = new SelectList(_context.Sex, "IdSex", "NameSex", enrollee.IdSex);
             ViewData["IdSocialBackground"] = new SelectList(_context.SocialBackground, "IdSocialBackground", "NameSocialBackground", enrollee.IdSocialBackground);
             ViewData["IdTown"] = new SelectList(_context.City, "IdTown", "NameCity", enrollee.IdTown);
+            ViewData["LiveInCamp"] = NullableYesNoList;
+            ViewData["InteernationalPassport"] = NullableYesNoList;
             return View(enrollee);
         }
 

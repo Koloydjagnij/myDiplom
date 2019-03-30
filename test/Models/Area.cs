@@ -15,7 +15,7 @@ namespace test
         public int IdArea { get; set; }
         [Display(Name = "Район")]
         [Required (ErrorMessage = "Не указано название района")]
-        [RegularExpression(@"[А-Яа-я \-0-9]*", ErrorMessage = "Некорректное название района")]
+        [RegularExpression(@"[А-Яа-я .\-0-9]*", ErrorMessage = "Некорректное название района")]
         public string NameArea { get; set; }
 
         [Display(Name = "Область")]
