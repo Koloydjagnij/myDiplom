@@ -1,0 +1,240 @@
+﻿@model test.Enrollee
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Enrollee</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.NumOfPersonalFile)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.NumOfPersonalFile)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Surname)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Surname)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Patronymic)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Patronymic)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.DateOfBirth)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DateOfBirth)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.PlaceOfBirth)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PlaceOfBirth)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.PassportSeries)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PassportSeries)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.PassportNumber)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PassportNumber)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.PassportIssueDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PassportIssueDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.PassportIssuedBy)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PassportIssuedBy)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.PassportUnitCode)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PassportUnitCode)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.InteernationalPassport)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.InteernationalPassport)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CardPpo)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CardPpo)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.AdmitSsgt)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AdmitSsgt)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.OtherNotes)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.OtherNotes)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ArrivalDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ArrivalDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.LiveInCamp)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.LiveInCamp)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.DateOfDeduction)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DateOfDeduction)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Children)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Children)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.YearOfEndingEducation)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.YearOfEndingEducation)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.NotesEducationalInstitution)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.NotesEducationalInstitution)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.PersonalNumberMs)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PersonalNumberMs)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.StockPositionMs)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.StockPositionMs)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.IdCategoryMsNavigation)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IdCategoryMsNavigation.NameCategoryMs)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.IdEducationTypeNavigation)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IdEducationTypeNavigation.NameEducationType)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.IdEducationalInstitutionNavigation)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IdEducationalInstitutionNavigation.NameEducationalInstitution)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.IdFactOfProsecutionNavigation)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IdFactOfProsecutionNavigation.NameFactOfProsecution)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.IdMaritalStatusNavigation)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IdMaritalStatusNavigation.NameMaritalStatus)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.IdMilitaryOfficeNavigation)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IdMilitaryOfficeNavigation.IdMilitaryOffice)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.IdMilitaryRankNavigation)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IdMilitaryRankNavigation.NameMilitaryRank)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.IdMilitaryUnitNavigation)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IdMilitaryUnitNavigation.NameMilitaryUnit)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.IdNationalityNavigation)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IdNationalityNavigation.NameNationality)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.IdPreemptiveRightNavigation)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IdPreemptiveRightNavigation.NamePreemptiveRight)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.IdReasonForDeductionNavigation)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IdReasonForDeductionNavigation.NameReasonForDeduction)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.IdSexNavigation)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IdSexNavigation.NameSex)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.IdSocialBackgroundNavigation)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IdSocialBackgroundNavigation.NameSocialBackground)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.IdTownNavigation)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IdTownNavigation.NameCity)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.IdEnrollee">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
