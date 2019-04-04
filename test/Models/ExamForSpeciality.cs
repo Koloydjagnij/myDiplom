@@ -9,7 +9,7 @@ namespace test
         {
             ApplicationToSpeciality = new HashSet<ApplicationToSpeciality>();
         }
-
+        public int IdExamForSpeciality { get; set; }//add 03.04.2019
         public int IdEntranceExam { get; set; }
         public int IdSpeciality { get; set; }
 

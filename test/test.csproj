@@ -12,6 +12,7 @@
   <ItemGroup>
     <Compile Remove="Data\Migrations\20190322165317_my1.cs" />
     <Compile Remove="Data\Migrations\20190322165317_my1.Designer.cs" />
+    <Compile Remove="Migrations\20190403134643_test2.cs" />
   </ItemGroup>
 
 
@@ -31,7 +32,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\EnrolleeControl\" />
+    <Folder Include="Data\Migrations\" />
     <Folder Include="Models\ArmyVIewModel\" />
   </ItemGroup>
 

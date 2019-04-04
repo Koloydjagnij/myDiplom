@@ -8,11 +8,11 @@ using Microsoft.EntityFrameworkCore.Storage.Internal;
 using System;
 using test.Data;
 
-namespace test.Data.Migrations
+namespace test.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20190326151129_9")]
-    partial class _9
+    [Migration("20190403140147_test1")]
+    partial class test1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -135,6 +135,7 @@ namespace test.Data.Migrations
                         .HasColumnName("id_achievement");
 
                     b.Property<string>("NameAchievement")
+                        .IsRequired()
                         .HasColumnName("name_achievement");
 
                     b.HasKey("IdAchievement");
@@ -158,14 +159,8 @@ namespace test.Data.Migrations
 
             modelBuilder.Entity("test.ApplicationToSpeciality", b =>
                 {
-                    b.Property<int>("IdEnrollee")
-                        .HasColumnName("id_enrollee");
-
-                    b.Property<int>("IdEntranceExam")
-                        .HasColumnName("id_entrance_exam");
-
-                    b.Property<int>("IdSpeciality")
-                        .HasColumnName("id_speciality");
+                    b.Property<int>("IdApplicationToSpeciality")
+                        .ValueGeneratedOnAdd();
 
                     b.Property<DateTime?>("DateOfPassingExam")
                         .HasColumnName("date_of_passing_exam")
@@ -177,17 +172,28 @@ namespace test.Data.Migrations
                     b.Property<string>("Groupe")
                         .HasColumnName("groupe");
 
+                    b.Property<int>("IdEnrollee")
+                        .HasColumnName("id_enrollee");
+
+                    b.Property<int>("IdEntranceExam")
+                        .HasColumnName("id_entrance_exam");
+
+                    b.Property<int>("IdSpeciality")
+                        .HasColumnName("id_speciality");
+
                     b.Property<int>("IdTestType")
                         .HasColumnName("id_test_type");
 
                     b.Property<int?>("PriorityNumber")
                         .HasColumnName("priority_number");
 
-                    b.HasKey("IdEnrollee", "IdEntranceExam", "IdSpeciality");
+                    b.HasKey("IdApplicationToSpeciality");
+
+                    b.HasIndex("IdEnrollee");
+
+                    b.HasIndex("IdEntranceExam");
 
                     b.HasIndex("IdTestType");
-
-                    b.HasIndex("IdEntranceExam", "IdSpeciality");
 
                     b.ToTable("application_to_speciality");
                 });
@@ -203,11 +209,15 @@ namespace test.Data.Migrations
                         .HasColumnName("id_region");
 
                     b.Property<string>("NameArea")
+                        .IsRequired()
                         .HasColumnName("name_area");
 
                     b.HasKey("IdArea");
 
                     b.HasIndex("IdRegion");
+
+                    b.HasIndex("NameArea", "IdRegion")
+                        .IsUnique();
 
                     b.ToTable("area");
                 });
@@ -219,14 +229,19 @@ namespace test.Data.Migrations
                         .HasColumnName("id_town");
 
                     b.Property<int?>("IdArea")
+                        .IsRequired()
                         .HasColumnName("id_area");
 
                     b.Property<string>("NameCity")
+                        .IsRequired()
                         .HasColumnName("name_city");
 
                     b.HasKey("IdTown");
 
                     b.HasIndex("IdArea");
+
+                    b.HasIndex("NameCity", "IdArea")
+                        .IsUnique();
 
                     b.ToTable("city");
                 });
@@ -238,6 +253,7 @@ namespace test.Data.Migrations
                         .HasColumnName("id_document");
 
                     b.Property<string>("NameDocument")
+                        .IsRequired()
                         .HasColumnName("name_document");
 
                     b.HasKey("IdDocument");
@@ -252,9 +268,11 @@ namespace test.Data.Migrations
                         .HasColumnName("id_educational_institution");
 
                     b.Property<int?>("IdTown")
+                        .IsRequired()
                         .HasColumnName("id_town");
 
                     b.Property<string>("NameEducationalInstitution")
+                        .IsRequired()
                         .HasColumnName("name_educational_institution");
 
                     b.HasKey("IdEducationalInstitution");
@@ -271,6 +289,7 @@ namespace test.Data.Migrations
                         .HasColumnName("id_education_type");
 
                     b.Property<string>("NameEducationType")
+                        .IsRequired()
                         .HasColumnName("name_education_type");
 
                     b.HasKey("IdEducationType");
@@ -298,6 +317,7 @@ namespace test.Data.Migrations
                         .HasColumnName("children");
 
                     b.Property<DateTime?>("DateOfBirth")
+                        .IsRequired()
                         .HasColumnName("date_of_birth")
                         .HasColumnType("date");
 
@@ -354,6 +374,7 @@ namespace test.Data.Migrations
                         .HasColumnName("live_in_camp");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnName("name");
 
                     b.Property<string>("NotesEducationalInstitution")
@@ -382,19 +403,21 @@ namespace test.Data.Migrations
                         .HasColumnName("passport_unit_code");
 
                     b.Property<string>("Patronymic")
-                        .HasColumnName("patronymic")
-                        .HasColumnType("char(18)");
+                        .IsRequired()
+                        .HasColumnName("patronymic");
 
                     b.Property<int?>("PersonalNumberMs")
                         .HasColumnName("personal_number_ms");
 
                     b.Property<string>("PlaceOfBirth")
+                        .IsRequired()
                         .HasColumnName("place_of_birth");
 
                     b.Property<string>("StockPositionMs")
                         .HasColumnName("stock_position_ms");
 
                     b.Property<string>("Surname")
+                        .IsRequired()
                         .HasColumnName("surname");
 
                     b.Property<DateTime?>("YearOfEndingEducation")
@@ -436,29 +459,37 @@ namespace test.Data.Migrations
 
             modelBuilder.Entity("test.EnrolleeAchievement", b =>
                 {
-                    b.Property<int>("IdEnrollee")
-                        .HasColumnName("id_enrollee");
+                    b.Property<int>("IdEnrolleeAchievement")
+                        .ValueGeneratedOnAdd();
 
                     b.Property<int>("IdAchievement")
                         .HasColumnName("id_achievement");
 
+                    b.Property<int>("IdEnrollee")
+                        .HasColumnName("id_enrollee");
+
                     b.Property<int?>("Priority")
                         .HasColumnName("priority");
 
-                    b.HasKey("IdEnrollee", "IdAchievement");
+                    b.HasKey("IdEnrolleeAchievement");
 
                     b.HasIndex("IdAchievement");
+
+                    b.HasIndex("IdEnrollee");
 
                     b.ToTable("enrollee_achievement");
                 });
 
             modelBuilder.Entity("test.EnrolleeDocuments", b =>
                 {
-                    b.Property<int>("IdEnrollee")
-                        .HasColumnName("id_enrollee");
+                    b.Property<int>("IdEnrolleeDocument")
+                        .ValueGeneratedOnAdd();
 
                     b.Property<int>("IdDocument")
                         .HasColumnName("id_document");
+
+                    b.Property<int>("IdEnrollee")
+                        .HasColumnName("id_enrollee");
 
                     b.Property<DateTime?>("LoadDate")
                         .HasColumnName("load_date")
@@ -467,9 +498,11 @@ namespace test.Data.Migrations
                     b.Property<bool?>("PresenceInPersonalFile")
                         .HasColumnName("presence_in_personal_file");
 
-                    b.HasKey("IdEnrollee", "IdDocument");
+                    b.HasKey("IdEnrolleeDocument");
 
                     b.HasIndex("IdDocument");
+
+                    b.HasIndex("IdEnrollee");
 
                     b.ToTable("enrollee_documents");
                 });
@@ -481,6 +514,7 @@ namespace test.Data.Migrations
                         .HasColumnName("id_entrance_exam");
 
                     b.Property<string>("NameEntranceExam")
+                        .IsRequired()
                         .HasColumnName("name_entrance_exam");
 
                     b.Property<bool?>("Necessarily")
@@ -493,13 +527,18 @@ namespace test.Data.Migrations
 
             modelBuilder.Entity("test.ExamForSpeciality", b =>
                 {
+                    b.Property<int>("IdExamForSpeciality")
+                        .ValueGeneratedOnAdd();
+
                     b.Property<int>("IdEntranceExam")
                         .HasColumnName("id_entrance_exam");
 
                     b.Property<int>("IdSpeciality")
                         .HasColumnName("id_speciality");
 
-                    b.HasKey("IdEntranceExam", "IdSpeciality");
+                    b.HasKey("IdExamForSpeciality");
+
+                    b.HasIndex("IdEntranceExam");
 
                     b.HasIndex("IdSpeciality");
 
@@ -513,6 +552,7 @@ namespace test.Data.Migrations
                         .HasColumnName("id_fact_of_prosecution");
 
                     b.Property<string>("NameFactOfProsecution")
+                        .IsRequired()
                         .HasColumnName("name_fact_of_prosecution");
 
                     b.HasKey("IdFactOfProsecution");
@@ -522,8 +562,8 @@ namespace test.Data.Migrations
 
             modelBuilder.Entity("test.Family", b =>
                 {
-                    b.Property<int>("IdParent")
-                        .HasColumnName("id_parent");
+                    b.Property<int>("IdFamily")
+                        .ValueGeneratedOnAdd();
 
                     b.Property<int>("IdEnrollee")
                         .HasColumnName("id_enrollee");
@@ -531,11 +571,16 @@ namespace test.Data.Migrations
                     b.Property<int>("IdFamilyType")
                         .HasColumnName("id_family_type");
 
-                    b.HasKey("IdParent", "IdEnrollee");
+                    b.Property<int>("IdParent")
+                        .HasColumnName("id_parent");
+
+                    b.HasKey("IdFamily");
 
                     b.HasIndex("IdEnrollee");
 
                     b.HasIndex("IdFamilyType");
+
+                    b.HasIndex("IdParent");
 
                     b.ToTable("family");
                 });
@@ -547,6 +592,7 @@ namespace test.Data.Migrations
                         .HasColumnName("id_family_type");
 
                     b.Property<string>("NameFamilyType")
+                        .IsRequired()
                         .HasColumnName("name_family_type");
 
                     b.HasKey("IdFamilyType");
@@ -561,6 +607,7 @@ namespace test.Data.Migrations
                         .HasColumnName("id_marital_status");
 
                     b.Property<string>("NameMaritalStatus")
+                        .IsRequired()
                         .HasColumnName("name_marital_status");
 
                     b.HasKey("IdMaritalStatus");
@@ -575,6 +622,7 @@ namespace test.Data.Migrations
                         .HasColumnName("id_military_district");
 
                     b.Property<string>("NameMilitaryDistrict")
+                        .IsRequired()
                         .HasColumnName("name_military_district");
 
                     b.HasKey("IdMilitaryDistrict");
@@ -614,6 +662,7 @@ namespace test.Data.Migrations
                         .HasColumnName("id_military_rank");
 
                     b.Property<string>("NameMilitaryRank")
+                        .IsRequired()
                         .HasColumnName("name_military_rank");
 
                     b.HasKey("IdMilitaryRank");
@@ -628,6 +677,7 @@ namespace test.Data.Migrations
                         .HasColumnName("id_category_ms");
 
                     b.Property<string>("NameCategoryMs")
+                        .IsRequired()
                         .HasColumnName("name_category_ms");
 
                     b.HasKey("IdCategoryMs");
@@ -645,6 +695,7 @@ namespace test.Data.Migrations
                         .HasColumnName("id_area");
 
                     b.Property<string>("NameMilitaryUnit")
+                        .IsRequired()
                         .HasColumnName("name_military_unit");
 
                     b.HasKey("IdMilitaryUnit");
@@ -743,6 +794,7 @@ namespace test.Data.Migrations
                         .HasColumnName("id_nationality");
 
                     b.Property<string>("NameNationality")
+                        .IsRequired()
                         .HasColumnName("name_nationality");
 
                     b.HasKey("IdNationality");
@@ -802,6 +854,7 @@ namespace test.Data.Migrations
                         .HasColumnName("id_parent_type");
 
                     b.Property<string>("NameParentType")
+                        .IsRequired()
                         .HasColumnName("name_parent_type");
 
                     b.HasKey("IdParentType");
@@ -816,6 +869,7 @@ namespace test.Data.Migrations
                         .HasColumnName("id_preemptive_right");
 
                     b.Property<string>("NamePreemptiveRight")
+                        .IsRequired()
                         .HasColumnName("name_preemptive_right");
 
                     b.HasKey("IdPreemptiveRight");
@@ -830,6 +884,7 @@ namespace test.Data.Migrations
                         .HasColumnName("id_reason_for_deduction");
 
                     b.Property<string>("NameReasonForDeduction")
+                        .IsRequired()
                         .HasColumnName("name_reason_for_deduction");
 
                     b.HasKey("IdReasonForDeduction");
@@ -847,11 +902,15 @@ namespace test.Data.Migrations
                         .HasColumnName("id_military_district");
 
                     b.Property<string>("NameRegion")
+                        .IsRequired()
                         .HasColumnName("name_region");
 
                     b.HasKey("IdRegion");
 
                     b.HasIndex("IdMilitaryDistrict");
+
+                    b.HasIndex("NameRegion", "IdMilitaryDistrict")
+                        .IsUnique();
 
                     b.ToTable("region");
                 });
@@ -863,6 +922,7 @@ namespace test.Data.Migrations
                         .HasColumnName("id_sex");
 
                     b.Property<string>("NameSex")
+                        .IsRequired()
                         .HasColumnName("name_sex");
 
                     b.HasKey("IdSex");
@@ -877,6 +937,7 @@ namespace test.Data.Migrations
                         .HasColumnName("id_social_background");
 
                     b.Property<string>("NameSocialBackground")
+                        .IsRequired()
                         .HasColumnName("name_social_background");
 
                     b.HasKey("IdSocialBackground");
@@ -891,6 +952,7 @@ namespace test.Data.Migrations
                         .HasColumnName("id_social_status");
 
                     b.Property<string>("NameSocialStatus")
+                        .IsRequired()
                         .HasColumnName("name_social_status");
 
                     b.HasKey("IdSocialStatus");
@@ -905,6 +967,7 @@ namespace test.Data.Migrations
                         .HasColumnName("id_speciality");
 
                     b.Property<string>("NameSpeciality")
+                        .IsRequired()
                         .HasColumnName("name_speciality");
 
                     b.HasKey("IdSpeciality");
@@ -919,6 +982,7 @@ namespace test.Data.Migrations
                         .HasColumnName("id_subject");
 
                     b.Property<string>("NameSubject")
+                        .IsRequired()
                         .HasColumnName("name_subject");
 
                     b.HasKey("IdSubject");
@@ -928,18 +992,24 @@ namespace test.Data.Migrations
 
             modelBuilder.Entity("test.SubjectMark", b =>
                 {
-                    b.Property<int>("IdSubject")
-                        .HasColumnName("id_subject");
+                    b.Property<int>("IdSubjectMark")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("id_subject_mark");
 
                     b.Property<int>("IdEnrollee")
                         .HasColumnName("id_enrollee");
 
+                    b.Property<int>("IdSubject")
+                        .HasColumnName("id_subject");
+
                     b.Property<int?>("Mark")
                         .HasColumnName("mark");
 
-                    b.HasKey("IdSubject", "IdEnrollee");
+                    b.HasKey("IdSubjectMark");
 
                     b.HasIndex("IdEnrollee");
+
+                    b.HasIndex("IdSubject");
 
                     b.ToTable("subject_mark");
                 });
@@ -951,6 +1021,7 @@ namespace test.Data.Migrations
                         .HasColumnName("id_test_type");
 
                     b.Property<string>("NameTestType")
+                        .IsRequired()
                         .HasColumnName("name_test_type");
 
                     b.HasKey("IdTestType");
@@ -1010,15 +1081,15 @@ namespace test.Data.Migrations
                         .HasForeignKey("IdEnrollee")
                         .HasConstraintName("r_41");
 
+                    b.HasOne("test.ExamForSpeciality", "IdExamNavigation")
+                        .WithMany("ApplicationToSpeciality")
+                        .HasForeignKey("IdEntranceExam")
+                        .HasConstraintName("r_77");
+
                     b.HasOne("test.TestType", "IdTestTypeNavigation")
                         .WithMany("ApplicationToSpeciality")
                         .HasForeignKey("IdTestType")
                         .HasConstraintName("r_78");
-
-                    b.HasOne("test.ExamForSpeciality", "Id")
-                        .WithMany("ApplicationToSpeciality")
-                        .HasForeignKey("IdEntranceExam", "IdSpeciality")
-                        .HasConstraintName("r_77");
                 });
 
             modelBuilder.Entity("test.Area", b =>

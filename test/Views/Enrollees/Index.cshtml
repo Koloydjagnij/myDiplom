@@ -1,0 +1,109 @@
+﻿@using test.Views.Enrollees
+@model test.Views.Enrollees.IndexViewModel
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+@{
+    ViewData["Title"] = "Список абитуриентов";
+}
+
+<h2>Список абитуриентов</h2>
+@if (SignInManager.IsSignedIn(User) && (User.IsInRole("Admin")||User.IsInRole("AddAbitur")))
+{
+    <p>
+        <a asp-action="Create"><input type="submit" value="Создать новую запись" class="btn btn-default" /></a>
+    </p>
+}
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Enrollees.First().NumOfPersonalFile)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Enrollees.First().Surname)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Enrollees.First().Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Enrollees.First().Patronymic)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Enrollees.First().DateOfBirth)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.Enrollees.First().PersonalNumberMs)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Enrollees.First().StockPositionMs)
+            </th>
+
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Enrollees)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NumOfPersonalFile)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Surname)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Patronymic)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateOfBirth)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.PersonalNumberMs)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StockPositionMs)
+                </td>
+
+
+                <td>
+                    @if (SignInManager.IsSignedIn(User) && (User.IsInRole("Admin") || User.IsInRole("EditAbitur")))
+                    {
+                        <a asp-action="Edit" asp-route-id="@item.IdEnrollee">Изменить |</a>
+                    }
+                    @if (SignInManager.IsSignedIn(User) && (User.IsInRole("Admin") || User.IsInRole("FullDetailAbitur")))
+                    {
+                        <a asp-action="Details" asp-route-id="@item.IdEnrollee">Информация |</a>
+                    }
+                    @if (SignInManager.IsSignedIn(User) && (User.IsInRole("Admin") || User.IsInRole("DeleteAbitur")))
+                    {
+                        <a asp-action="Delete" asp-route-id="@item.IdEnrollee">Удалить</a>
+                    }
+                    </td>
+            </tr>
+        }
+    </tbody>
+</table>
+@if (Model.PageViewModel.HasPreviousPage)
+{
+    <a asp-action="Index"
+       asp-route-page="@(Model.PageViewModel.PageNumber - 1)"
+       class="btn btn-default btn">
+        <i class="glyphicon glyphicon-chevron-left"></i>
+        Назад
+    </a>
+}
+@if (Model.PageViewModel.HasNextPage)
+{
+    <a asp-action="Index"
+       asp-route-page="@(Model.PageViewModel.PageNumber + 1)"
+       class="btn btn-default btn">
+        Вперед
+        <i class="glyphicon glyphicon-chevron-right"></i>
+    </a>
+}

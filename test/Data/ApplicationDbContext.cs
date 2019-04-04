@@ -78,7 +78,8 @@ namespace test.Data
 
             modelBuilder.Entity<ApplicationToSpeciality>(entity =>
             {
-                entity.HasKey(e => new { e.IdEnrollee, e.IdEntranceExam, e.IdSpeciality });
+                entity.Property(e => e.IdApplicationToSpeciality).ValueGeneratedOnAdd();
+                entity.HasKey(e => e.IdApplicationToSpeciality);
 
                 entity.ToTable("application_to_speciality");
 
@@ -112,9 +113,9 @@ namespace test.Data
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("r_78");
 
-                entity.HasOne(d => d.Id)
+                entity.HasOne(d => d.IdExamNavigation)
                     .WithMany(p => p.ApplicationToSpeciality)
-                    .HasForeignKey(d => new { d.IdEntranceExam, d.IdSpeciality })
+                    .HasForeignKey(d => d.IdEntranceExam)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("r_77");
             });
@@ -296,8 +297,8 @@ namespace test.Data
                 entity.Property(e => e.PassportUnitCode).HasColumnName("passport_unit_code");
 
                 entity.Property(e => e.Patronymic)
-                    .HasColumnName("patronymic")
-                    .HasColumnType("char(18)");
+                    .HasColumnName("patronymic");
+                    //.HasColumnType("char(18)");
 
                 entity.Property(e => e.PersonalNumberMs).HasColumnName("personal_number_ms");
 
@@ -398,7 +399,9 @@ namespace test.Data
 
             modelBuilder.Entity<EnrolleeAchievement>(entity =>
             {
-                entity.HasKey(e => new { e.IdEnrollee, e.IdAchievement });
+                entity.Property(e => e.IdEnrolleeAchievement)
+                .ValueGeneratedOnAdd();
+                entity.HasKey(e => e.IdEnrolleeAchievement);
 
                 entity.ToTable("enrollee_achievement");
 
@@ -423,7 +426,10 @@ namespace test.Data
 
             modelBuilder.Entity<EnrolleeDocuments>(entity =>
             {
-                entity.HasKey(e => new { e.IdEnrollee, e.IdDocument });
+                entity.Property(e => e.IdEnrolleeDocument)
+                .ValueGeneratedOnAdd();
+
+                entity.HasKey(e => e.IdEnrolleeDocument);
 
                 entity.ToTable("enrollee_documents");
 
@@ -467,7 +473,10 @@ namespace test.Data
 
             modelBuilder.Entity<ExamForSpeciality>(entity =>
             {
-                entity.HasKey(e => new { e.IdEntranceExam, e.IdSpeciality });
+                entity.Property(e => e.IdExamForSpeciality)
+                .ValueGeneratedOnAdd();
+
+                entity.HasKey(e => e.IdExamForSpeciality);
 
                 entity.ToTable("exam_for_speciality");
 
@@ -503,7 +512,10 @@ namespace test.Data
 
             modelBuilder.Entity<Family>(entity =>
             {
-                entity.HasKey(e => new { e.IdParent, e.IdEnrollee });
+                entity.Property(e => e.IdFamily)
+                .ValueGeneratedOnAdd();
+
+                entity.HasKey(e => e.IdFamily);
 
                 entity.ToTable("family");
 
@@ -845,10 +857,12 @@ namespace test.Data
             });
 
             modelBuilder.Entity<SubjectMark>(entity =>
-            {
-                entity.HasKey(e => new { e.IdSubject, e.IdEnrollee });
-
+            {                
+                entity.HasKey(e => e.IdSubjectMark);
+                           
                 entity.ToTable("subject_mark");
+
+                entity.Property(e => e.IdSubjectMark).HasColumnName("id_subject_mark").ValueGeneratedOnAdd();
 
                 entity.Property(e => e.IdSubject).HasColumnName("id_subject");
 

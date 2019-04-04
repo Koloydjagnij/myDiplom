@@ -28,6 +28,31 @@ namespace test
                     await userManager.AddToRoleAsync(admin, "Admin");
                 }
             }
+            //просмотр списка абитуриентов
+            if (await roleManager.FindByNameAsync("ListAbitur") == null)
+            {
+                await roleManager.CreateAsync(new IdentityRole("ListAbitur"));
+            }
+            //Добавление нового абитуриента
+            if (await roleManager.FindByNameAsync("AddAbitur") == null)
+            {
+                await roleManager.CreateAsync(new IdentityRole("AddAbitur"));
+            }
+            //Просмотр полной информации об абитуриенте
+            if (await roleManager.FindByNameAsync("FullDetailAbitur") == null)
+            {
+                await roleManager.CreateAsync(new IdentityRole("FullDetailAbitur"));
+            }
+            //Просмотр редактирование информации об абитуриенте
+            if (await roleManager.FindByNameAsync("EditAbitur") == null)
+            {
+                await roleManager.CreateAsync(new IdentityRole("EditAbitur"));
+            }
+            //Просмотр удаление абитуриента
+            if (await roleManager.FindByNameAsync("DeleteAbitur") == null)
+            {
+                await roleManager.CreateAsync(new IdentityRole("DeleteAbitur"));
+            }
             //пользак обыкновенный
             if (await roleManager.FindByNameAsync("User") == null)
             {
