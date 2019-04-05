@@ -13,10 +13,12 @@
     <Compile Remove="Data\Migrations\20190322165317_my1.cs" />
     <Compile Remove="Data\Migrations\20190322165317_my1.Designer.cs" />
     <Compile Remove="Migrations\20190403134643_test2.cs" />
+    <Compile Remove="Migrations\20190404205220_test2.cs" />
   </ItemGroup>
 
 
   <ItemGroup>
+    <PackageReference Include="EPPlus.Core" Version="1.5.4" />
     <PackageReference Include="MailKit" Version="2.0.7" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.9" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.0.3" PrivateAssets="All" />

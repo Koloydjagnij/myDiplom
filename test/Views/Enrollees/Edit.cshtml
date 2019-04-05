@@ -5,7 +5,7 @@
 }
 
 
-<form class="form-horizontal" asp-action="Edit">
+<form class="form-horizontal" asp-action="Edit" method="post">
     <ul class="nav nav-tabs">
         <li class="active"><a data-toggle="tab" href="#panel1">Персональные данные</a></li>
         <li><a data-toggle="tab" href="#panel2">Образование</a></li>
@@ -15,8 +15,9 @@
         <li><a data-toggle="tab" href="#panel6">Внутренние экзамены</a></li>
         <li><a data-toggle="tab" href="#panel6">Документы и файлы</a></li>
     </ul>
-
+    <div class="row"><br /></div>
     <div class="tab-content">
+        <input type="hidden" asp-for="@Model.Enrollees.IdEnrollee" name="Enrollees.IdEnrollee" />
         <div id="panel1" class="tab-pane fade in active">
             <!-- Абитуриент -->
             <div class="row">
@@ -73,7 +74,7 @@
                         @Html.LabelFor(model => model.Enrollees.DateOfBirth)
                     </div>
                     <div class="col-md-2 col-lg-2 col-xl-2">
-                        @Html.EditorFor(model => model.Enrollees.DateOfBirth, new { placeholder ="дд-мм-гггг"})
+                        @Html.EditorFor(model => model.Enrollees.DateOfBirth, new { placeholder = "дд-мм-гггг" })
                         @Html.ValidationMessageFor(model => model.Enrollees.DateOfBirth)
                     </div>
                 </div>
@@ -241,7 +242,7 @@
                         @Html.LabelFor(model => model.Enrollees.IdSocialBackground)
                     </div>
                     <div class="col-md-2 col-lg-2 col-xl-2">
-                        @Html.DropDownList(" model.Enrollees.IdSocialBackground", ViewBag.IdSocialBackground as SelectList)
+                        @Html.DropDownList("Enrollees.IdSocialBackground", ViewBag.IdSocialBackground as SelectList)
                     </div>
                 </div>
             </div>
@@ -252,7 +253,7 @@
                         @Html.LabelFor(model => model.Enrollees.IdSex)
                     </div>
                     <div class="col-md-2 col-lg-2 col-xl-2">
-                        @Html.DropDownList("model.Enrollees.IdSex", ViewBag.IdSex as SelectList)
+                        @Html.DropDownList("Enrollees.IdSex", ViewBag.IdSex as SelectList)
                     </div>
                 </div>
             </div>
@@ -263,7 +264,7 @@
                         @Html.LabelFor(model => model.Enrollees.IdNationality)
                     </div>
                     <div class="col-md-2 col-lg-2 col-xl-2">
-                        @Html.DropDownList("model.Enrollees.IdNationality", ViewBag.IdNationality as SelectList)
+                        @Html.DropDownList("Enrollees.IdNationality", ViewBag.IdNationality as SelectList)
                     </div>
                 </div>
             </div>
@@ -274,7 +275,7 @@
                         @Html.LabelFor(model => model.Enrollees.IdPreemptiveRight)
                     </div>
                     <div class="col-md-2 col-lg-2 col-xl-2">
-                        @Html.DropDownList("model.Enrollees.IdPreemptiveRight", ViewBag.IdPreemptiveRight as SelectList)
+                        @Html.DropDownList("Enrollees.IdPreemptiveRight", ViewBag.IdPreemptiveRight as SelectList)
                     </div>
                 </div>
             </div>
@@ -285,7 +286,7 @@
                         @Html.LabelFor(model => model.Enrollees.IdReasonForDeduction)
                     </div>
                     <div class="col-md-2 col-lg-2 col-xl-2">
-                        @Html.DropDownList("model.Enrollees.IdReasonForDeduction", ViewBag.IdReasonForDeduction as SelectList)
+                        @Html.DropDownList("Enrollees.IdReasonForDeduction", ViewBag.IdReasonForDeduction as SelectList)
                     </div>
                 </div>
             </div>
@@ -296,7 +297,7 @@
                         @Html.LabelFor(model => model.Enrollees.IdTown)
                     </div>
                     <div class="col-md-2 col-lg-2 col-xl-2">
-                        @Html.DropDownList("model.Enrollees.IdTown", ViewBag.IdTown as SelectList)
+                        @Html.DropDownList("Enrollees.IdTown", ViewBag.IdTown as SelectList)
                     </div>
                 </div>
             </div>
@@ -308,7 +309,7 @@
                         @Html.LabelFor(model => model.Enrollees.IdFactOfProsecution)
                     </div>
                     <div class="col-md-2 col-lg-2 col-xl-2">
-                        @Html.DropDownList("model.Enrollees.IdFactOfProsecution", ViewBag.IdFactOfProsecution as SelectList)
+                        @Html.DropDownList("Enrollees.IdFactOfProsecution", ViewBag.IdFactOfProsecution as SelectList)
                     </div>
                 </div>
             </div>
@@ -325,7 +326,7 @@
                     </div>
 
                     <div class="col-md-2 col-lg-2 col-xl-2">
-                        @Html.DropDownList("model.Enrollees.IdEducationalInstitution", ViewBag.IdEducationalInstitution as SelectList)
+                        @Html.DropDownList("Enrollees.IdEducationalInstitution", ViewBag.IdEducationalInstitution as SelectList)
                     </div>
                 </div>
             </div>
@@ -336,7 +337,7 @@
                         @Html.LabelFor(model => model.Enrollees.IdEducationType)
                     </div>
                     <div class="col-md-2 col-lg-2 col-xl-2">
-                        @Html.DropDownList("model.Enrollees.IdEducationType", ViewBag.IdEducationType as SelectList)
+                        @Html.DropDownList("Enrollees.IdEducationType", ViewBag.IdEducationType as SelectList)
                     </div>
                 </div>
             </div>
@@ -374,7 +375,7 @@
                         @Html.LabelFor(model => model.Enrollees.IdMaritalStatus)
                     </div>
                     <div class="col-md-2 col-lg-2 col-xl-2">
-                        @Html.DropDownList("model.Enrollees.IdMaritalStatus", ViewBag.IdMaritalStatus as SelectList)
+                        @Html.DropDownList("Enrollees.IdMaritalStatus", ViewBag.IdMaritalStatus as SelectList)
                     </div>
                 </div>
             </div>
@@ -391,8 +392,10 @@
                 </div>
             </div>
 
+
             <h3>Члены семьи</h3>
-            <a asp-action="AddFamily" asp-route-id="@Model.Enrollees.IdEnrollee"><input type="submit" value="Добавить члена семьи" class="btn btn-default" /></a>
+            <a asp-action="AddFamily" asp-route-id="@Model.Enrollees.IdEnrollee">Добавить члена семьи</a>
+
             <table class="table">
                 <thead>
                     <tr>
@@ -442,7 +445,7 @@
                         @Html.LabelFor(model => model.Enrollees.IdMilitaryOffice)
                     </div>
                     <div class="col-md-2 col-lg-2 col-xl-2">
-                        @Html.DropDownList("model.Enrollees.IdMilitaryOffice", ViewBag.IdMilitaryOffice as SelectList)
+                        @Html.DropDownList("Enrollees.IdMilitaryOffice", ViewBag.IdMilitaryOffice as SelectList)
                     </div>
                 </div>
             </div>
@@ -453,7 +456,7 @@
                         @Html.LabelFor(model => model.Enrollees.IdMilitaryUnit)
                     </div>
                     <div class="col-md-2 col-lg-2 col-xl-2">
-                        @Html.DropDownList("model.Enrollees.IdMilitaryUnit", ViewBag.IdMilitaryUnit as SelectList)
+                        @Html.DropDownList("Enrollees.IdMilitaryUnit", ViewBag.IdMilitaryUnit as SelectList)
                     </div>
                 </div>
             </div>
@@ -464,7 +467,7 @@
                         @Html.LabelFor(model => model.Enrollees.IdMilitaryRank)
                     </div>
                     <div class="col-md-2 col-lg-2 col-xl-2">
-                        @Html.DropDownList("model.Enrollees.IdMilitaryRank", ViewBag.IdMilitaryRank as SelectList)
+                        @Html.DropDownList("Enrollees.IdMilitaryRank", ViewBag.IdMilitaryRank as SelectList)
                     </div>
                 </div>
             </div>
@@ -475,7 +478,7 @@
                         @Html.LabelFor(model => model.Enrollees.IdCategoryMs)
                     </div>
                     <div class="col-md-2 col-lg-2 col-xl-2">
-                        @Html.DropDownList("model.Enrollees.IdCategoryMs", ViewBag.IdCategoryMs as SelectList)
+                        @Html.DropDownList("Enrollees.IdCategoryMs", ViewBag.IdCategoryMs as SelectList)
                     </div>
                 </div>
             </div>

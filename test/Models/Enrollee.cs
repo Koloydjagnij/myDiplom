@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 namespace test
 {
     public partial class Enrollee
+
     {
         public Enrollee()
         {
@@ -16,7 +17,11 @@ namespace test
         }
 
         public int IdEnrollee { get; set; }
-
+        [Display(Name = "Личное дело")]
+        public virtual string PersonalFile
+        {
+            get { return Surname.Substring(0, 1) + "-" + NumOfPersonalFile; }
+        }
         [Display(Name = "Номер личного дела")]
         public int? NumOfPersonalFile { get; set; }
 
@@ -33,8 +38,9 @@ namespace test
         public string Patronymic { get; set; }
 
         [Required]
-        [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:dd.MM.yyyy}", ApplyFormatInEditMode = true)]
         [Display(Name = "Дата рождения")]
+        [DataType(DataType.Date)]
         public DateTime? DateOfBirth { get; set; }
 
         [Required]
@@ -47,8 +53,9 @@ namespace test
         [Display(Name = "Номер паспорта")]
         public int? PassportNumber { get; set; }
 
-        [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:dd.MM.yyyy}", ApplyFormatInEditMode = true)]
         [Display(Name = "Дата выдачи паспорта")]
+        [DataType(DataType.Date)]
         public DateTime? PassportIssueDate { get; set; }
 
         [Display(Name = "Кем выдан")]
@@ -69,14 +76,17 @@ namespace test
         [Display(Name = "Прочие примечания")]
         public string OtherNotes { get; set; }
 
+        [DisplayFormat(DataFormatString = "{0:dd.MM.yyyy}", ApplyFormatInEditMode = true)]
         [Display(Name = "Дата прибытия")]
+        [DataType(DataType.Date)]
         public DateTime? ArrivalDate { get; set; }
 
         [Display(Name = "Проживание в лагере")]
-        public bool? LiveInCamp { get; set; }
+         public bool? LiveInCamp { get; set; }
 
-        [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:dd.MM.yyyy}", ApplyFormatInEditMode = true)]
         [Display(Name = "Дата отчисления")]
+        [DataType(DataType.Date)]
         public DateTime? DateOfDeduction { get; set; }
 
         [Display(Name = "Дети")]
@@ -96,7 +106,7 @@ namespace test
         [Display(Name = "Национальность")]
         public int IdNationality { get; set; }
 
-        [Display(Name = "Преимущественноеправо")]
+        [Display(Name = "Преимущественное право")]
         public int IdPreemptiveRight { get; set; }
 
         [Display(Name = "Военкомат")]
@@ -120,6 +130,7 @@ namespace test
 
         [DisplayFormat(DataFormatString = "{0:yyyy}", ApplyFormatInEditMode = true)]
         [Display(Name = "Год выпуска")]
+        [DataType(DataType.Date)]
         public DateTime? YearOfEndingEducation { get; set; }
 
         [Display(Name = "Примечания учебное заведение")]

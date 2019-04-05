@@ -3,28 +3,93 @@
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
 
+@addTagHelper "*, test"
+
 @{
     ViewData["Title"] = "Список абитуриентов";
 }
+<div class="row bottom-left">
+    <div class="col-md-4 col-lg-4 col-xl-4">
+        <div class="h2">Список абитуриентов</div>
+    </div>
+    <div class="col-md-4 col-lg-4 col-xl-4">
+        @if (SignInManager.IsSignedIn(User) && (User.IsInRole("Admin") || User.IsInRole("AddAbitur")))
+        {
 
-<h2>Список абитуриентов</h2>
-@if (SignInManager.IsSignedIn(User) && (User.IsInRole("Admin")||User.IsInRole("AddAbitur")))
-{
-    <p>
-        <a asp-action="Create"><input type="submit" value="Создать новую запись" class="btn btn-default" /></a>
-    </p>
-}
+            <a asp-action="Create" class="container"><input type="submit" value="Создать новую запись" class="btn btn-default btn-group-lg" /></a>
+
+        }
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h4 class="panel-title">
+            <form class="form-horizontal" asp-action="Index">
+                <div class="form-inline">
+                    <label class="control-label">ФИО: </label>
+                    @Html.TextBox("name", Model.FilterViewModel.SelectedName, htmlAttributes: new { @class = "form-control" })
+                    <input type="submit" value="Найти" class="btn btn-default" />
+                    <a class="btn btn-default" data-toggle="collapse" href="#collapseOne">
+                        Фильтры
+                    </a>
+                </div>
+            </form>
+
+        </h4>
+    </div>
+    <div id="collapseOne" class="panel-collapse collapse">
+        <div class="panel-body">
+            <!--Форма фильтров-->
+            <form class="form-horizontal" asp-action="Index">
+                <div class="form-inline">
+                    <label class="control-label">Тип образования: </label>
+                    @Html.DropDownList("eduType", Model.FilterViewModel.EduTypes as SelectList,
+                            htmlAttributes: new { @class = "form-control" })
+
+                    <label class="control-label">Семейное положение: </label>
+                    @Html.DropDownList("maritalStatus", Model.FilterViewModel.MaritalStatuses as SelectList,
+                            htmlAttributes: new { @class = "form-control" })
+
+                    <label class="control-label">Преимущественное право: </label>
+                    @Html.DropDownList("maritalStatus", Model.FilterViewModel.PreemptiveRights as SelectList,
+                            htmlAttributes: new { @class = "form-control" })
+
+                    <input type="submit" value="Применить" class="btn btn-default" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+
+
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Enrollees.First().NumOfPersonalFile)
+                @Html.DisplayNameFor(model => model.Enrollees.First().PersonalFile)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Enrollees.First().Surname)
+                <sort-header action="Index" up="@Model.SortViewModel.Up"
+                             current="@Model.SortViewModel.Current" property="@Model.SortViewModel.ProfNumSort">
+                    @Html.DisplayNameFor(model => model.Enrollees.First().NumOfPersonalFile)
+                </sort-header>
+
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Enrollees.First().Name)
+                <sort-header action="Index" up="@Model.SortViewModel.Up"
+                             current="@Model.SortViewModel.Current" property="@Model.SortViewModel.SurnameSort">
+                    @Html.DisplayNameFor(model => model.Enrollees.First().Surname)
+                </sort-header>
+            </th>
+            <th>
+                <sort-header action="Index" up="@Model.SortViewModel.Up"
+                             current="@Model.SortViewModel.Current" property="@Model.SortViewModel.NameSort">
+                    @Html.DisplayNameFor(model => model.Enrollees.First().Name)
+                </sort-header>
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Enrollees.First().Patronymic)
@@ -47,6 +112,9 @@
         @foreach (var item in Model.Enrollees)
         {
             <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PersonalFile)
+                </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.NumOfPersonalFile)
                 </td>
@@ -84,11 +152,22 @@
                     {
                         <a asp-action="Delete" asp-route-id="@item.IdEnrollee">Удалить</a>
                     }
-                    </td>
+                </td>
             </tr>
         }
     </tbody>
 </table>
+
+@if (Model.PageViewModel.HasPreviousPage && Model.PageViewModel.PageNumber != 2)
+{
+    <a asp-action="Index"
+       asp-route-page="1"
+       class="btn btn-default btn">
+        <i class="glyphicon glyphicon-chevron-left"></i>
+        <i class="glyphicon glyphicon-chevron-left"></i>
+        В начало
+    </a>
+}
 @if (Model.PageViewModel.HasPreviousPage)
 {
     <a asp-action="Index"
@@ -98,12 +177,30 @@
         Назад
     </a>
 }
+
+@if (Model.PageViewModel.HasNextPage || Model.PageViewModel.HasPreviousPage)
+{
+    <div class="btn btn-default " style="pointer-events:none;">@Model.PageViewModel.PageNumber</div>
+}
+
 @if (Model.PageViewModel.HasNextPage)
 {
     <a asp-action="Index"
        asp-route-page="@(Model.PageViewModel.PageNumber + 1)"
        class="btn btn-default btn">
         Вперед
+        <i class="glyphicon glyphicon-chevron-right"></i>
+    </a>
+}
+
+
+@if (Model.PageViewModel.HasNextPage)
+{
+    <a asp-action="Index"
+       asp-route-page="@(Model.PageViewModel.TotalPages)"
+       class="btn btn-default btn">
+        В конец (@(Model.PageViewModel.TotalPages))
+        <i class="glyphicon glyphicon-chevron-right"></i>
         <i class="glyphicon glyphicon-chevron-right"></i>
     </a>
 }

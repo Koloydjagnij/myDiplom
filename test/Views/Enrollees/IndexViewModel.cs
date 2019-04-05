@@ -10,5 +10,7 @@ namespace test.Views.Enrollees
     {
         public IEnumerable<Enrollee> Enrollees { get; set; }
         public PageViewModel PageViewModel { get; set; }
+        public FilterViewModel FilterViewModel { get; set; }
+        public SortViewModel SortViewModel { get; set; }
     }
 }

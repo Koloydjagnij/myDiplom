@@ -22,20 +22,79 @@ namespace test.Controllers.EnrolleeControl
         {
             _context = context;
         }
+        //виды сортировки
+        public enum SortState
+        {
+            NameAsc,    // по имени по возрастанию
+            NameDesc,   // по имени по убыванию
+            SurnameAsc, // по фамилии по возрастанию по умолчанию
+            SurnameDesc,    // по фамилии по убыванию
+            GroupAsc, // по группе по возрастанию
+            GroupDesc, // по группе по убыванию
+            ProfNumAsc, //по номеру дела по возрастанию
+            ProfNumDesc// по номеру дела по убыванию
+        }
 
         // GET: Enrollees
-        public async Task<IActionResult> Index(int page = 1)
+        public async Task<IActionResult> Index(int? eduType, int? maritalStatus, int? preemptiveRight, string name, int page = 1, SortState sortOrder = SortState.SurnameDesc)
         {
+            ViewData["NameSort"] = sortOrder == SortState.NameAsc ? SortState.NameDesc : SortState.NameAsc;
+            ViewData["SurnameSort"] = sortOrder == SortState.SurnameAsc ? SortState.SurnameDesc : SortState.SurnameAsc;
+            //ViewData["GroupSort"] = sortOrder == SortState.GroupAsc ? SortState.GroupDesc : SortState.GroupAsc;
+            ViewData["ProfNumSort"] = sortOrder == SortState.ProfNumAsc ? SortState.ProfNumDesc : SortState.ProfNumAsc;
+
             int pageSize = 15;   // количество элементов на странице
 
             IQueryable<Enrollee> source = _context.Enrollee;
+
+            //фильтрация 
+            if (eduType != null && eduType != 0)
+            {
+                source = source.Where(p => p.IdEducationType == eduType);
+            }
+            if (maritalStatus != null && maritalStatus != 0)
+            {
+                source = source.Where(p => p.IdMaritalStatus == maritalStatus);
+            }
+            if (preemptiveRight != null && preemptiveRight != 0)
+            {
+                source = source.Where(p => p.IdPreemptiveRight == preemptiveRight);
+            }
+            if (!String.IsNullOrEmpty(name))
+            {
+                source = source.Where(p => (p.Surname+" "+p.Name+" "+p.Patronymic).ToUpper().Contains(name.ToUpper()));
+            }
+
+            //сортировка
+            switch (sortOrder)
+            {
+                case SortState.NameDesc:
+                    source = source.OrderByDescending(s => s.Name);
+                    break;
+                case SortState.NameAsc:
+                    source = source.OrderBy(s => s.Name);
+                    break;
+                case SortState.SurnameDesc:
+                    source = source.OrderByDescending(s => s.Surname);
+                    break;
+                case SortState.ProfNumAsc:
+                    source = source.OrderBy(s => s.NumOfPersonalFile);
+                    break;
+                case SortState.ProfNumDesc:
+                    source = source.OrderByDescending(s => s.NumOfPersonalFile);
+                    break;
+                default:
+                    source = source.OrderBy(s => s.Surname);
+                    break;
+            }
             var count = await source.CountAsync();
             var items = await source.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
-
             PageViewModel pageViewModel = new PageViewModel(count, page, pageSize);
             IndexViewModel viewModel = new IndexViewModel
             {
                 PageViewModel = pageViewModel,
+                FilterViewModel = new FilterViewModel(_context.EducationType.ToList(), eduType, _context.MaritalStatus.ToList(), maritalStatus, _context.PreemptiveRight.ToList(), maritalStatus, name),
+                SortViewModel = new SortViewModel(sortOrder),
                 Enrollees = items
             };
             return View(viewModel);
@@ -103,21 +162,27 @@ namespace test.Controllers.EnrolleeControl
             ViewData["IdSex"] = new SelectList(_context.Sex, "IdSex", "NameSex");
             ViewData["IdSocialBackground"] = new SelectList(_context.SocialBackground, "IdSocialBackground", "NameSocialBackground");
             ViewData["IdTown"] = new SelectList(_context.City, "IdTown", "NameCity");
-            return View();
+            
+
+            var EnrolleeView = new CreateViewModel();
+            EnrolleeView.Enrollees = new Enrollee();
+           
+            return View(EnrolleeView);
         }
 
         // POST: Enrollees/Create
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdEnrollee,NumOfPersonalFile,Surname,Name,Patronymic,DateOfBirth,PlaceOfBirth,PassportSeries,PassportNumber,PassportIssueDate,PassportIssuedBy,PassportUnitCode,InteernationalPassport,CardPpo,AdmitSsgt,OtherNotes,ArrivalDate,LiveInCamp,DateOfDeduction,Children,IdSocialBackground,IdSex,IdMaritalStatus,IdNationality,IdPreemptiveRight,IdMilitaryOffice,IdReasonForDeduction,IdTown,IdFactOfProsecution,IdEducationalInstitution,IdEducationType,YearOfEndingEducation,NotesEducationalInstitution,PersonalNumberMs,StockPositionMs,IdMilitaryUnit,IdMilitaryRank,IdCategoryMs")] Enrollee enrollee)
+        public async Task<IActionResult> Create(CreateViewModel createViewModel)
+        //public async Task<IActionResult> Create([Bind("IdEnrollee,NumOfPersonalFile,Surname,Name,Patronymic,DateOfBirth,PlaceOfBirth,PassportSeries,PassportNumber,PassportIssueDate,PassportIssuedBy,PassportUnitCode,InteernationalPassport,CardPpo,AdmitSsgt,OtherNotes,ArrivalDate,LiveInCamp,DateOfDeduction,Children,IdSocialBackground,IdSex,IdMaritalStatus,IdNationality,IdPreemptiveRight,IdMilitaryOffice,IdReasonForDeduction,IdTown,IdFactOfProsecution,IdEducationalInstitution,IdEducationType,YearOfEndingEducation,NotesEducationalInstitution,PersonalNumberMs,StockPositionMs,IdMilitaryUnit,IdMilitaryRank,IdCategoryMs")] Enrollee enrollee)
         {
-            if (ModelState.IsValid)
-            {
+            var enrollee = createViewModel.Enrollees;
+            
                 _context.Add(enrollee);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
-            }
+            
             ViewData["IdCategoryMs"] = new SelectList(_context.MilitaryServiceCategory, "IdCategoryMs", "NameCategoryMs", enrollee.IdCategoryMs);
             ViewData["IdEducationType"] = new SelectList(_context.EducationType, "IdEducationType", "NameEducationType", enrollee.IdEducationType);
             ViewData["IdEducationalInstitution"] = new SelectList(_context.EducationalInstitution, "IdEducationalInstitution", "NameEducationalInstitution", enrollee.IdEducationalInstitution);
@@ -132,7 +197,7 @@ namespace test.Controllers.EnrolleeControl
             ViewData["IdSex"] = new SelectList(_context.Sex, "IdSex", "NameSex", enrollee.IdSex);
             ViewData["IdSocialBackground"] = new SelectList(_context.SocialBackground, "IdSocialBackground", "NameSocialBackground", enrollee.IdSocialBackground);
             ViewData["IdTown"] = new SelectList(_context.City, "IdTown", "NameCity", enrollee.IdTown);
-            return View(enrollee);
+            return View(createViewModel);
         }
 
         // GET: Enrollees/Edit/5
@@ -202,15 +267,16 @@ namespace test.Controllers.EnrolleeControl
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdEnrollee,NumOfPersonalFile,Surname,Name,Patronymic,DateOfBirth,PlaceOfBirth,PassportSeries,PassportNumber,PassportIssueDate,PassportIssuedBy,PassportUnitCode,InteernationalPassport,CardPpo,AdmitSsgt,OtherNotes,ArrivalDate,LiveInCamp,DateOfDeduction,Children,IdSocialBackground,IdSex,IdMaritalStatus,IdNationality,IdPreemptiveRight,IdMilitaryOffice,IdReasonForDeduction,IdTown,IdFactOfProsecution,IdEducationalInstitution,IdEducationType,YearOfEndingEducation,NotesEducationalInstitution,PersonalNumberMs,StockPositionMs,IdMilitaryUnit,IdMilitaryRank,IdCategoryMs")] Enrollee enrollee)
+        public async Task<IActionResult> Edit(int id, CreateViewModel createViewModel)
+        //public async Task<IActionResult> Edit(int id, [Bind("IdEnrollee,model.Enrollee.NumOfPersonalFile,Enrollees.Surname,model.Enrollee.Name,model.Enrollee.Patronymic,model.Enrollee.DateOfBirth,model.Enrollee.PlaceOfBirth,model.Enrollee.PassportSeries,model.Enrollee.PassportNumber,model.Enrollee.PassportIssueDate,model.Enrollee.PassportIssuedBy,model.Enrollee.PassportUnitCode,model.Enrollee.InteernationalPassport,model.Enrollee.CardPpo,model.Enrollee.AdmitSsgt,model.Enrollee.OtherNotes,model.Enrollee.ArrivalDate,model.Enrollee.LiveInCamp,model.Enrollee.DateOfDeduction,model.Enrollee.Children,model.Enrollee.IdSocialBackground,model.Enrollee.IdSex,model.Enrollee.IdMaritalStatus,model.Enrollee.IdNationality,model.Enrollee.IdPreemptiveRight,model.Enrollee.IdMilitaryOffice,model.Enrollee.IdReasonForDeduction,model.Enrollee.IdTown,model.Enrollee.IdFactOfProsecution,model.Enrollee.IdEducationalInstitution,model.Enrollee.IdEducationType,model.Enrollee.YearOfEndingEducation,model.Enrollee.NotesEducationalInstitution,model.Enrollee.PersonalNumberMs,model.Enrollee.StockPositionMs,model.Enrollee.IdMilitaryUnit,model.Enrollee.IdMilitaryRank,model.Enrollee.IdCategoryMs")] Enrollee enrollee)
         {
+            var enrollee = createViewModel.Enrollees;
             if (id != enrollee.IdEnrollee)
             {
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
-            {
+            
                 try
                 {
                     _context.Update(enrollee);
@@ -228,7 +294,7 @@ namespace test.Controllers.EnrolleeControl
                     }
                 }
                 return RedirectToAction(nameof(Index));
-            }
+            
             ViewData["IdCategoryMs"] = new SelectList(_context.MilitaryServiceCategory, "IdCategoryMs", "NameCategoryMs", enrollee.IdCategoryMs);
             ViewData["IdEducationType"] = new SelectList(_context.EducationType, "IdEducationType", "NameEducationType", enrollee.IdEducationType);
             ViewData["IdEducationalInstitution"] = new SelectList(_context.EducationalInstitution, "IdEducationalInstitution", "NameEducationalInstitution", enrollee.IdEducationalInstitution);
@@ -243,7 +309,7 @@ namespace test.Controllers.EnrolleeControl
             ViewData["IdSex"] = new SelectList(_context.Sex, "IdSex", "NameSex", enrollee.IdSex);
             ViewData["IdSocialBackground"] = new SelectList(_context.SocialBackground, "IdSocialBackground", "NameSocialBackground", enrollee.IdSocialBackground);
             ViewData["IdTown"] = new SelectList(_context.City, "IdTown", "NameCity", enrollee.IdTown);
-            return View(enrollee);
+            return View(createViewModel);
         }
 
         // GET: Enrollees/Delete/5
@@ -326,6 +392,7 @@ namespace test.Controllers.EnrolleeControl
             var family = new Family { IdEnrollee = id, IdParent=pId, IdFamilyType=1 };
                 await _context.Family.AddAsync(family);
             await _context.SaveChangesAsync();
+            
             return  RedirectToAction(nameof(Edit), new { id = id });// RedirectTon(nameof(Index)); 
         }
     }
