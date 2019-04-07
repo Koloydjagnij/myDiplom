@@ -28,7 +28,7 @@ namespace test.Controllers
         {
             int pageSize = 15;   // количество элементов на странице
 
-            IQueryable<City> source = _context.City.Include(c => c.IdAreaNavigation);
+            IQueryable<City> source = _context.City.Include(c => c.IdAreaNavigation).ThenInclude(m=>m.IdRegionNavigation);
             var count = await source.CountAsync();
             var items = await source.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
 

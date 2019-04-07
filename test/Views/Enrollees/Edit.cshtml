@@ -396,62 +396,94 @@
             <h3>Члены семьи</h3>
             <a asp-action="AddFamily" asp-route-id="@Model.Enrollees.IdEnrollee">Добавить члена семьи</a>
 
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Тип семьи</th>
-                        <th>Тип родства</th>
-                        <th>Имя</th>
-                        <th>Фамилия</th>
-                        <th>Отчество</th>
-                        <th>Пол</th>
-                        <th> Соц статус</th>
-                        <th>Город</th>
-                        <th>Привлечение к ответсвенности</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model.Enrollees.Family)
-                    {
-                    <tr>
-                        <td>
-                            @Html.DropDownList("IdFamilyType", ViewBag.IdFamilyType as SelectList)
-                        </td>
-                        <td>
-                           @Html.DropDownList("item.IdParentType", ViewBag.IdParentType as SelectList)
-                        </td>
-                        <td>
-                            @Html.EditorFor(modelItem => item.IdParentNavigation.Name)
-                        </td>
-                        <td>
-                            @Html.EditorFor(modelItem => item.IdParentNavigation.Surname)
-                        </td>
-                        <td>
-                            @Html.EditorFor(modelItem => item.IdParentNavigation.Patronymic)
-                        </td>
-                        <td>
-                            @Html.DropDownList("item.IdSex", ViewBag.IdSex as SelectList)
-                        </td>
-                        <td>
-                            @Html.DropDownList("item.IdSocialStatus", ViewBag.IdSocialStatus as SelectList)
-                        </td>
-                        <td>
-                            @Html.DropDownList("item.IdTown", ViewBag.IdTown as SelectList)
-                        </td>
-                        <td>
-                            @Html.DropDownList("item.IdFactOfProsecution", ViewBag.IdFactOfProsecution as SelectList)
-                        </td>
-                        <td>
-                            <form asp-action="DeleteFamily">
-                                <input type="hidden" asp-for="@item.IdFamily" name="id" />
-                                <input type="hidden" asp-for="@Model.Enrollees.IdEnrollee" name="redirectId" />
-                                <input type="submit" value="Удалить" class="btn btn-default" />
-                            </form>
-                        </td>
-                    </tr>
-                    }
-                </tbody>
-            </table>
+            @foreach (var item in Model.Enrollees.Family)
+            {
+                <div class="list-group-item">
+                    <div class="row">
+                        <div class="col-md-5 col-lg-5 col-xl-5">
+                            <div class="form-group">
+                                <div class="col-md-2 col-lg-2 col-xl-2 text-right">
+                                    @Html.LabelFor(modelItem => item.IdParentNavigation.Surname)
+                                </div>
+                                <div class="col-md-2 col-lg-2 col-xl-2">
+                                    @Html.EditorFor(modelItem => item.IdParentNavigation.Surname)
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-2 col-lg-2 col-xl-2 text-right">
+                                    @Html.LabelFor(modelItem => item.IdParentNavigation.Name)
+                                </div>
+                                <div class="col-md-2 col-lg-2 col-xl-2">
+                                    @Html.EditorFor(modelItem => item.IdParentNavigation.Name)
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-2 col-lg-2 col-xl-2 text-right">
+                                    @Html.LabelFor(modelItem => item.IdParentNavigation.Patronymic)
+                                </div>
+                                <div class="col-md-2 col-lg-2 col-xl-2">
+                                    @Html.EditorFor(modelItem => item.IdParentNavigation.Patronymic)
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-2 col-lg-2 col-xl-2 text-right">
+                                    @Html.LabelFor(modelItem => item.IdParentNavigation.IdSex)
+                                </div>
+                                <div class="col-md-2 col-lg-2 col-xl-2">
+                                    @Html.DropDownList("item.IdSex", ViewBag.IdSex as SelectList)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-5 col-lg-5 col-xl-5">
+                            <div class="form-group">
+                                <div class="col-md-3 col-lg-3 col-xl-3 text-right">
+                                    @Html.LabelFor(modelItem => item.IdFamilyType)
+                                </div>
+                                <div class="col-md-2 col-lg-2 col-xl-2">
+                                    @Html.DropDownList("IdFamilyType", ViewBag.IdFamilyType as SelectList)
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-3 col-lg-3 col-xl-3 text-right">
+                                    @Html.LabelFor(modelItem => item.IdParentNavigation.IdParentType)
+                                </div>
+                                <div class="col-md-2 col-lg-2 col-xl-2">
+                                    @Html.DropDownList("item.IdParentType", ViewBag.IdParentType as SelectList)
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-3 col-lg-3 col-xl-3 text-right">
+                                    @Html.LabelFor(modelItem => item.IdParentNavigation.IdFactOfProsecution)
+                                </div>
+                                <div class="col-md-2 col-lg-2 col-xl-2">
+                                    @Html.DropDownList("item.IdFactOfProsecution", ViewBag.IdFactOfProsecution as SelectList)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-5 col-lg-5 col-xl-5">
+                            <div class="form-group">
+                                <div class="col-md-3 col-lg-3 col-xl-3 text-right">
+                                    @Html.LabelFor(modelItem => item.IdParentNavigation.IdSocialStatus)
+                                </div>
+                                <div class="col-md-2 col-lg-2 col-xl-2">
+                                    @Html.DropDownList("item.IdSocialStatus", ViewBag.IdSocialStatus as SelectList)
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-2 col-lg-2 col-xl-2 text-right">
+                                    @Html.LabelFor(modelItem => item.IdParentNavigation.IdCity)
+                                </div>
+                                <div class="col-md-2 col-lg-2 col-xl-2">
+                                    @Html.DropDownList("item.IdTown", ViewBag.IdTown as SelectList)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row"><br /></div>
+            }
+
         </div>
         <div id="panel4" class="tab-pane fade">
             <!--Военкомат и военная служба-->

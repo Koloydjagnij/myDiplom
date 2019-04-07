@@ -15,8 +15,39 @@
             @Html.DisplayFor(model => model.NameSpeciality)
         </dd>
     </dl>
+
+
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.IdSpeciality">Изменить</a> |
-    <a asp-action="Index">Назад</a>
-</div>
+<h4>Вступительные испытания</h4>
+<div class="form-group">
+    <div class="col-md-offset-1 col-md-10">
+        <table>
+            <tr>
+                @{
+                    int cnt = 0;
+                    List<test.Views.Specialities.AssignedSubjectData> subjects = ViewBag.Subject;
+
+                    foreach (var sub in subjects)
+                    {
+                        if (cnt++ % 3 == 0)
+                        {
+                        @:</tr><tr>
+                        }
+                        @:<td>
+                            <input disabled type="checkbox"
+                                   name="selectedSubject"
+                                   value="@sub.SubjectId"
+                                   @(Html.Raw(sub.Assigned ? "checked=\"checked\"" : "")) />
+                            @sub.SubjectId @:  @sub.Title
+                        @:</td>
+                    }
+                @:</tr>
+                }
+            </table>
+        </div>
+    </div>
+<div class="row"><br/></div>
+    <div>
+        <a asp-action="Edit" asp-route-id="@Model.IdSpeciality">Изменить</a> |
+        <a asp-action="Index">Назад</a>
+    </div>
