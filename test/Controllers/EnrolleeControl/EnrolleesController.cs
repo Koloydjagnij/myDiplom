@@ -128,13 +128,7 @@ namespace test.Controllers.EnrolleeControl
                 .Include(e => e.Family) //добавляем семью
                 .SingleOrDefaultAsync(m => m.IdEnrollee == id);
 
-            IEnumerable<Family> families = _context.Family
-                .Include(x => x.IdEnrolleeNavigation)
-                .Include(x => x.IdFamilyTypeNavigation)
-                .Include(x => x.IdParentNavigation)
-                    .ThenInclude(x=>x.IdParentTypeNavigation)
-                .Where(x => x.IdEnrollee == enrollee.IdEnrollee).ToList();
-            var EnrolleView = new CreateViewModel();
+         var EnrolleView = new CreateViewModel();
             EnrolleView.Enrollees = enrollee;
             if (enrollee == null)
             {
@@ -162,11 +156,14 @@ namespace test.Controllers.EnrolleeControl
             ViewData["IdSex"] = new SelectList(_context.Sex, "IdSex", "NameSex");
             ViewData["IdSocialBackground"] = new SelectList(_context.SocialBackground, "IdSocialBackground", "NameSocialBackground");
             ViewData["IdTown"] = new SelectList(_context.City, "IdTown", "NameCity");
-            
+            ViewData["IdSocialStatus"] = new SelectList(_context.SocialStatus, "IdSocialStatus", "NameSocialStatus");
+            ViewData["IdFamilyType"] = new SelectList(_context.FamilyType, "IdFamilyType", "NameFamilyType");
+            ViewData["IdParentType"] = new SelectList(_context.ParentType, "IdParentType", "NameParentType");
 
             var EnrolleeView = new CreateViewModel();
             EnrolleeView.Enrollees = new Enrollee();
-           
+            EnrolleeView.Enrollees.Family = new List<Family>();
+
             return View(EnrolleeView);
         }
 
@@ -178,8 +175,7 @@ namespace test.Controllers.EnrolleeControl
         //public async Task<IActionResult> Create([Bind("IdEnrollee,NumOfPersonalFile,Surname,Name,Patronymic,DateOfBirth,PlaceOfBirth,PassportSeries,PassportNumber,PassportIssueDate,PassportIssuedBy,PassportUnitCode,InteernationalPassport,CardPpo,AdmitSsgt,OtherNotes,ArrivalDate,LiveInCamp,DateOfDeduction,Children,IdSocialBackground,IdSex,IdMaritalStatus,IdNationality,IdPreemptiveRight,IdMilitaryOffice,IdReasonForDeduction,IdTown,IdFactOfProsecution,IdEducationalInstitution,IdEducationType,YearOfEndingEducation,NotesEducationalInstitution,PersonalNumberMs,StockPositionMs,IdMilitaryUnit,IdMilitaryRank,IdCategoryMs")] Enrollee enrollee)
         {
             var enrollee = createViewModel.Enrollees;
-            
-                _context.Add(enrollee);
+            _context.Add(enrollee);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             
@@ -197,6 +193,9 @@ namespace test.Controllers.EnrolleeControl
             ViewData["IdSex"] = new SelectList(_context.Sex, "IdSex", "NameSex", enrollee.IdSex);
             ViewData["IdSocialBackground"] = new SelectList(_context.SocialBackground, "IdSocialBackground", "NameSocialBackground", enrollee.IdSocialBackground);
             ViewData["IdTown"] = new SelectList(_context.City, "IdTown", "NameCity", enrollee.IdTown);
+            ViewData["IdSocialStatus"] = new SelectList(_context.SocialStatus, "IdSocialStatus", "NameSocialStatus");
+            ViewData["IdFamilyType"] = new SelectList(_context.FamilyType, "IdFamilyType", "NameFamilyType");
+            ViewData["IdParentType"] = new SelectList(_context.ParentType, "IdParentType", "NameParentType");
             return View(createViewModel);
         }
 
@@ -232,16 +231,10 @@ namespace test.Controllers.EnrolleeControl
             {
                 return NotFound();
             } 
-            IEnumerable<Family> families = _context.Family
-                .Include(x => x.IdEnrolleeNavigation)
-                .Include(x => x.IdFamilyTypeNavigation)
-                .Include(x => x.IdParentNavigation)
-                    .ThenInclude(x => x.IdParentTypeNavigation)
-                .Where(x => x.IdEnrollee == enrollee.IdEnrollee).ToList();
-            
+          
             var EnrolleeView = new CreateViewModel();
             EnrolleeView.Enrollees = enrollee;
-            EnrolleeView.Families = families;
+           
 
             ViewData["IdCategoryMs"] = new SelectList(_context.MilitaryServiceCategory, "IdCategoryMs", "NameCategoryMs", enrollee.IdCategoryMs);
             ViewData["IdEducationType"] = new SelectList(_context.EducationType, "IdEducationType", "NameEducationType", enrollee.IdEducationType);
@@ -257,8 +250,12 @@ namespace test.Controllers.EnrolleeControl
             ViewData["IdSex"] = new SelectList(_context.Sex, "IdSex", "NameSex", EnrolleeView.Enrollees.IdSex);
             ViewData["IdSocialBackground"] = new SelectList(_context.SocialBackground, "IdSocialBackground", "NameSocialBackground", enrollee.IdSocialBackground);
             ViewData["IdTown"] = new SelectList(_context.City, "IdTown", "NameCity", enrollee.IdTown);
+            ViewData["IdSocialStatus"] = new SelectList(_context.SocialStatus, "IdSocialStatus", "NameSocialStatus");
+            ViewData["IdFamilyType"] = new SelectList(_context.FamilyType, "IdFamilyType", "NameFamilyType");
+            ViewData["IdParentType"] = new SelectList(_context.ParentType, "IdParentType", "NameParentType");
 
-            
+
+
 
             return View(EnrolleeView);
         }
@@ -309,6 +306,9 @@ namespace test.Controllers.EnrolleeControl
             ViewData["IdSex"] = new SelectList(_context.Sex, "IdSex", "NameSex", enrollee.IdSex);
             ViewData["IdSocialBackground"] = new SelectList(_context.SocialBackground, "IdSocialBackground", "NameSocialBackground", enrollee.IdSocialBackground);
             ViewData["IdTown"] = new SelectList(_context.City, "IdTown", "NameCity", enrollee.IdTown);
+            ViewData["IdSocialStatus"] = new SelectList(_context.SocialStatus, "IdSocialStatus", "NameSocialStatus");
+            ViewData["IdFamilyType"] = new SelectList(_context.FamilyType, "IdFamilyType", "NameFamilyType");
+            ViewData["IdParentType"] = new SelectList(_context.ParentType, "IdParentType", "NameParentType");
             return View(createViewModel);
         }
 
@@ -370,7 +370,8 @@ namespace test.Controllers.EnrolleeControl
             return Ok();// RedirectToAction(nameof(Index));
         }
 
-        
+        [HttpPost, ActionName("DeleteFmily")]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteFamily(int id, int redirectId)
         {
             var family = await _context.Family.SingleOrDefaultAsync(m => m.IdFamily == id);
@@ -378,6 +379,12 @@ namespace test.Controllers.EnrolleeControl
             {
                 return NotFound();
             }
+            var parent = await _context.Parent.SingleOrDefaultAsync(m => m.IdParent == family.IdParent);
+            if (parent == null)
+            {
+                return NotFound();
+            }
+            _context.Parent.Remove(parent);
             _context.Family.Remove(family);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Edit), new { id = redirectId });

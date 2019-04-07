@@ -180,7 +180,7 @@
 
 @if (Model.PageViewModel.HasNextPage || Model.PageViewModel.HasPreviousPage)
 {
-    <div class="btn btn-default " style="pointer-events:none;">@Model.PageViewModel.PageNumber</div>
+    <div class="btn btn-default " style="pointer-events:none;">@Model.PageViewModel.PageNumber / @(Model.PageViewModel.TotalPages)</div>
 }
 
 @if (Model.PageViewModel.HasNextPage)

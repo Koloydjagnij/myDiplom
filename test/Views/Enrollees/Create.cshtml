@@ -394,6 +394,7 @@
 
 
             <h3>Члены семьи</h3>
+            
             <a asp-action="AddFamily" asp-route-id="@Model.Enrollees.IdEnrollee">Добавить члена семьи</a>
 
             <table class="table">
@@ -404,6 +405,10 @@
                         <th>Имя</th>
                         <th>Фамилия</th>
                         <th>Отчество</th>
+                        <th>Пол</th>
+                        <th> Соц статус</th>
+                        <th>Город</th>
+                        <th>Привлечение к ответсвенности</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -411,10 +416,10 @@
                     {
                         <tr>
                             <td>
-                                @Html.EditorFor(modelItems => item.IdFamilyTypeNavigation.NameFamilyType)
+                                @Html.DropDownList("IdFamilyType", ViewBag.IdFamilyType as SelectList)
                             </td>
                             <td>
-                                @Html.EditorFor(modelItems => item.IdParentNavigation.IdParentTypeNavigation.NameParentType)
+                                @Html.DropDownList("item.IdParentType", ViewBag.IdParentType as SelectList)
                             </td>
                             <td>
                                 @Html.EditorFor(modelItem => item.IdParentNavigation.Name)
@@ -424,6 +429,18 @@
                             </td>
                             <td>
                                 @Html.EditorFor(modelItem => item.IdParentNavigation.Patronymic)
+                            </td>
+                            <td>
+                                @Html.DropDownList("item.IdSex", ViewBag.IdSex as SelectList)
+                            </td>
+                            <td>
+                                @Html.DropDownList("item.IdSocialStatus", ViewBag.IdSocialStatus as SelectList)
+                            </td>
+                            <td>
+                                @Html.DropDownList("item.IdTown", ViewBag.IdTown as SelectList)
+                            </td>
+                            <td>
+                                @Html.DropDownList("item.IdFactOfProsecution", ViewBag.IdFactOfProsecution as SelectList)
                             </td>
                             <td>
                                 <form asp-action="DeleteFamily">

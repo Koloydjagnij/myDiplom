@@ -38,7 +38,6 @@ namespace test
         public string Patronymic { get; set; }
 
         [Required]
-        [DisplayFormat(DataFormatString = "{0:dd.MM.yyyy}", ApplyFormatInEditMode = true)]
         [Display(Name = "Дата рождения")]
         [DataType(DataType.Date)]
         public DateTime? DateOfBirth { get; set; }
