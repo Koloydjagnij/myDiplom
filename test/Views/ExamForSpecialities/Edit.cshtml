@@ -1,0 +1,37 @@
+﻿@model test.ExamForSpeciality
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h2>Специальность: @ViewBag.nameSpec</h2>
+<h4>Экзамены</h4>
+<form asp-action="Edit">
+    @{
+        if (ViewBag.allExams.Length == 0)
+        {
+            <p>Список специальностей пуст</p>
+        }
+        else
+        {
+            foreach (ExamCheck item in ViewBag.allExams)
+            {
+                <p>
+                    @Html.CheckBox("choise", item.check, new { value = item.id })
+                    <label>@item.name</label>
+                </p>
+            }
+            <p>
+                <input type="submit" value="Отправить" />
+            </p>
+        }
+    }
+</form>
+
+<div>
+    <a asp-action="Index">Перейти к списку специальностей</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
