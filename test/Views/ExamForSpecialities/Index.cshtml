@@ -1,0 +1,30 @@
+﻿@model IEnumerable<test.Speciality>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Выбор вступительных экзаменов для специальностей</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.NameSpeciality)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.NameSpeciality)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.IdSpeciality">Редактировать список экзаменов</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
