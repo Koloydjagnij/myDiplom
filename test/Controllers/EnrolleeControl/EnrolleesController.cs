@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace test.Controllers.EnrolleeControl
 {
-    [Authorize(Roles = "Admin,Secretary,ChiefSecretary,ListAbitur")]
+    [Authorize(Roles = "Admin,ListAbitur")]
     public class EnrolleesController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -21,6 +21,16 @@ namespace test.Controllers.EnrolleeControl
         public EnrolleesController(ApplicationDbContext context)
         {
             _context = context;
+        }
+        // получить список районов в выбранном регионе
+        public ActionResult GetItemsAreas(int id)
+        {
+            return PartialView(_context.Area.Where(c => c.IdRegion == id|| c.NameArea=="Не выбрано").ToList());
+        }
+        //получиь список городов в выбранном районе
+        public ActionResult GetItemsCities(int id)
+        {
+            return PartialView(_context.City.Where(c => c.IdArea == id|| c.NameCity=="Не выбрано").ToList());
         }
         //виды сортировки
         public enum SortState
@@ -36,7 +46,8 @@ namespace test.Controllers.EnrolleeControl
         }
 
         // GET: Enrollees
-        public async Task<IActionResult> Index(int? eduType, int? maritalStatus, int? preemptiveRight, string name, int page = 1, SortState sortOrder = SortState.SurnameDesc)
+        [Authorize(Roles = "Admin,ListAbitur")]
+        public async Task<IActionResult> Index(int? eduType, int? maritalStatus, int? preemptiveRight, string name, int page = 1, SortState sortOrder = SortState.SurnameAsc)
         {
             ViewData["NameSort"] = sortOrder == SortState.NameAsc ? SortState.NameDesc : SortState.NameAsc;
             ViewData["SurnameSort"] = sortOrder == SortState.SurnameAsc ? SortState.SurnameDesc : SortState.SurnameAsc;
@@ -93,7 +104,7 @@ namespace test.Controllers.EnrolleeControl
             IndexViewModel viewModel = new IndexViewModel
             {
                 PageViewModel = pageViewModel,
-                FilterViewModel = new FilterViewModel(_context.EducationType.ToList(), eduType, _context.MaritalStatus.ToList(), maritalStatus, _context.PreemptiveRight.ToList(), maritalStatus, name),
+                FilterViewModel = new FilterViewModel(_context.EducationType.ToList(), eduType, _context.MaritalStatus.ToList(), maritalStatus, _context.PreemptiveRight.ToList(), preemptiveRight, name),
                 SortViewModel = new SortViewModel(sortOrder),
                 Enrollees = items
             };
@@ -102,6 +113,7 @@ namespace test.Controllers.EnrolleeControl
         }
 
         // GET: Enrollees/Details/5
+        [Authorize(Roles = "Admin,FullDetailAbitur")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -139,6 +151,7 @@ namespace test.Controllers.EnrolleeControl
         }
 
         // GET: Enrollees/Create
+        [Authorize(Roles = "Admin,AddAbitur")]
         public IActionResult Create()
         {
             ViewData["IdCategoryMs"] = new SelectList(_context.MilitaryServiceCategory, "IdCategoryMs", "NameCategoryMs");
@@ -153,12 +166,13 @@ namespace test.Controllers.EnrolleeControl
             ViewData["IdPreemptiveRight"] = new SelectList(_context.PreemptiveRight, "IdPreemptiveRight", "NamePreemptiveRight");
             ViewData["IdReasonForDeduction"] = new SelectList(_context.ReasonForDeduction, "IdReasonForDeduction", "NameReasonForDeduction");
             ViewData["IdSex"] = new SelectList(_context.Sex, "IdSex", "NameSex");
-            ViewData["IdSex"] = new SelectList(_context.Sex, "IdSex", "NameSex");
             ViewData["IdSocialBackground"] = new SelectList(_context.SocialBackground, "IdSocialBackground", "NameSocialBackground");
-            ViewData["IdTown"] = new SelectList(_context.City, "IdTown", "NameCity");
+            ViewData["IdTown"] = new SelectList(_context.City.Where(c=>c.NameCity=="Не выбрано").OrderBy(c=>c.NameCity), "IdTown", "NameCity");
             ViewData["IdSocialStatus"] = new SelectList(_context.SocialStatus, "IdSocialStatus", "NameSocialStatus");
             ViewData["IdFamilyType"] = new SelectList(_context.FamilyType, "IdFamilyType", "NameFamilyType");
             ViewData["IdParentType"] = new SelectList(_context.ParentType, "IdParentType", "NameParentType");
+            ViewData["IdRegion"] = new SelectList(_context.Region.OrderBy(r=>r.NameRegion), "IdRegion", "NameRegion");
+            ViewData["IdArea"] = new SelectList(_context.Area.Where(a=>a.NameArea=="Не выбрано").OrderBy(a=>a.NameArea), "IdArea", "NameArea");
 
             var EnrolleeView = new CreateViewModel();
             EnrolleeView.Enrollees = new Enrollee();
@@ -171,10 +185,12 @@ namespace test.Controllers.EnrolleeControl
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin,AddAbitur")]
         public async Task<IActionResult> Create(CreateViewModel createViewModel)
         //public async Task<IActionResult> Create([Bind("IdEnrollee,NumOfPersonalFile,Surname,Name,Patronymic,DateOfBirth,PlaceOfBirth,PassportSeries,PassportNumber,PassportIssueDate,PassportIssuedBy,PassportUnitCode,InteernationalPassport,CardPpo,AdmitSsgt,OtherNotes,ArrivalDate,LiveInCamp,DateOfDeduction,Children,IdSocialBackground,IdSex,IdMaritalStatus,IdNationality,IdPreemptiveRight,IdMilitaryOffice,IdReasonForDeduction,IdTown,IdFactOfProsecution,IdEducationalInstitution,IdEducationType,YearOfEndingEducation,NotesEducationalInstitution,PersonalNumberMs,StockPositionMs,IdMilitaryUnit,IdMilitaryRank,IdCategoryMs")] Enrollee enrollee)
         {
             var enrollee = createViewModel.Enrollees;
+            enrollee.CreatedTo = DateTime.Now;
             _context.Add(enrollee);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -192,14 +208,17 @@ namespace test.Controllers.EnrolleeControl
             ViewData["IdReasonForDeduction"] = new SelectList(_context.ReasonForDeduction, "IdReasonForDeduction", "NameReasonForDeduction", enrollee.IdReasonForDeduction);
             ViewData["IdSex"] = new SelectList(_context.Sex, "IdSex", "NameSex", enrollee.IdSex);
             ViewData["IdSocialBackground"] = new SelectList(_context.SocialBackground, "IdSocialBackground", "NameSocialBackground", enrollee.IdSocialBackground);
-            ViewData["IdTown"] = new SelectList(_context.City, "IdTown", "NameCity", enrollee.IdTown);
+            ViewData["IdTown"] = new SelectList(_context.City.Where(c=>c.IdArea==enrollee.IdArea||c.NameCity=="Не выбрано").OrderBy(c=>c.NameCity), "IdTown", "NameCity", enrollee.IdTown);
             ViewData["IdSocialStatus"] = new SelectList(_context.SocialStatus, "IdSocialStatus", "NameSocialStatus");
             ViewData["IdFamilyType"] = new SelectList(_context.FamilyType, "IdFamilyType", "NameFamilyType");
             ViewData["IdParentType"] = new SelectList(_context.ParentType, "IdParentType", "NameParentType");
+            ViewData["IdRegion"] = new SelectList(_context.Region.OrderBy(r=>r.NameRegion), "IdRegion", "NameRegion");
+            ViewData["IdArea"] = new SelectList(_context.Area.Where(a=>a.IdRegion==enrollee.IdRegion|| a.NameArea=="Не выбрано").OrderBy(a=>a.NameArea), "IdArea", "NameArea");
             return View(createViewModel);
         }
 
         // GET: Enrollees/Edit/5
+        [Authorize(Roles = "Admin,EditAbitur")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -224,8 +243,11 @@ namespace test.Controllers.EnrolleeControl
                 .Include(e => e.IdSexNavigation)
                 .Include(e => e.IdSocialBackgroundNavigation)
                 .Include(e => e.IdTownNavigation)
+                    .ThenInclude(m=>m.IdAreaNavigation)
+                        .ThenInclude(r=>r.IdRegionNavigation)
                 .Include(e => e.Family) //добавляем семью
                 .SingleOrDefaultAsync(m => m.IdEnrollee == id);
+            
             
             if (enrollee == null)
             {
@@ -234,7 +256,9 @@ namespace test.Controllers.EnrolleeControl
           
             var EnrolleeView = new CreateViewModel();
             EnrolleeView.Enrollees = enrollee;
-           
+            EnrolleeView.Families = EnrolleeView.Enrollees.Family.ToList();
+
+
 
             ViewData["IdCategoryMs"] = new SelectList(_context.MilitaryServiceCategory, "IdCategoryMs", "NameCategoryMs", enrollee.IdCategoryMs);
             ViewData["IdEducationType"] = new SelectList(_context.EducationType, "IdEducationType", "NameEducationType", enrollee.IdEducationType);
@@ -249,11 +273,12 @@ namespace test.Controllers.EnrolleeControl
             ViewData["IdReasonForDeduction"] = new SelectList(_context.ReasonForDeduction, "IdReasonForDeduction", "NameReasonForDeduction", enrollee.IdReasonForDeduction);
             ViewData["IdSex"] = new SelectList(_context.Sex, "IdSex", "NameSex", EnrolleeView.Enrollees.IdSex);
             ViewData["IdSocialBackground"] = new SelectList(_context.SocialBackground, "IdSocialBackground", "NameSocialBackground", enrollee.IdSocialBackground);
-            ViewData["IdTown"] = new SelectList(_context.City, "IdTown", "NameCity", enrollee.IdTown);
+            ViewData["IdTown"] = new SelectList(_context.City.Where(c=>c.IdArea==enrollee.IdArea||c.NameCity=="Не выбрано").OrderBy(c=>c.NameCity), "IdTown", "NameCity", enrollee.IdTown);
             ViewData["IdSocialStatus"] = new SelectList(_context.SocialStatus, "IdSocialStatus", "NameSocialStatus");
             ViewData["IdFamilyType"] = new SelectList(_context.FamilyType, "IdFamilyType", "NameFamilyType");
             ViewData["IdParentType"] = new SelectList(_context.ParentType, "IdParentType", "NameParentType");
-
+            ViewData["IdRegion"] = new SelectList(_context.Region.OrderBy(r=>r.NameRegion), "IdRegion", "NameRegion");
+            ViewData["IdArea"] = new SelectList(_context.Area.Where(a=>a.IdRegion==enrollee.IdRegion|| a.NameArea=="Не выбрано").OrderBy(a=>a.NameArea), "IdArea", "NameArea");
 
 
 
@@ -264,10 +289,18 @@ namespace test.Controllers.EnrolleeControl
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, CreateViewModel createViewModel)
-        //public async Task<IActionResult> Edit(int id, [Bind("IdEnrollee,model.Enrollee.NumOfPersonalFile,Enrollees.Surname,model.Enrollee.Name,model.Enrollee.Patronymic,model.Enrollee.DateOfBirth,model.Enrollee.PlaceOfBirth,model.Enrollee.PassportSeries,model.Enrollee.PassportNumber,model.Enrollee.PassportIssueDate,model.Enrollee.PassportIssuedBy,model.Enrollee.PassportUnitCode,model.Enrollee.InteernationalPassport,model.Enrollee.CardPpo,model.Enrollee.AdmitSsgt,model.Enrollee.OtherNotes,model.Enrollee.ArrivalDate,model.Enrollee.LiveInCamp,model.Enrollee.DateOfDeduction,model.Enrollee.Children,model.Enrollee.IdSocialBackground,model.Enrollee.IdSex,model.Enrollee.IdMaritalStatus,model.Enrollee.IdNationality,model.Enrollee.IdPreemptiveRight,model.Enrollee.IdMilitaryOffice,model.Enrollee.IdReasonForDeduction,model.Enrollee.IdTown,model.Enrollee.IdFactOfProsecution,model.Enrollee.IdEducationalInstitution,model.Enrollee.IdEducationType,model.Enrollee.YearOfEndingEducation,model.Enrollee.NotesEducationalInstitution,model.Enrollee.PersonalNumberMs,model.Enrollee.StockPositionMs,model.Enrollee.IdMilitaryUnit,model.Enrollee.IdMilitaryRank,model.Enrollee.IdCategoryMs")] Enrollee enrollee)
+        [Authorize(Roles = "Admin,EditAbitur")]
+        public async Task<IActionResult> Edit(int id, [FromForm] CreateViewModel createViewModel )
         {
+
+            var allFields = this.Request.Form.ToList();
+            var allKeys = this.Request.Form.Keys.ToList();
+            var familiesType = allFields.ToArray();
+            var ps = familiesType[31].Value.ToArray();
+            
+
             var enrollee = createViewModel.Enrollees;
+
             if (id != enrollee.IdEnrollee)
             {
                 return NotFound();
@@ -305,14 +338,25 @@ namespace test.Controllers.EnrolleeControl
             ViewData["IdReasonForDeduction"] = new SelectList(_context.ReasonForDeduction, "IdReasonForDeduction", "NameReasonForDeduction", enrollee.IdReasonForDeduction);
             ViewData["IdSex"] = new SelectList(_context.Sex, "IdSex", "NameSex", enrollee.IdSex);
             ViewData["IdSocialBackground"] = new SelectList(_context.SocialBackground, "IdSocialBackground", "NameSocialBackground", enrollee.IdSocialBackground);
-            ViewData["IdTown"] = new SelectList(_context.City, "IdTown", "NameCity", enrollee.IdTown);
+            ViewData["IdTown"] = new SelectList(_context.City.Where(c=>(c.IdArea==enrollee.IdArea||c.NameCity=="Не выбрано")).OrderBy(c=>c.NameCity), "IdTown", "NameCity", enrollee.IdTown);
             ViewData["IdSocialStatus"] = new SelectList(_context.SocialStatus, "IdSocialStatus", "NameSocialStatus");
             ViewData["IdFamilyType"] = new SelectList(_context.FamilyType, "IdFamilyType", "NameFamilyType");
             ViewData["IdParentType"] = new SelectList(_context.ParentType, "IdParentType", "NameParentType");
+            ViewData["IdRegion"] = new SelectList(_context.Region.OrderBy(r=>r.NameRegion), "IdRegion", "NameRegion");
+            ViewData["IdArea"] = new SelectList(_context.Area.Where(a=>a.IdRegion==enrollee.IdRegion||a.NameArea=="Не выбрано").OrderBy(a=>a.NameArea), "IdArea", "NameArea");
             return View(createViewModel);
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ChangeFamily(Family family)
+        {
+            return View(family);
+        }
+
+
         // GET: Enrollees/Delete/5
+        [Authorize(Roles = "Admin,DeleteAbitur")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -335,6 +379,8 @@ namespace test.Controllers.EnrolleeControl
                 .Include(e => e.IdSexNavigation)
                 .Include(e => e.IdSocialBackgroundNavigation)
                 .Include(e => e.IdTownNavigation)
+                    .ThenInclude(m=>m.IdAreaNavigation)
+                        .ThenInclude(r=>r.IdRegionNavigation)
                 .SingleOrDefaultAsync(m => m.IdEnrollee == id);
             if (enrollee == null)
             {
@@ -347,6 +393,7 @@ namespace test.Controllers.EnrolleeControl
         // POST: Enrollees/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin,DeleteAbitur")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var enrollee = await _context.Enrollee.SingleOrDefaultAsync(m => m.IdEnrollee == id);

@@ -15,6 +15,9 @@ namespace test
             Family = new HashSet<Family>();
             SubjectMark = new HashSet<SubjectMark>();
         }
+        [Display(Name = "Запись создана")]
+        [DataType(DataType.DateTime)]
+        public DateTime? CreatedTo { get; set; }
 
         public int IdEnrollee { get; set; }
         [Display(Name = "Личное дело")]
@@ -52,7 +55,6 @@ namespace test
         [Display(Name = "Номер паспорта")]
         public int? PassportNumber { get; set; }
 
-        [DisplayFormat(DataFormatString = "{0:dd.MM.yyyy}", ApplyFormatInEditMode = true)]
         [Display(Name = "Дата выдачи паспорта")]
         [DataType(DataType.Date)]
         public DateTime? PassportIssueDate { get; set; }
@@ -75,7 +77,6 @@ namespace test
         [Display(Name = "Прочие примечания")]
         public string OtherNotes { get; set; }
 
-        [DisplayFormat(DataFormatString = "{0:dd.MM.yyyy}", ApplyFormatInEditMode = true)]
         [Display(Name = "Дата прибытия")]
         [DataType(DataType.Date)]
         public DateTime? ArrivalDate { get; set; }
@@ -83,7 +84,6 @@ namespace test
         [Display(Name = "Проживание в лагере")]
          public bool? LiveInCamp { get; set; }
 
-        [DisplayFormat(DataFormatString = "{0:dd.MM.yyyy}", ApplyFormatInEditMode = true)]
         [Display(Name = "Дата отчисления")]
         [DataType(DataType.Date)]
         public DateTime? DateOfDeduction { get; set; }
@@ -118,6 +118,13 @@ namespace test
         [Display(Name = "Город")]
         public int IdTown { get; set; }
 
+        [Required]
+        [Display(Name = "Регион")]
+        virtual public int IdRegion { get; set; }
+        [Required]
+        [Display(Name = "Район")]
+        public int IdArea{ get;  set; }
+
         [Display(Name = "Факт привлечения к ответсвенности")]
         public int IdFactOfProsecution { get; set; }
 
@@ -127,7 +134,7 @@ namespace test
         [Display(Name = "Тип образования")]
         public int IdEducationType { get; set; }
 
-        [DisplayFormat(DataFormatString = "{0:yyyy}", ApplyFormatInEditMode = true)]
+        
         [Display(Name = "Год выпуска")]
         [DataType(DataType.Date)]
         public DateTime? YearOfEndingEducation { get; set; }

@@ -27,13 +27,19 @@
         <h4 class="panel-title">
             <form class="form-horizontal" asp-action="Index">
                 <div class="form-inline">
-                    <label class="control-label">ФИО: </label>
+                    ФИО: </label>
                     @Html.TextBox("name", Model.FilterViewModel.SelectedName, htmlAttributes: new { @class = "form-control" })
                     <input type="submit" value="Найти" class="btn btn-default" />
                     <a class="btn btn-default" data-toggle="collapse" href="#collapseOne">
                         Фильтры
                     </a>
-                </div>
+                    @if (Model.FilterViewModel.isFiltrated)
+                    {
+                    <label class="control-label">
+                        <img src="~/images/isFilter.png" width="30" height="30"  style="vertical-align:central" kalt="ASP.NET" class="img-responsive" />
+                        </label>
+                        }
+</div>
             </form>
 
         </h4>
@@ -43,6 +49,7 @@
             <!--Форма фильтров-->
             <form class="form-horizontal" asp-action="Index">
                 <div class="form-inline">
+                    
                     <label class="control-label">Тип образования: </label>
                     @Html.DropDownList("eduType", Model.FilterViewModel.EduTypes as SelectList,
                             htmlAttributes: new { @class = "form-control" })
@@ -52,7 +59,7 @@
                             htmlAttributes: new { @class = "form-control" })
 
                     <label class="control-label">Преимущественное право: </label>
-                    @Html.DropDownList("maritalStatus", Model.FilterViewModel.PreemptiveRights as SelectList,
+                    @Html.DropDownList("preemptiveRight", Model.FilterViewModel.PreemptiveRights as SelectList,
                             htmlAttributes: new { @class = "form-control" })
 
                     <input type="submit" value="Применить" class="btn btn-default" />

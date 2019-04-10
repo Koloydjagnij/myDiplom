@@ -1,0 +1,27 @@
+﻿
+@model IEnumerable<test.Area>
+<select id="Enrollees_IdArea" data-val="true" aria-required="true" aria-invalid="false" name="Enrollees.IdArea">
+    <script type="text/javascript">
+    $(function () {
+
+        $('#Enrollees_IdArea').change(function()
+        {
+            // получаем выбранный id
+            var id = $(this).val();
+            $.ajax({
+                type: 'GET',
+                url: '@Url.Action("GetItemsCities")/' + id,
+                success: function (data) {
+
+                    // заменяем содержимое присланным частичным представлением
+                    $('#Enrollees_IdTown').replaceWith(data);
+                }
+            });
+        });
+    })
+    </script>
+    @foreach (var item in Model)
+    {
+        <option value="@item.IdArea">@item.NameArea</option>
+    }
+</select>

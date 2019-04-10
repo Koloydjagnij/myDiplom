@@ -27,6 +27,9 @@ namespace test.Views.Enrollees
             SelectedMaritalStatus = maritalStatus;
             SelectedPreemptiveRight = preemptiveRight;
             SelectedName = name;
+
+            isFiltrated = (SelectedEduType != null && SelectedEduType != 0) || (SelectedMaritalStatus != null && SelectedMaritalStatus != 0) || (SelectedPreemptiveRight != null && SelectedPreemptiveRight != 0) || (!String.IsNullOrEmpty(SelectedName));
+
         }
         public SelectList EduTypes { get; private set; } // список типов образования
         public SelectList MaritalStatuses { get; private set; } // список типов семейного положения
@@ -36,6 +39,9 @@ namespace test.Views.Enrollees
         public int? SelectedMaritalStatus { get; private set; }   // выбранный тип сейменого положения
         public int? SelectedPreemptiveRight { get; private set; }   // выбранное преим право
         public string SelectedName { get; private set; }    // введенное имя
+
+        public bool isFiltrated { get; private set; } //применены ли фильтры 
+    
     }
 }
 

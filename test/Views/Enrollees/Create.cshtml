@@ -13,307 +13,272 @@
         <li><a data-toggle="tab" href="#panel4">Военкомат и военная служба</a></li>
         <li><a data-toggle="tab" href="#panel5">Дополнительно</a></li>
         <li><a data-toggle="tab" href="#panel6">Внутренние экзамены</a></li>
-        <li><a data-toggle="tab" href="#panel6">Документы и файлы</a></li>
+        <li><a data-toggle="tab" href="#panel7">Документы и файлы</a></li>
     </ul>
     <div class="row"><br /></div>
     <div class="tab-content">
         <input type="hidden" asp-for="@Model.Enrollees.IdEnrollee" name="Enrollees.IdEnrollee" />
         <div id="panel1" class="tab-pane fade in active">
-            <!-- Абитуриент -->
-            <div class="row">
-                <div class="form-group">
-                    <div class="col-md-2 col-lg-2 col-xl-2 text-right">
-                        @Html.LabelFor(model => model.Enrollees.NumOfPersonalFile)
+            <div class="container">
+                <!-- Абитуриент -->
+                <div class="row">
+                    <div class="container col-md-5 col-lg5 col-xl-5">
+                        <div class="form-group">
+                            <div class="col-md-5 col-lg-5 col-xl-5 text-right">
+                                @Html.LabelFor(model => model.Enrollees.NumOfPersonalFile)
+                            </div>
+                            <div class="col-md-2 col-lg-2 col-xl-2">
+                                @Html.EditorFor(model => model.Enrollees.NumOfPersonalFile)
+                                @Html.ValidationMessageFor(model => model.Enrollees.NumOfPersonalFile)
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-5 col-lg-5 col-xl-5 text-right">
+                                @Html.LabelFor(model => model.Enrollees.Surname)
+                            </div>
+                            <div class="col-md-2 col-lg-2 col-xl-2">
+                                @Html.EditorFor(model => model.Enrollees.Surname)
+                                @Html.ValidationMessageFor(model => model.Enrollees.Surname)
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-5 col-lg-5 col-xl-5 text-right">
+                                @Html.LabelFor(model => model.Enrollees.Name)
+                            </div>
+                            <div class="col-md-2 col-lg-2 col-xl-2">
+                                @Html.EditorFor(model => model.Enrollees.Name)
+                                @Html.ValidationMessageFor(model => model.Enrollees.Name)
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-5 col-lg-5 col-xl-5 text-right">
+                                @Html.LabelFor(model => model.Enrollees.Patronymic)
+                            </div>
+                            <div class="col-md-2 col-lg-2 col-xl-2">
+                                @Html.EditorFor(model => model.Enrollees.Patronymic)
+                                @Html.ValidationMessageFor(model => model.Enrollees.Patronymic)
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-5 col-lg-5 col-xl-5 text-right">
+                                @Html.LabelFor(model => model.Enrollees.DateOfBirth)
+                            </div>
+                            <div class="col-md-2 col-lg-2 col-xl-2">
+                                @Html.EditorFor(model => model.Enrollees.DateOfBirth)
+                                @Html.ValidationMessageFor(model => model.Enrollees.DateOfBirth)
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-5 col-lg-5 col-xl-5 text-right">
+                                @Html.LabelFor(model => model.Enrollees.IdSex)
+                            </div>
+                            <div class="col-md-2 col-lg-2 col-xl-2">
+                                @Html.DropDownList("Enrollees.IdSex", ViewBag.IdSex as SelectList)
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-5 col-lg-5 col-xl-5 text-right">
+                                @Html.LabelFor(model => model.Enrollees.IdNationality)
+                            </div>
+                            <div class="col-md-2 col-lg-2 col-xl-2">
+                                @Html.DropDownList("Enrollees.IdNationality", ViewBag.IdNationality as SelectList)
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-md-2 col-lg-2 col-xl-2">
-                        @Html.EditorFor(model => model.Enrollees.NumOfPersonalFile)
-                        @Html.ValidationMessageFor(model => model.Enrollees.NumOfPersonalFile)
+                    <!--Отчислние и системная информация-->
+                    <div class="container table-bordered col-md-5 col-lg5 col-xl-5">
+
+                        <div class="form-group">
+                            <div class="col-md-5 col-lg-5 col-xl-5 text-right">
+                                @Html.LabelFor(model => model.Enrollees.DateOfDeduction)
+                            </div>
+                            <div class="col-md-2 col-lg-2 col-xl-2">
+                                @Html.EditorFor(model => model.Enrollees.DateOfDeduction)
+                                @Html.ValidationMessageFor(model => model.Enrollees.DateOfDeduction)
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-5 col-lg-5 col-xl-5 text-right">
+                                @Html.LabelFor(model => model.Enrollees.IdReasonForDeduction)
+                            </div>
+                            <div class="col-md-2 col-lg-2 col-xl-2">
+                                @Html.DropDownList("Enrollees.IdReasonForDeduction", ViewBag.IdReasonForDeduction as SelectList)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <h3>Паспорт</h3>
+            <div class="container table-bordered">
+                <br />
+                <!-- паспорт-->
+                <div class="row">
+                    <div class="col-md-6 col-lg-6 col-xl-6 ">
+                        <div class="form-group">
+                            <div class="col-md-4 col-lg-4 col-xl-4 text-right">
+                                @Html.LabelFor(model => model.Enrollees.PassportSeries)
+                            </div>
+                            <div class="col-md-2 col-lg-2 col-xl-2">
+                                @Html.EditorFor(model => model.Enrollees.PassportSeries)
+                                @Html.ValidationMessageFor(model => model.Enrollees.PassportSeries)
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-6 col-xl-6">
+                        <div class="form-group">
+                            <div class="col-md-4 col-lg-4 col-xl-4 text-right">
+                                @Html.LabelFor(model => model.Enrollees.PassportNumber)
+                            </div>
+                            <div class="col-md-2 col-lg-2 col-xl-2">
+                                @Html.EditorFor(model => model.Enrollees.PassportNumber)
+                                @Html.ValidationMessageFor(model => model.Enrollees.PassportNumber)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col-md-6 col-lg-6 col-xl-6">
+                        <div class="form-group">
+                            <div class="col-md-4 col-lg-4 col-xl-4 text-right">
+                                @Html.LabelFor(model => model.Enrollees.PassportUnitCode)
+                            </div>
+                            <div class="col-md-2 col-lg-2 col-xl-2">
+                                @Html.EditorFor(model => model.Enrollees.PassportUnitCode)
+                                @Html.ValidationMessageFor(model => model.Enrollees.PassportUnitCode)
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-6 col-xl-6">
+                        <div class="form-group">
+                            <div class="col-md-4 col-lg-4 col-xl-4 text-right">
+                                @Html.LabelFor(model => model.Enrollees.PassportIssueDate)
+                            </div>
+                            <div class="col-md-2 col-lg-2 col-xl-2">
+                                @Html.EditorFor(model => model.Enrollees.PassportIssueDate)
+                                @Html.ValidationMessageFor(model => model.Enrollees.PassportIssueDate)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12 col-lg-12 col-xl-12">
+                        <div class="form-group">
+                            <div class="col-md-2 col-lg-2 col-xl-2 text-right">
+                                @Html.LabelFor(model => model.Enrollees.PassportIssuedBy)
+                            </div>
+                            <div class="col-md-8 col-lg-8 col-xl-8">
+                                @Html.TextAreaFor(model => model.Enrollees.PassportIssuedBy, new { rows = "1", cols = "113" })
+                                @Html.ValidationMessageFor(model => model.Enrollees.PassportIssuedBy)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 col-lg-12 col-xl-12">
+                        <div class="form-group">
+                            <div class="col-md-2 col-lg-2 col-xl-2 text-right">
+                                @Html.LabelFor(model => model.Enrollees.PlaceOfBirth)
+                            </div>
+                            <div class="col-md-8 col-lg-8 col-xl-8">
+                                @Html.TextAreaFor(model => model.Enrollees.PlaceOfBirth, new { rows = "1", cols = "113" })
+                                @Html.ValidationMessageFor(model => model.Enrollees.PlaceOfBirth)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-md-2 col-lg-2 col-xl-2 text-right">
+                            @Html.LabelFor(model => model.Enrollees.InteernationalPassport)
+                        </div>
+                        <div class="col-md-2 col-lg-2 col-xl-2">
+                            @Html.CheckBox("Enrollees.InteernationalPassport", Model.Enrollees.InteernationalPassport)
+                            @Html.ValidationMessageFor(model => model.Enrollees.InteernationalPassport)
+                        </div>
+                    </div>
+                </div>
+                <!--паспорт закончился-->
+            </div>
+            <br />
+            <div class="container table-bordered">
+                <!--адрес проживания-->
+                <br />
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-md-2 col-lg-2 col-xl-2 text-right">
+                            @Html.LabelFor(model => model.Enrollees.IdRegion)
+                        </div>
+                        <div class="col-md-2 col-lg-2 col-xl-2">
+                            @Html.DropDownList("Enrollees.IdRegion", ViewBag.IdRegion as SelectList," ")
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-md-2 col-lg-2 col-xl-2 text-right">
+                            @Html.LabelFor(model => model.Enrollees.IdArea)
+                        </div>
+                        <div class="col-md-2 col-lg-2 col-xl-2">
+                            @Html.DropDownList("Enrollees.IdArea", ViewBag.IdArea as SelectList)
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-md-2 col-lg-2 col-xl-2 text-right">
+                            @Html.LabelFor(model => model.Enrollees.IdTown)
+                        </div>
+                        <div class="col-md-2 col-lg-2 col-xl-2">
+                            @Html.DropDownList("Enrollees.IdTown", ViewBag.IdTown as SelectList)
+                        </div>
                     </div>
                 </div>
             </div>
-
-            <div class="row">
-                <div class="form-group">
-                    <div class="col-md-2 col-lg-2 col-xl-2 text-right">
-                        @Html.LabelFor(model => model.Enrollees.Surname)
+            <br />
+            <div class="container table-bordered">
+                <!--мвд и тд-->
+                <br />
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-md-2 col-lg-2 col-xl-2 text-right">
+                            @Html.LabelFor(model => model.Enrollees.CardPpo)
+                        </div>
+                        <div class="col-md-2 col-lg-2 col-xl-2">
+                            @Html.EditorFor(model => model.Enrollees.CardPpo)
+                            @Html.ValidationMessageFor(model => model.Enrollees.CardPpo)
+                        </div>
                     </div>
-                    <div class="col-md-2 col-lg-2 col-xl-2">
-                        @Html.EditorFor(model => model.Enrollees.Surname)
-                        @Html.ValidationMessageFor(model => model.Enrollees.Surname)
+                </div>
+
+
+
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-md-2 col-lg-2 col-xl-2 text-right">
+                            @Html.LabelFor(model => model.Enrollees.AdmitSsgt)
+                        </div>
+                        <div class="col-md-2 col-lg-2 col-xl-2">
+                            @Html.EditorFor(model => model.Enrollees.AdmitSsgt)
+                            @Html.ValidationMessageFor(model => model.Enrollees.AdmitSsgt)
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-md-2 col-lg-2 col-xl-2 text-right">
+                            @Html.LabelFor(model => model.Enrollees.IdFactOfProsecution)
+                        </div>
+                        <div class="col-md-2 col-lg-2 col-xl-2">
+                            @Html.DropDownList("Enrollees.IdFactOfProsecution", ViewBag.IdFactOfProsecution as SelectList)
+                        </div>
                     </div>
                 </div>
             </div>
-
-            <div class="row">
-                <div class="form-group">
-                    <div class="col-md-2 col-lg-2 col-xl-2 text-right">
-                        @Html.LabelFor(model => model.Enrollees.Name)
-                    </div>
-                    <div class="col-md-2 col-lg-2 col-xl-2">
-                        @Html.EditorFor(model => model.Enrollees.Name)
-                        @Html.ValidationMessageFor(model => model.Enrollees.Name)
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="form-group">
-                    <div class="col-md-2 col-lg-2 col-xl-2 text-right">
-                        @Html.LabelFor(model => model.Enrollees.Patronymic)
-                    </div>
-                    <div class="col-md-2 col-lg-2 col-xl-2">
-                        @Html.EditorFor(model => model.Enrollees.Patronymic)
-                        @Html.ValidationMessageFor(model => model.Enrollees.Patronymic)
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="form-group">
-                    <div class="col-md-2 col-lg-2 col-xl-2 text-right">
-                        @Html.LabelFor(model => model.Enrollees.DateOfBirth)
-                    </div>
-                    <div class="col-md-2 col-lg-2 col-xl-2">
-                        @Html.EditorFor(model => model.Enrollees.DateOfBirth, new { placeholder = "дд-мм-гггг" })
-                        @Html.ValidationMessageFor(model => model.Enrollees.DateOfBirth)
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="form-group">
-                    <div class="col-md-2 col-lg-2 col-xl-2 text-right">
-                        @Html.LabelFor(model => model.Enrollees.PlaceOfBirth)
-                    </div>
-                    <div class="col-md-2 col-lg-2 col-xl-2">
-                        @Html.EditorFor(model => model.Enrollees.PlaceOfBirth)
-                        @Html.ValidationMessageFor(model => model.Enrollees.PlaceOfBirth)
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="form-group">
-                    <div class="col-md-2 col-lg-2 col-xl-2 text-right">
-                        @Html.LabelFor(model => model.Enrollees.PassportSeries)
-                    </div>
-                    <div class="col-md-2 col-lg-2 col-xl-2">
-                        @Html.EditorFor(model => model.Enrollees.PassportSeries)
-                        @Html.ValidationMessageFor(model => model.Enrollees.PassportSeries)
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="form-group">
-                    <div class="col-md-2 col-lg-2 col-xl-2 text-right">
-                        @Html.LabelFor(model => model.Enrollees.PassportNumber)
-                    </div>
-                    <div class="col-md-2 col-lg-2 col-xl-2">
-                        @Html.EditorFor(model => model.Enrollees.PassportNumber)
-                        @Html.ValidationMessageFor(model => model.Enrollees.PassportNumber)
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="form-group">
-                    <div class="col-md-2 col-lg-2 col-xl-2 text-right">
-                        @Html.LabelFor(model => model.Enrollees.PassportIssueDate)
-                    </div>
-                    <div class="col-md-2 col-lg-2 col-xl-2">
-                        @Html.EditorFor(model => model.Enrollees.PassportIssueDate, new { placeholder = "дд-мм-гггг" })
-                        @Html.ValidationMessageFor(model => model.Enrollees.PassportIssueDate)
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="form-group">
-                    <div class="col-md-2 col-lg-2 col-xl-2 text-right">
-                        @Html.LabelFor(model => model.Enrollees.PassportIssuedBy)
-                    </div>
-                    <div class="col-md-2 col-lg-2 col-xl-2">
-                        @Html.EditorFor(model => model.Enrollees.PassportIssuedBy)
-                        @Html.ValidationMessageFor(model => model.Enrollees.PassportIssuedBy)
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="form-group">
-                    <div class="col-md-2 col-lg-2 col-xl-2 text-right">
-                        @Html.LabelFor(model => model.Enrollees.PassportUnitCode)
-                    </div>
-                    <div class="col-md-2 col-lg-2 col-xl-2">
-                        @Html.EditorFor(model => model.Enrollees.PassportUnitCode)
-                        @Html.ValidationMessageFor(model => model.Enrollees.PassportUnitCode)
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="form-group">
-                    <div class="col-md-2 col-lg-2 col-xl-2 text-right">
-                        @Html.LabelFor(model => model.Enrollees.InteernationalPassport)
-                    </div>
-                    <div class="col-md-2 col-lg-2 col-xl-2">
-                        @Html.EditorFor(model => model.Enrollees.InteernationalPassport)
-                        @Html.ValidationMessageFor(model => model.Enrollees.InteernationalPassport)
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="form-group">
-                    <div class="col-md-2 col-lg-2 col-xl-2 text-right">
-                        @Html.LabelFor(model => model.Enrollees.CardPpo)
-                    </div>
-                    <div class="col-md-2 col-lg-2 col-xl-2">
-                        @Html.EditorFor(model => model.Enrollees.CardPpo)
-                        @Html.ValidationMessageFor(model => model.Enrollees.CardPpo)
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="form-group">
-                    <div class="col-md-2 col-lg-2 col-xl-2 text-right">
-                        @Html.LabelFor(model => model.Enrollees.AdmitSsgt)
-                    </div>
-                    <div class="col-md-2 col-lg-2 col-xl-2">
-                        @Html.EditorFor(model => model.Enrollees.AdmitSsgt)
-                        @Html.ValidationMessageFor(model => model.Enrollees.AdmitSsgt)
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="form-group">
-                    <div class="col-md-2 col-lg-2 col-xl-2 text-right">
-                        @Html.LabelFor(model => model.Enrollees.OtherNotes)
-                    </div>
-                    <div class="col-md-2 col-lg-2 col-xl-2">
-                        @Html.TextAreaFor(model => model.Enrollees.OtherNotes)
-                        @Html.ValidationMessageFor(model => model.Enrollees.OtherNotes)
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="form-group">
-                    <div class="col-md-2 col-lg-2 col-xl-2 text-right">
-                        @Html.LabelFor(model => model.Enrollees.ArrivalDate)
-                    </div>
-                    <div class="col-md-2 col-lg-2 col-xl-2">
-                        @Html.EditorFor(model => model.Enrollees.ArrivalDate, new { placeholder = "дд-мм-гггг" })
-                        @Html.ValidationMessageFor(model => model.Enrollees.ArrivalDate)
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="form-group">
-                    <div class="col-md-2 col-lg-2 col-xl-2 text-right">
-                        @Html.LabelFor(model => model.Enrollees.LiveInCamp)
-                    </div>
-                    <div class="col-md-2 col-lg-2 col-xl-2">
-                        @Html.EditorFor(model => model.Enrollees.LiveInCamp)
-                        @Html.ValidationMessageFor(model => model.Enrollees.LiveInCamp)
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="form-group">
-                    <div class="col-md-2 col-lg-2 col-xl-2 text-right">
-                        @Html.LabelFor(model => model.Enrollees.DateOfDeduction)
-                    </div>
-                    <div class="col-md-2 col-lg-2 col-xl-2">
-                        @Html.EditorFor(model => model.Enrollees.DateOfDeduction, new { placeholder = "дд-мм-гггг" })
-                        @Html.ValidationMessageFor(model => model.Enrollees.DateOfDeduction)
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="form-group">
-                    <div class="col-md-2 col-lg-2 col-xl-2 text-right">
-                        @Html.LabelFor(model => model.Enrollees.IdSocialBackground)
-                    </div>
-                    <div class="col-md-2 col-lg-2 col-xl-2">
-                        @Html.DropDownList("Enrollees.IdSocialBackground", ViewBag.IdSocialBackground as SelectList)
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="form-group">
-                    <div class="col-md-2 col-lg-2 col-xl-2 text-right">
-                        @Html.LabelFor(model => model.Enrollees.IdSex)
-                    </div>
-                    <div class="col-md-2 col-lg-2 col-xl-2">
-                        @Html.DropDownList("Enrollees.IdSex", ViewBag.IdSex as SelectList)
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="form-group">
-                    <div class="col-md-2 col-lg-2 col-xl-2 text-right">
-                        @Html.LabelFor(model => model.Enrollees.IdNationality)
-                    </div>
-                    <div class="col-md-2 col-lg-2 col-xl-2">
-                        @Html.DropDownList("Enrollees.IdNationality", ViewBag.IdNationality as SelectList)
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="form-group">
-                    <div class="col-md-2 col-lg-2 col-xl-2 text-right">
-                        @Html.LabelFor(model => model.Enrollees.IdPreemptiveRight)
-                    </div>
-                    <div class="col-md-2 col-lg-2 col-xl-2">
-                        @Html.DropDownList("Enrollees.IdPreemptiveRight", ViewBag.IdPreemptiveRight as SelectList)
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="form-group">
-                    <div class="col-md-2 col-lg-2 col-xl-2 text-right">
-                        @Html.LabelFor(model => model.Enrollees.IdReasonForDeduction)
-                    </div>
-                    <div class="col-md-2 col-lg-2 col-xl-2">
-                        @Html.DropDownList("Enrollees.IdReasonForDeduction", ViewBag.IdReasonForDeduction as SelectList)
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="form-group">
-                    <div class="col-md-2 col-lg-2 col-xl-2 text-right">
-                        @Html.LabelFor(model => model.Enrollees.IdTown)
-                    </div>
-                    <div class="col-md-2 col-lg-2 col-xl-2">
-                        @Html.DropDownList("Enrollees.IdTown", ViewBag.IdTown as SelectList)
-                    </div>
-                </div>
-            </div>
-
-
-            <div class="row">
-                <div class="form-group">
-                    <div class="col-md-2 col-lg-2 col-xl-2 text-right">
-                        @Html.LabelFor(model => model.Enrollees.IdFactOfProsecution)
-                    </div>
-                    <div class="col-md-2 col-lg-2 col-xl-2">
-                        @Html.DropDownList("Enrollees.IdFactOfProsecution", ViewBag.IdFactOfProsecution as SelectList)
-                    </div>
-                </div>
-            </div>
-
 
 
         </div>
@@ -360,7 +325,7 @@
                         @Html.LabelFor(model => model.Enrollees.NotesEducationalInstitution)
                     </div>
                     <div class="col-md-2 col-lg-2 col-xl-2">
-                        @Html.TextAreaFor(model => model.Enrollees.NotesEducationalInstitution)
+                        @Html.TextAreaFor(model => model.Enrollees.NotesEducationalInstitution, new { rows = "5", cols = "70" })
                         @Html.ValidationMessageFor(model => model.Enrollees.NotesEducationalInstitution)
                     </div>
                 </div>
@@ -371,7 +336,17 @@
             <!--Семья -->
             <div class="row">
                 <div class="form-group">
-                    <div class="col-md-2 col-lg-2 col-xl-2 text-right">
+                    <div class="col-md-3 col-lg-3 col-xl-3 text-right">
+                        @Html.LabelFor(model => model.Enrollees.IdPreemptiveRight)
+                    </div>
+                    <div class="col-md-2 col-lg-2 col-xl-2">
+                        @Html.DropDownList("Enrollees.IdPreemptiveRight", ViewBag.IdPreemptiveRight as SelectList)
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group">
+                    <div class="col-md-3 col-lg-3 col-xl-3 text-right">
                         @Html.LabelFor(model => model.Enrollees.IdMaritalStatus)
                     </div>
                     <div class="col-md-2 col-lg-2 col-xl-2">
@@ -379,10 +354,19 @@
                     </div>
                 </div>
             </div>
-
             <div class="row">
                 <div class="form-group">
-                    <div class="col-md-2 col-lg-2 col-xl-2 text-right">
+                    <div class="col-md-3 col-lg-3 col-xl-3 text-right">
+                        @Html.LabelFor(model => model.Enrollees.IdSocialBackground)
+                    </div>
+                    <div class="col-md-2 col-lg-2 col-xl-2">
+                        @Html.DropDownList("Enrollees.IdSocialBackground", ViewBag.IdSocialBackground as SelectList)
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group">
+                    <div class="col-md-3 col-lg-3 col-xl-3 text-right">
                         @Html.LabelFor(model => model.Enrollees.Children)
                     </div>
                     <div class="col-md-2 col-lg-2 col-xl-2">
@@ -394,65 +378,96 @@
 
 
             <h3>Члены семьи</h3>
-            
             <a asp-action="AddFamily" asp-route-id="@Model.Enrollees.IdEnrollee">Добавить члена семьи</a>
 
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Тип семьи</th>
-                        <th>Тип родства</th>
-                        <th>Имя</th>
-                        <th>Фамилия</th>
-                        <th>Отчество</th>
-                        <th>Пол</th>
-                        <th> Соц статус</th>
-                        <th>Город</th>
-                        <th>Привлечение к ответсвенности</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model.Enrollees.Family)
-                    {
-                        <tr>
-                            <td>
-                                @Html.DropDownList("IdFamilyType", ViewBag.IdFamilyType as SelectList)
-                            </td>
-                            <td>
-                                @Html.DropDownList("item.IdParentType", ViewBag.IdParentType as SelectList)
-                            </td>
-                            <td>
-                                @Html.EditorFor(modelItem => item.IdParentNavigation.Name)
-                            </td>
-                            <td>
-                                @Html.EditorFor(modelItem => item.IdParentNavigation.Surname)
-                            </td>
-                            <td>
-                                @Html.EditorFor(modelItem => item.IdParentNavigation.Patronymic)
-                            </td>
-                            <td>
-                                @Html.DropDownList("item.IdSex", ViewBag.IdSex as SelectList)
-                            </td>
-                            <td>
-                                @Html.DropDownList("item.IdSocialStatus", ViewBag.IdSocialStatus as SelectList)
-                            </td>
-                            <td>
-                                @Html.DropDownList("item.IdTown", ViewBag.IdTown as SelectList)
-                            </td>
-                            <td>
-                                @Html.DropDownList("item.IdFactOfProsecution", ViewBag.IdFactOfProsecution as SelectList)
-                            </td>
-                            <td>
-                                <form asp-action="DeleteFamily">
-                                    <input type="hidden" asp-for="@item.IdFamily" name="id" />
-                                    <input type="hidden" asp-for="@Model.Enrollees.IdEnrollee" name="redirectId" />
-                                    <input type="submit" value="Удалить" class="btn btn-default" />
-                                </form>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
+            @foreach (var item in Model.Enrollees.Family)
+            {
+                <div class="list-group-item">
+                    <div class="row">
+                        <div class="col-md-5 col-lg-5 col-xl-5">
+                            <div class="form-group">
+                                <div class="col-md-2 col-lg-2 col-xl-2 text-right">
+                                    @Html.LabelFor(modelItem => item.IdParentNavigation.Surname)
+                                </div>
+                                <div class="col-md-2 col-lg-2 col-xl-2">
+                                    @Html.EditorFor(modelItem => item.IdParentNavigation.Surname)
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-2 col-lg-2 col-xl-2 text-right">
+                                    @Html.LabelFor(modelItem => item.IdParentNavigation.Name)
+                                </div>
+                                <div class="col-md-2 col-lg-2 col-xl-2">
+                                    @Html.EditorFor(modelItem => item.IdParentNavigation.Name)
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-2 col-lg-2 col-xl-2 text-right">
+                                    @Html.LabelFor(modelItem => item.IdParentNavigation.Patronymic)
+                                </div>
+                                <div class="col-md-2 col-lg-2 col-xl-2">
+                                    @Html.EditorFor(modelItem => item.IdParentNavigation.Patronymic)
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-2 col-lg-2 col-xl-2 text-right">
+                                    @Html.LabelFor(modelItem => item.IdParentNavigation.IdSex)
+                                </div>
+                                <div class="col-md-2 col-lg-2 col-xl-2">
+                                    @Html.DropDownList("item.IdSex", ViewBag.IdSex as SelectList)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-5 col-lg-5 col-xl-5">
+                            <div class="form-group">
+                                <div class="col-md-3 col-lg-3 col-xl-3 text-right">
+                                    @Html.LabelFor(modelItem => item.IdFamilyType)
+                                </div>
+                                <div class="col-md-2 col-lg-2 col-xl-2">
+                                    @Html.DropDownList("IdFamilyType", ViewBag.IdFamilyType as SelectList)
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-3 col-lg-3 col-xl-3 text-right">
+                                    @Html.LabelFor(modelItem => item.IdParentNavigation.IdParentType)
+                                </div>
+                                <div class="col-md-2 col-lg-2 col-xl-2">
+                                    @Html.DropDownList("item.IdParentType", ViewBag.IdParentType as SelectList)
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-3 col-lg-3 col-xl-3 text-right">
+                                    @Html.LabelFor(modelItem => item.IdParentNavigation.IdFactOfProsecution)
+                                </div>
+                                <div class="col-md-2 col-lg-2 col-xl-2">
+                                    @Html.DropDownList("item.IdFactOfProsecution", ViewBag.IdFactOfProsecution as SelectList)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-5 col-lg-5 col-xl-5">
+                            <div class="form-group">
+                                <div class="col-md-3 col-lg-3 col-xl-3 text-right">
+                                    @Html.LabelFor(modelItem => item.IdParentNavigation.IdSocialStatus)
+                                </div>
+                                <div class="col-md-2 col-lg-2 col-xl-2">
+                                    @Html.DropDownList("item.IdSocialStatus", ViewBag.IdSocialStatus as SelectList)
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-2 col-lg-2 col-xl-2 text-right">
+                                    @Html.LabelFor(modelItem => item.IdParentNavigation.IdCity)
+                                </div>
+                                <div class="col-md-2 col-lg-2 col-xl-2">
+                                    @Html.DropDownList("item.IdTown", ViewBag.IdTown as SelectList)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row"><br /></div>
+            }
+
         </div>
         <div id="panel4" class="tab-pane fade">
             <!--Военкомат и военная служба-->
@@ -525,15 +540,50 @@
         </div>
         <div id="panel5" class="tab-pane fade">
             <!--Дополнительно-->
+            <div class="row">
+                <div class="form-group">
+                    <div class="col-md-2 col-lg-2 col-xl-2 text-right">
+                        @Html.LabelFor(model => model.Enrollees.OtherNotes)
+                    </div>
+                    <div class="col-md-2 col-lg-2 col-xl-2">
+                        @Html.TextAreaFor(model => model.Enrollees.OtherNotes, new { rows = "5", cols = "70" })
+                        @Html.ValidationMessageFor(model => model.Enrollees.OtherNotes)
+                    </div>
+                </div>
+            </div>
         </div>
         <div id="panel6" class="tab-pane fade">
             <!--Внутренние экзамены-->
         </div>
         <div id="panel7" class="tab-pane fade">
             <!--Документы и файлы-->
+            <div class="row">
+                <div class="form-group">
+                    <div class="col-md-2 col-lg-2 col-xl-2 text-right">
+                        @Html.LabelFor(model => model.Enrollees.ArrivalDate)
+                    </div>
+                    <div class="col-md-2 col-lg-2 col-xl-2">
+                        @Html.EditorFor(model => model.Enrollees.ArrivalDate)
+                        @Html.ValidationMessageFor(model => model.Enrollees.ArrivalDate)
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group">
+                    <div class="col-md-2 col-lg-2 col-xl-2 text-right">
+                        @Html.LabelFor(model => model.Enrollees.LiveInCamp)
+                    </div>
+                    <div class="col-md-2 col-lg-2 col-xl-2">
+                        @Html.CheckBox("Enrollees.LiveInCamp", Model.Enrollees.LiveInCamp)
+                        @Html.ValidationMessageFor(model => model.Enrollees.LiveInCamp)
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
-
+    <br />
     <div class="form-group">
         <input type="submit" value="Сохранить" class="btn btn-default" />
     </div>
@@ -543,4 +593,42 @@
 </div>
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script type="text/javascript">
+    $(function () {
+
+        $('#Enrollees_IdArea').change(function()
+        {
+            // получаем выбранный id
+            var id = $(this).val();
+            $.ajax({
+                type: 'GET',
+                url: '@Url.Action("GetItemsCities")/' + id,
+                success: function (data) {
+
+                    // заменяем содержимое присланным частичным представлением
+                    $('#Enrollees_IdTown').replaceWith(data);
+                }
+            });
+        });
+    })
+    </script>
+    <script type="text/javascript">
+    $(function () {
+
+        $('#Enrollees_IdRegion').change(function()
+        {
+            // получаем выбранный id
+            var id = $(this).val();
+            $.ajax({
+                type: 'GET',
+                url: '@Url.Action("GetItemsAreas")/' + id,
+                success: function (data) {
+
+                    // заменяем содержимое присланным частичным представлением
+                    $('#Enrollees_IdArea').replaceWith(data);
+                }
+            });
+        });
+    })
+    </script>
 }

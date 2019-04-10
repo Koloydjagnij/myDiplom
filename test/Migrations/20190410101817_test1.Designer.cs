@@ -11,7 +11,7 @@ using test.Data;
 namespace test.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20190403140147_test1")]
+    [Migration("20190410101817_test1")]
     partial class test1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -325,6 +325,8 @@ namespace test.Migrations
                         .HasColumnName("date_of_deduction")
                         .HasColumnType("date");
 
+                    b.Property<int>("IdArea");
+
                     b.Property<int>("IdCategoryMs")
                         .HasColumnName("id_category_ms");
 
@@ -357,6 +359,8 @@ namespace test.Migrations
 
                     b.Property<int>("IdReasonForDeduction")
                         .HasColumnName("id_reason_for_deduction");
+
+                    b.Property<int>("IdRegion");
 
                     b.Property<int>("IdSex")
                         .HasColumnName("id_sex");

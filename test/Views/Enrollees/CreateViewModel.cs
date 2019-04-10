@@ -8,6 +8,6 @@ namespace test.Views.Enrollees
     public class CreateViewModel
     {
         public Enrollee Enrollees { get; set; }
-        public IEnumerable<Family> Families { get; set; }
+        public IList<Family> Families { get; set; }
     }
 }
