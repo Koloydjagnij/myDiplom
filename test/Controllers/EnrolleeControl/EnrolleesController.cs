@@ -245,7 +245,24 @@ namespace test.Controllers.EnrolleeControl
                 .Include(e => e.IdTownNavigation)
                     .ThenInclude(m=>m.IdAreaNavigation)
                         .ThenInclude(r=>r.IdRegionNavigation)
-                .Include(e => e.Family) //добавляем семью
+                .Include(f => f.Family)
+                    .ThenInclude(p=>p.IdFamilyTypeNavigation)
+                .Include(f => f.Family)
+                    .ThenInclude(f=>f.IdParentNavigation)
+                    .ThenInclude(f=>f.IdCityNavigation)
+                .Include(f => f.Family)
+                    .ThenInclude(f => f.IdParentNavigation)
+                    .ThenInclude(f => f.IdFactOfProsecutionNavigation)
+                .Include(f => f.Family)
+                    .ThenInclude(f => f.IdParentNavigation)
+                    .ThenInclude(f => f.IdSexNavigation)
+                .Include(f => f.Family)
+                    .ThenInclude(f => f.IdParentNavigation)
+                    .ThenInclude(f => f.IdSocialStatusNavigation)
+                .Include(f => f.Family)
+                    .ThenInclude(f => f.IdParentNavigation)
+                    .ThenInclude(f => f.IdParentTypeNavigation)
+                //добавляем семью
                 .SingleOrDefaultAsync(m => m.IdEnrollee == id);
             
             
@@ -257,7 +274,14 @@ namespace test.Controllers.EnrolleeControl
             var EnrolleeView = new CreateViewModel();
             EnrolleeView.Enrollees = enrollee;
             EnrolleeView.Families = EnrolleeView.Enrollees.Family.ToList();
-
+            EnrolleeView.SexList = _context.Sex;
+            EnrolleeView.SocialStatusList = _context.SocialStatus;
+            EnrolleeView.FamilyTypeList = _context.FamilyType;
+            EnrolleeView.ParentTypeList = _context.ParentType;
+            EnrolleeView.RegionList = _context.Region;
+            EnrolleeView.AreaList = _context.Area;
+            EnrolleeView.CityList = _context.City;
+            EnrolleeView.FactOfProsecutionList = _context.FactOfProsecution;
 
 
             ViewData["IdCategoryMs"] = new SelectList(_context.MilitaryServiceCategory, "IdCategoryMs", "NameCategoryMs", enrollee.IdCategoryMs);
@@ -271,7 +295,7 @@ namespace test.Controllers.EnrolleeControl
             ViewData["IdNationality"] = new SelectList(_context.Nationality, "IdNationality", "NameNationality", enrollee.IdNationality);
             ViewData["IdPreemptiveRight"] = new SelectList(_context.PreemptiveRight, "IdPreemptiveRight", "NamePreemptiveRight", enrollee.IdPreemptiveRight);
             ViewData["IdReasonForDeduction"] = new SelectList(_context.ReasonForDeduction, "IdReasonForDeduction", "NameReasonForDeduction", enrollee.IdReasonForDeduction);
-            ViewData["IdSex"] = new SelectList(_context.Sex, "IdSex", "NameSex", EnrolleeView.Enrollees.IdSex);
+            ViewData["IdSex"] = new SelectList(_context.Sex, "IdSex", "NameSex");
             ViewData["IdSocialBackground"] = new SelectList(_context.SocialBackground, "IdSocialBackground", "NameSocialBackground", enrollee.IdSocialBackground);
             ViewData["IdTown"] = new SelectList(_context.City.Where(c=>c.IdArea==enrollee.IdArea||c.NameCity=="Не выбрано").OrderBy(c=>c.NameCity), "IdTown", "NameCity", enrollee.IdTown);
             ViewData["IdSocialStatus"] = new SelectList(_context.SocialStatus, "IdSocialStatus", "NameSocialStatus");
@@ -293,13 +317,51 @@ namespace test.Controllers.EnrolleeControl
         public async Task<IActionResult> Edit(int id, [FromForm] CreateViewModel createViewModel )
         {
 
-            var allFields = this.Request.Form.ToList();
-            var allKeys = this.Request.Form.Keys.ToList();
-            var familiesType = allFields.ToArray();
-            var ps = familiesType[31].Value.ToArray();
+            
+            //все значения с формы
+            var allFamilyFields =this.Request.Form.ToArray();
+            //список ключей
+            var allKeys = this.Request.Form.Keys.ToArray();
+
+            // получаем ключи на данные
+            var ParentSurnameKey = Array.IndexOf(allKeys, "family.IdParentNavigation.Surname");
+            var ParentNameKey = Array.IndexOf(allKeys, "family.IdParentNavigation.Name");
+            var ParentPatronymicKey = Array.IndexOf(allKeys, "family.IdParentNavigation.Patronymic");
+            var ParentIdSexKey = Array.IndexOf(allKeys, "family.IdParentNavigation.IdSex");
+            var ParentIdFactOfProsecutionKey = Array.IndexOf(allKeys, "family.IdParentNavigation.IdFactOfProsecution");
+            var IdParentKey = Array.IndexOf(allKeys, "family.IdParent");
+            var IdParentTypeKey = Array.IndexOf(allKeys, "family.IdParentNavigation.IdParentType");
+            var IdFamilyTypeKey = Array.IndexOf(allKeys, "family.IdFamilyType");
+            var ParentIdSocialStatusKey = Array.IndexOf(allKeys, "family.IdParentNavigation.IdSocialStatus");
+            var ParentIdCityKey = Array.IndexOf(allKeys, "family.IdParentNavigation.IdCity");
+            var FamilyIdKey = Array.IndexOf(allKeys, "family.IdFamily");
+
+
+            // массивы данных для связанных сущностей
+            var ParentSurnameArr = allFamilyFields[ParentSurnameKey].Value.ToArray();
+            var ParentNameArr = allFamilyFields[ParentNameKey].Value.ToArray();
+            var ParentPatronymicArr = allFamilyFields[ParentPatronymicKey].Value.ToArray();
+            var ParentIdSexArr = allFamilyFields[ParentIdSexKey].Value.ToArray();
+            var ParentIdFactOfProsecutionArr = allFamilyFields[ParentIdFactOfProsecutionKey].Value.ToArray();
+            var IdParentArr = allFamilyFields[IdParentKey].Value.ToArray();
+            var IdParentTypeArr = allFamilyFields[IdParentTypeKey].Value.ToArray();
+            var IdFamilyTypeArr = allFamilyFields[IdFamilyTypeKey].Value.ToArray();
+            var ParentIdSocialStatusArr = allFamilyFields[ParentIdSocialStatusKey].Value.ToArray();
+            var ParentIdCityArr = allFamilyFields[ParentIdCityKey].Value.ToArray();
+            var FamilyIdArr = allFamilyFields[FamilyIdKey].Value.ToArray();
+
+            List < Family > FamiliesForm = new List<Family>();
+            List<Parent> ParentsForm = new List<Parent>();
+            for(int i=0; i < FamilyIdArr.Length; i++)
+            {
+                ParentsForm.Add(new Parent { IdParent = Int32.Parse(IdParentArr[i]), Surname=ParentSurnameArr[i], Name=ParentNameArr[i], Patronymic = ParentPatronymicArr[i], IdCity= Int32.Parse(ParentIdCityArr[i]), IdSex= Int32.Parse(ParentIdSexArr[i]), IdFactOfProsecution= Int32.Parse(ParentIdFactOfProsecutionArr[i]), IdSocialStatus= Int32.Parse(ParentIdSocialStatusArr[i]), IdParentType= Int32.Parse(IdParentTypeArr[i]) });
+                FamiliesForm.Add(new Family { IdFamily = Int32.Parse(FamilyIdArr[i]), IdEnrollee = id, IdParent = Int32.Parse(IdParentArr[i]), IdFamilyType= Int32.Parse(IdFamilyTypeArr[i]), IdParentNavigation= new Parent { IdParent = Int32.Parse(IdParentArr[i]), Surname = ParentSurnameArr[i], Name = ParentNameArr[i], Patronymic = ParentPatronymicArr[i], IdCity = Int32.Parse(ParentIdCityArr[i]), IdSex = Int32.Parse(ParentIdSexArr[i]), IdFactOfProsecution = Int32.Parse(ParentIdFactOfProsecutionArr[i]), IdSocialStatus = Int32.Parse(ParentIdSocialStatusArr[i]), IdParentType = Int32.Parse(IdParentTypeArr[i]) } });
+            }
             
 
             var enrollee = createViewModel.Enrollees;
+            enrollee.Family = FamiliesForm;
+
 
             if (id != enrollee.IdEnrollee)
             {
@@ -309,6 +371,16 @@ namespace test.Controllers.EnrolleeControl
             
                 try
                 {
+                foreach (var par in ParentsForm)
+                {
+                    _context.Update(par);
+
+                }
+                foreach (var fam in FamiliesForm)
+                {
+                    _context.Update(fam);
+                }
+                   
                     _context.Update(enrollee);
                     await _context.SaveChangesAsync();
                 }
@@ -438,7 +510,7 @@ namespace test.Controllers.EnrolleeControl
         }
 
         
-        public async Task<IActionResult> AddFamily(int id)
+        public async Task<IActionResult> AddFamily(int id, CreateViewModel model)
         {
             var parent = new Parent { IdParentType = 1, IdCity = 1, IdSex = 1, IdSocialStatus = 1, IdFactOfProsecution=1 };
             await _context.Parent.AddAsync(parent);
@@ -446,8 +518,9 @@ namespace test.Controllers.EnrolleeControl
             var family = new Family { IdEnrollee = id, IdParent=pId, IdFamilyType=1 };
                 await _context.Family.AddAsync(family);
             await _context.SaveChangesAsync();
-            
-            return  RedirectToAction(nameof(Edit), new { id = id });// RedirectTon(nameof(Index)); 
+
+            return RedirectToAction(nameof(Edit), new { id = id });// RedirectTon(nameof(Index)); 
         }
+
     }
 }

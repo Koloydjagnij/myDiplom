@@ -387,8 +387,9 @@
             <h3>Члены семьи</h3>
             <a asp-action="AddFamily" asp-route-id="@Model.Enrollees.IdEnrollee">Добавить члена семьи</a>
 
+
             <div id="ArrayFamilys">
-                
+
                 @foreach (var family in Model.Enrollees.Family)
                 {
 
@@ -396,12 +397,13 @@
                         <div class="row">
                             <div class="col-md-5 col-lg-5 col-xl-5">
                                 <div class="form-group">
-                                    @Html.HiddenFor(modelItem=> family.IdFamily)
+                                    @Html.HiddenFor(modelItem => family.IdFamily)
+                                    @Html.HiddenFor(modelItem => family.IdParent)
                                     <div class="col-md-2 col-lg-2 col-xl-2 text-right">
                                         @Html.LabelFor(modelItem => family.IdParentNavigation.Surname)
                                     </div>
                                     <div class="col-md-2 col-lg-2 col-xl-2">
-                                        @Html.EditorFor(modelItem => family.IdParentNavigation.Surname)
+                                        @Html.EditorFor(modelItem => family.IdParentNavigation.Surname, new { @id = "family_IdParentNavigation_Surname_" + family.IdFamily })
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -425,7 +427,7 @@
                                         @Html.LabelFor(modelItem => family.IdParentNavigation.IdSex)
                                     </div>
                                     <div class="col-md-2 col-lg-2 col-xl-2">
-                                        @Html.DropDownList("item.IdSex", ViewBag.IdSex as SelectList)
+                                        @Html.DropDownList("family.IdParentNavigation.IdSex", new SelectList(Model.SexList, "IdSex", "NameSex", family.IdParentNavigation.IdSex))
                                     </div>
                                 </div>
                             </div>
@@ -435,7 +437,7 @@
                                         @Html.LabelFor(modelItem => family.IdFamilyType)
                                     </div>
                                     <div class="col-md-2 col-lg-2 col-xl-2">
-                                        @Html.DropDownList("IdFamilyType", ViewBag.IdFamilyType as SelectList)
+                                        @Html.DropDownList("family.IdFamilyType", new SelectList(Model.FamilyTypeList, "IdFamilyType", "NameFamilyType", family.IdFamilyType))
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -443,7 +445,7 @@
                                         @Html.LabelFor(modelItem => family.IdParentNavigation.IdParentType)
                                     </div>
                                     <div class="col-md-2 col-lg-2 col-xl-2">
-                                        @Html.DropDownList("item.IdParentType", ViewBag.IdParentType as SelectList)
+                                        @Html.DropDownList("family.IdParentNavigation.IdParentType", new SelectList(Model.ParentTypeList, "IdParentType", "NameParentType", family.IdParentNavigation.IdParentType))
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -451,7 +453,7 @@
                                         @Html.LabelFor(modelItem => family.IdParentNavigation.IdFactOfProsecution)
                                     </div>
                                     <div class="col-md-2 col-lg-2 col-xl-2">
-                                        @Html.DropDownList("item.IdFactOfProsecution", ViewBag.IdFactOfProsecution as SelectList)
+                                        @Html.DropDownList("family.IdParentNavigation.IdFactOfProsecution", new SelectList(Model.FactOfProsecutionList, "IdFactOfProsecution", "NameFactOfProsecution", family.IdParentNavigation.IdFactOfProsecution))
                                     </div>
                                 </div>
                             </div>
@@ -461,7 +463,7 @@
                                         @Html.LabelFor(modelItem => family.IdParentNavigation.IdSocialStatus)
                                     </div>
                                     <div class="col-md-2 col-lg-2 col-xl-2">
-                                        @Html.DropDownList("item.IdSocialStatus", ViewBag.IdSocialStatus as SelectList)
+                                        @Html.DropDownList("family.IdParentNavigation.IdSocialStatus", new SelectList(Model.SocialStatusList, "IdSocialStatus", "NameSocialStatus", family.IdParentNavigation.IdSocialStatus))
                                     </div>
                                 </div>
 
@@ -470,7 +472,7 @@
                                         @Html.LabelFor(modelItem => family.IdParentNavigation.IdCity)
                                     </div>
                                     <div class="col-md-2 col-lg-2 col-xl-2">
-                                        @Html.DropDownList("item.IdTown", ViewBag.IdTown as SelectList)
+                                        @Html.DropDownList("family.IdParentNavigation.IdCity", new SelectList(Model.CityList, "IdTown", "NameCity", family.IdParentNavigation.IdCity))
                                     </div>
                                 </div>
                             </div>
@@ -481,6 +483,7 @@
 
                 }
             </div>
+
         </div>
         <div id="panel4" class="tab-pane fade">
             <!--Военкомат и военная служба-->
