@@ -47,7 +47,7 @@ namespace test.Controllers.EnrolleeControl
 
         // GET: Enrollees
         [Authorize(Roles = "Admin,ListAbitur")]
-        public async Task<IActionResult> Index(int? eduType, int? maritalStatus, int? preemptiveRight, string name, int page = 1, SortState sortOrder = SortState.SurnameAsc)
+        public async Task<IActionResult> Index(int[] eduType, int? maritalStatus, int? preemptiveRight, string name, int page = 1, SortState sortOrder = SortState.SurnameAsc)
         {
             ViewData["NameSort"] = sortOrder == SortState.NameAsc ? SortState.NameDesc : SortState.NameAsc;
             ViewData["SurnameSort"] = sortOrder == SortState.SurnameAsc ? SortState.SurnameDesc : SortState.SurnameAsc;
@@ -59,9 +59,9 @@ namespace test.Controllers.EnrolleeControl
             IQueryable<Enrollee> source = _context.Enrollee;
 
             //фильтрация 
-            if (eduType != null && eduType != 0)
+            if ((eduType.Length != 0 && (eduType.Length == 1 && eduType[0] != 0)) || (eduType.Length > 1))
             {
-                source = source.Where(p => p.IdEducationType == eduType);
+                source = source.Where(p => Array.IndexOf(eduType, p.IdEducationType)>=0);
             }
             if (maritalStatus != null && maritalStatus != 0)
             {
@@ -317,7 +317,10 @@ namespace test.Controllers.EnrolleeControl
         public async Task<IActionResult> Edit(int id, [FromForm] CreateViewModel createViewModel )
         {
 
-            
+            var enrollee = createViewModel.Enrollees;
+            List<Family> FamiliesForm = new List<Family>();
+            List<Parent> ParentsForm = new List<Parent>();
+
             //все значения с формы
             var allFamilyFields =this.Request.Form.ToArray();
             //список ключей
@@ -336,31 +339,33 @@ namespace test.Controllers.EnrolleeControl
             var ParentIdCityKey = Array.IndexOf(allKeys, "family.IdParentNavigation.IdCity");
             var FamilyIdKey = Array.IndexOf(allKeys, "family.IdFamily");
 
-
-            // массивы данных для связанных сущностей
-            var ParentSurnameArr = allFamilyFields[ParentSurnameKey].Value.ToArray();
-            var ParentNameArr = allFamilyFields[ParentNameKey].Value.ToArray();
-            var ParentPatronymicArr = allFamilyFields[ParentPatronymicKey].Value.ToArray();
-            var ParentIdSexArr = allFamilyFields[ParentIdSexKey].Value.ToArray();
-            var ParentIdFactOfProsecutionArr = allFamilyFields[ParentIdFactOfProsecutionKey].Value.ToArray();
-            var IdParentArr = allFamilyFields[IdParentKey].Value.ToArray();
-            var IdParentTypeArr = allFamilyFields[IdParentTypeKey].Value.ToArray();
-            var IdFamilyTypeArr = allFamilyFields[IdFamilyTypeKey].Value.ToArray();
-            var ParentIdSocialStatusArr = allFamilyFields[ParentIdSocialStatusKey].Value.ToArray();
-            var ParentIdCityArr = allFamilyFields[ParentIdCityKey].Value.ToArray();
-            var FamilyIdArr = allFamilyFields[FamilyIdKey].Value.ToArray();
-
-            List < Family > FamiliesForm = new List<Family>();
-            List<Parent> ParentsForm = new List<Parent>();
-            for(int i=0; i < FamilyIdArr.Length; i++)
+            if (ParentSurnameKey >= 0 || ParentNameKey >= 0 || ParentPatronymicKey >= 0 || ParentIdSexKey >= 0 || ParentIdFactOfProsecutionKey >= 0
+                || IdParentKey >= 0 || IdParentTypeKey >= 0 || IdFamilyTypeKey >= 0 || ParentIdSocialStatusKey >= 0 || ParentIdCityKey >= 0
+                || FamilyIdKey >= 0)
             {
-                ParentsForm.Add(new Parent { IdParent = Int32.Parse(IdParentArr[i]), Surname=ParentSurnameArr[i], Name=ParentNameArr[i], Patronymic = ParentPatronymicArr[i], IdCity= Int32.Parse(ParentIdCityArr[i]), IdSex= Int32.Parse(ParentIdSexArr[i]), IdFactOfProsecution= Int32.Parse(ParentIdFactOfProsecutionArr[i]), IdSocialStatus= Int32.Parse(ParentIdSocialStatusArr[i]), IdParentType= Int32.Parse(IdParentTypeArr[i]) });
-                FamiliesForm.Add(new Family { IdFamily = Int32.Parse(FamilyIdArr[i]), IdEnrollee = id, IdParent = Int32.Parse(IdParentArr[i]), IdFamilyType= Int32.Parse(IdFamilyTypeArr[i]), IdParentNavigation= new Parent { IdParent = Int32.Parse(IdParentArr[i]), Surname = ParentSurnameArr[i], Name = ParentNameArr[i], Patronymic = ParentPatronymicArr[i], IdCity = Int32.Parse(ParentIdCityArr[i]), IdSex = Int32.Parse(ParentIdSexArr[i]), IdFactOfProsecution = Int32.Parse(ParentIdFactOfProsecutionArr[i]), IdSocialStatus = Int32.Parse(ParentIdSocialStatusArr[i]), IdParentType = Int32.Parse(IdParentTypeArr[i]) } });
+                // массивы данных для связанных сущностей
+                var ParentSurnameArr = allFamilyFields[ParentSurnameKey].Value.ToArray();
+                var ParentNameArr = allFamilyFields[ParentNameKey].Value.ToArray();
+                var ParentPatronymicArr = allFamilyFields[ParentPatronymicKey].Value.ToArray();
+                var ParentIdSexArr = allFamilyFields[ParentIdSexKey].Value.ToArray();
+                var ParentIdFactOfProsecutionArr = allFamilyFields[ParentIdFactOfProsecutionKey].Value.ToArray();
+                var IdParentArr = allFamilyFields[IdParentKey].Value.ToArray();
+                var IdParentTypeArr = allFamilyFields[IdParentTypeKey].Value.ToArray();
+                var IdFamilyTypeArr = allFamilyFields[IdFamilyTypeKey].Value.ToArray();
+                var ParentIdSocialStatusArr = allFamilyFields[ParentIdSocialStatusKey].Value.ToArray();
+                var ParentIdCityArr = allFamilyFields[ParentIdCityKey].Value.ToArray();
+                var FamilyIdArr = allFamilyFields[FamilyIdKey].Value.ToArray();
+
+                
+                for (int i = 0; i < FamilyIdArr.Length; i++)
+                {
+                    ParentsForm.Add(new Parent { IdParent = Int32.Parse(IdParentArr[i]), Surname = ParentSurnameArr[i], Name = ParentNameArr[i], Patronymic = ParentPatronymicArr[i], IdCity = Int32.Parse(ParentIdCityArr[i]), IdSex = Int32.Parse(ParentIdSexArr[i]), IdFactOfProsecution = Int32.Parse(ParentIdFactOfProsecutionArr[i]), IdSocialStatus = Int32.Parse(ParentIdSocialStatusArr[i]), IdParentType = Int32.Parse(IdParentTypeArr[i]) });
+                    FamiliesForm.Add(new Family { IdFamily = Int32.Parse(FamilyIdArr[i]), IdEnrollee = id, IdParent = Int32.Parse(IdParentArr[i]), IdFamilyType = Int32.Parse(IdFamilyTypeArr[i]), IdParentNavigation = new Parent { IdParent = Int32.Parse(IdParentArr[i]), Surname = ParentSurnameArr[i], Name = ParentNameArr[i], Patronymic = ParentPatronymicArr[i], IdCity = Int32.Parse(ParentIdCityArr[i]), IdSex = Int32.Parse(ParentIdSexArr[i]), IdFactOfProsecution = Int32.Parse(ParentIdFactOfProsecutionArr[i]), IdSocialStatus = Int32.Parse(ParentIdSocialStatusArr[i]), IdParentType = Int32.Parse(IdParentTypeArr[i]) } });
+                }
+                enrollee.Family = FamiliesForm;
             }
             
-
-            var enrollee = createViewModel.Enrollees;
-            enrollee.Family = FamiliesForm;
+            
 
 
             if (id != enrollee.IdEnrollee)
@@ -369,7 +374,7 @@ namespace test.Controllers.EnrolleeControl
             }
 
             
-                try
+            try
                 {
                 foreach (var par in ParentsForm)
                 {

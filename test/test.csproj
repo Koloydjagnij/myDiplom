@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
     <UserSecretsId>aspnet-test-3A6BCFA5-7C56-472F-8D75-EDD25150277C</UserSecretsId>
+    <TypeScriptToolsVersion>2.8</TypeScriptToolsVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -36,6 +37,7 @@
   <ItemGroup>
     <Folder Include="Data\Migrations\" />
     <Folder Include="Models\ArmyVIewModel\" />
+    <Folder Include="wwwroot\lib\jQuery-Multiple-Select-Plugin-For-Bootstrap-Bootstrap-Multiselect\types\" />
   </ItemGroup>
 
 </Project>

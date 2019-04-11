@@ -8,17 +8,17 @@ namespace test.Views.Enrollees
 {
     public class FilterViewModel
     {
-        public FilterViewModel(List<EducationType> educationTypes, int? eduType, List<MaritalStatus> maritalStatuses, int? maritalStatus, 
+        public FilterViewModel(List<EducationType> educationTypes, int[] eduType, List<MaritalStatus> maritalStatuses, int? maritalStatus, 
             List<PreemptiveRight> preemptiveRights, int? preemptiveRight, string name)
         {
             // устанавливаем начальный элемент, который позволит выбрать всех
-            educationTypes.Insert(0, new EducationType { NameEducationType = "Все", IdEducationType = 0 });
+            //educationTypes.Insert(0, new EducationType { NameEducationType = "Все", IdEducationType = 0 });
             maritalStatuses.Insert(0, new MaritalStatus { NameMaritalStatus = "Все", IdMaritalStatus = 0 });
             preemptiveRights.Insert(0, new PreemptiveRight { NamePreemptiveRight = "Все", IdPreemptiveRight = 0 });
 
 
             //
-            EduTypes = new SelectList(educationTypes, "IdEducationType", "NameEducationType", eduType);
+            EduTypes = new MultiSelectList(educationTypes, "IdEducationType", "NameEducationType", eduType);
             MaritalStatuses = new SelectList(maritalStatuses, "IdMaritalStatus", "NameMaritalStatus", maritalStatus);
             PreemptiveRights = new SelectList(preemptiveRights, "IdPreemptiveRight", "NamePreemptiveRight", preemptiveRight);
 
@@ -28,14 +28,14 @@ namespace test.Views.Enrollees
             SelectedPreemptiveRight = preemptiveRight;
             SelectedName = name;
 
-            isFiltrated = (SelectedEduType != null && SelectedEduType != 0) || (SelectedMaritalStatus != null && SelectedMaritalStatus != 0) || (SelectedPreemptiveRight != null && SelectedPreemptiveRight != 0) || (!String.IsNullOrEmpty(SelectedName));
+            isFiltrated = (SelectedEduType.Length != 0 && (SelectedEduType.Length == 1 && SelectedEduType[0] != 0))|| (SelectedEduType.Length >1 ) || (SelectedMaritalStatus != null && SelectedMaritalStatus != 0) || (SelectedPreemptiveRight != null && SelectedPreemptiveRight != 0) || (!String.IsNullOrEmpty(SelectedName));
 
         }
-        public SelectList EduTypes { get; private set; } // список типов образования
+        public MultiSelectList EduTypes { get; private set; } // список типов образования
         public SelectList MaritalStatuses { get; private set; } // список типов семейного положения
         public SelectList PreemptiveRights { get; private set; } //список преимущественных прав
 
-        public int? SelectedEduType { get; private set; }   // выбранный тип образования
+        public int[] SelectedEduType { get; private set; }   // выбранный тип образования
         public int? SelectedMaritalStatus { get; private set; }   // выбранный тип сейменого положения
         public int? SelectedPreemptiveRight { get; private set; }   // выбранное преим право
         public string SelectedName { get; private set; }    // введенное имя
