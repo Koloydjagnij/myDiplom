@@ -12,6 +12,7 @@ namespace test
         }
 
         public int IdReasonForDeduction { get; set; }
+        [Required(ErrorMessage ="Не указана причина отчисления")]
         [Display(Name = "Причина отчисления")]
         public string NameReasonForDeduction { get; set; }
 

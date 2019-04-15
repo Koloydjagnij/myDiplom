@@ -12,6 +12,7 @@ namespace test
         }
 
         public int IdSpeciality { get; set; }
+        [Required(ErrorMessage ="Не указано название специальности")]
         [Display(Name = "Специальность")]
         public string NameSpeciality { get; set; }
 

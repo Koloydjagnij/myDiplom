@@ -12,8 +12,10 @@ namespace test
         }
 
         public int IdMilitaryUnit { get; set; }
+        [Required(ErrorMessage ="Не указано название войсковой части")]
         [Display(Name = "Войсковая часть")]
         public string NameMilitaryUnit { get; set; }
+        [Required]
         [Display(Name = "Район")]
         public int IdArea { get; set; }
 

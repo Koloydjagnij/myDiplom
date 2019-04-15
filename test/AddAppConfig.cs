@@ -75,6 +75,15 @@ namespace test
                             "ON CONFLICT(\"name_area\",\"id_region\") DO UPDATE " +
                             "Set \"name_area\" = EXCLUDED.\"name_area\",\"id_region\" = EXCLUDED.\"id_region\"";
 
+                string UpdateAreaCenterString = "INSERT INTO \"area\" (\"name_area\",\"id_region\" ) " +
+                            "select distinct \"City\", r.\"id_region\" " +
+                            "from \"Pochta\" as p " +
+                            "left join \"region\" as r on r.\"name_region\" = p.\"Region\" " +
+                            "where p.\"City\" !='' and p.\"Area\" ISNULL and p.\"Region\" != '' " +
+                            "ON CONFLICT(\"name_area\",\"id_region\") DO UPDATE " +
+                            "Set \"name_area\" = EXCLUDED.\"name_area\",\"id_region\" = EXCLUDED.\"id_region\"";
+
+
                 string UpdateCityString = "INSERT INTO \"city\" (\"name_city\",\"id_area\" ) "+ 
                             "select distinct \"City\", a.\"id_area\" "+
                             "from \"Pochta\" as p "+
@@ -84,11 +93,22 @@ namespace test
                             "ON CONFLICT(\"name_city\",\"id_area\" ) DO UPDATE "+
                             "Set \"name_city\" = EXCLUDED.\"name_city\",\"id_area\" = EXCLUDED.\"id_area\"";
 
+                string UpdateCityCenterString = "INSERT INTO \"city\" (\"name_city\",\"id_area\" ) " +
+                            "select distinct \"City\", a.\"id_area\" " +
+                            "from \"Pochta\" as p " +
+                            "left join \"region\" as r on p.\"Region\" = r.\"name_region\" " +
+                            "left join \"area\" as a on p.\"City\" = a.\"name_area\" and p.\"Region\" = r.\"name_region\" " +
+                            "where  p.\"City\"!='' and p.\"Area\" ISNULL and p.\"Region\" != '' " +
+                            "ON CONFLICT(\"name_city\",\"id_area\" ) DO UPDATE " +
+                            "Set \"name_city\" = EXCLUDED.\"name_city\",\"id_area\" = EXCLUDED.\"id_area\"";
+
                 using (applicationDbContext)
                 {
                     var Region = applicationDbContext.Database.ExecuteSqlCommand(UpdateRegionString);
                     var Area = applicationDbContext.Database.ExecuteSqlCommand(UpdateAreaString);
+                    var AreaCenter = applicationDbContext.Database.ExecuteSqlCommand(UpdateAreaCenterString);
                     var City = applicationDbContext.Database.ExecuteSqlCommand(UpdateCityString);
+                    var CityCenter = applicationDbContext.Database.ExecuteSqlCommand(UpdateCityCenterString);
 
                 }
             }
@@ -133,7 +153,7 @@ namespace test
             applicationDbContext.SaveChanges();
 
             var DefAreaId = applicationDbContext.Area.Where(p => p.NameArea == DefValue).FirstOrDefault().IdArea;
-            var DefCity = new City { NameCity = DefValue };
+            var DefCity = new City { NameCity = DefValue, IdArea=DefAreaId };
             if (applicationDbContext.City.Where(p => p.NameCity == DefValue).FirstOrDefault() == null)
                 applicationDbContext.City.AddAsync(DefCity);
             applicationDbContext.SaveChanges();

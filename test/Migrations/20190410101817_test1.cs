@@ -3,45 +3,76 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using System;
 using System.Collections.Generic;
 
-namespace test.Data.Migrations
+namespace test.Migrations
 {
-    public partial class my1 : Migration
+    public partial class test1 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropIndex(
-                name: "IX_AspNetUserRoles_UserId",
-                table: "AspNetUserRoles");
-
-            migrationBuilder.DropIndex(
-                name: "RoleNameIndex",
-                table: "AspNetRoles");
-
-            migrationBuilder.AlterColumn<int>(
-                name: "Id",
-                table: "AspNetUserClaims",
-                nullable: false,
-                oldClrType: typeof(int))
-                .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn);
-
-            migrationBuilder.AlterColumn<int>(
-                name: "Id",
-                table: "AspNetRoleClaims",
-                nullable: false,
-                oldClrType: typeof(int))
-                .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn);
-
             migrationBuilder.CreateTable(
                 name: "achievement",
                 columns: table => new
                 {
                     id_achievement = table.Column<int>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    name_achievement = table.Column<string>(nullable: true)
+                    name_achievement = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_achievement", x => x.id_achievement);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AppConfig",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                    Key = table.Column<string>(nullable: true),
+                    Value = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AppConfig", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetRoles",
+                columns: table => new
+                {
+                    Id = table.Column<string>(nullable: false),
+                    ConcurrencyStamp = table.Column<string>(nullable: true),
+                    Name = table.Column<string>(maxLength: 256, nullable: true),
+                    NormalizedName = table.Column<string>(maxLength: 256, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetRoles", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetUsers",
+                columns: table => new
+                {
+                    Id = table.Column<string>(nullable: false),
+                    AccessFailedCount = table.Column<int>(nullable: false),
+                    ConcurrencyStamp = table.Column<string>(nullable: true),
+                    Email = table.Column<string>(maxLength: 256, nullable: true),
+                    EmailConfirmed = table.Column<bool>(nullable: false),
+                    LockoutEnabled = table.Column<bool>(nullable: false),
+                    LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
+                    NormalizedEmail = table.Column<string>(maxLength: 256, nullable: true),
+                    NormalizedUserName = table.Column<string>(maxLength: 256, nullable: true),
+                    PasswordHash = table.Column<string>(nullable: true),
+                    PhoneNumber = table.Column<string>(nullable: true),
+                    PhoneNumberConfirmed = table.Column<bool>(nullable: false),
+                    SecurityStamp = table.Column<string>(nullable: true),
+                    TwoFactorEnabled = table.Column<bool>(nullable: false),
+                    UserName = table.Column<string>(maxLength: 256, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUsers", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -50,7 +81,7 @@ namespace test.Data.Migrations
                 {
                     id_document = table.Column<int>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    name_document = table.Column<string>(nullable: true)
+                    name_document = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -63,7 +94,7 @@ namespace test.Data.Migrations
                 {
                     id_education_type = table.Column<int>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    name_education_type = table.Column<string>(nullable: true)
+                    name_education_type = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -76,7 +107,7 @@ namespace test.Data.Migrations
                 {
                     id_entrance_exam = table.Column<int>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    name_entrance_exam = table.Column<string>(nullable: true),
+                    name_entrance_exam = table.Column<string>(nullable: false),
                     necessarily = table.Column<bool>(nullable: true)
                 },
                 constraints: table =>
@@ -90,7 +121,7 @@ namespace test.Data.Migrations
                 {
                     id_fact_of_prosecution = table.Column<int>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    name_fact_of_prosecution = table.Column<string>(nullable: true)
+                    name_fact_of_prosecution = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -103,7 +134,7 @@ namespace test.Data.Migrations
                 {
                     id_family_type = table.Column<int>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    name_family_type = table.Column<string>(nullable: true)
+                    name_family_type = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -116,7 +147,7 @@ namespace test.Data.Migrations
                 {
                     id_marital_status = table.Column<int>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    name_marital_status = table.Column<string>(nullable: true)
+                    name_marital_status = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -129,7 +160,7 @@ namespace test.Data.Migrations
                 {
                     id_military_district = table.Column<int>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    name_military_district = table.Column<string>(nullable: true)
+                    name_military_district = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -142,7 +173,7 @@ namespace test.Data.Migrations
                 {
                     id_military_rank = table.Column<int>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    name_military_rank = table.Column<string>(nullable: true)
+                    name_military_rank = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -155,7 +186,7 @@ namespace test.Data.Migrations
                 {
                     id_category_ms = table.Column<int>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    name_category_ms = table.Column<string>(nullable: true)
+                    name_category_ms = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -168,7 +199,7 @@ namespace test.Data.Migrations
                 {
                     id_nationality = table.Column<int>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    name_nationality = table.Column<string>(nullable: true)
+                    name_nationality = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -181,11 +212,34 @@ namespace test.Data.Migrations
                 {
                     id_parent_type = table.Column<int>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    name_parent_type = table.Column<string>(nullable: true)
+                    name_parent_type = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_parent_type", x => x.id_parent_type);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Pochta",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                    ActDate = table.Column<string>(nullable: true),
+                    Area = table.Column<string>(nullable: true),
+                    Autonom = table.Column<string>(nullable: true),
+                    City = table.Column<string>(nullable: true),
+                    City1 = table.Column<string>(nullable: true),
+                    Index = table.Column<string>(nullable: true),
+                    IndexOld = table.Column<string>(nullable: true),
+                    OPSName = table.Column<string>(nullable: true),
+                    OPSSubm = table.Column<string>(nullable: true),
+                    OPSType = table.Column<string>(nullable: true),
+                    Region = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Pochta", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -194,7 +248,7 @@ namespace test.Data.Migrations
                 {
                     id_preemptive_right = table.Column<int>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    name_preemptive_right = table.Column<string>(nullable: true)
+                    name_preemptive_right = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -207,7 +261,7 @@ namespace test.Data.Migrations
                 {
                     id_reason_for_deduction = table.Column<int>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    name_reason_for_deduction = table.Column<string>(nullable: true)
+                    name_reason_for_deduction = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -220,7 +274,7 @@ namespace test.Data.Migrations
                 {
                     id_sex = table.Column<int>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    name_sex = table.Column<string>(nullable: true)
+                    name_sex = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -233,7 +287,7 @@ namespace test.Data.Migrations
                 {
                     id_social_background = table.Column<int>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    name_social_background = table.Column<string>(nullable: true)
+                    name_social_background = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -246,7 +300,7 @@ namespace test.Data.Migrations
                 {
                     id_social_status = table.Column<int>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    name_social_status = table.Column<string>(nullable: true)
+                    name_social_status = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -259,7 +313,7 @@ namespace test.Data.Migrations
                 {
                     id_speciality = table.Column<int>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    name_speciality = table.Column<string>(nullable: true)
+                    name_speciality = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -272,7 +326,7 @@ namespace test.Data.Migrations
                 {
                     id_subject = table.Column<int>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    name_subject = table.Column<string>(nullable: true)
+                    name_subject = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -285,11 +339,117 @@ namespace test.Data.Migrations
                 {
                     id_test_type = table.Column<int>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    name_test_type = table.Column<string>(nullable: true)
+                    name_test_type = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_test_type", x => x.id_test_type);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetRoleClaims",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                    ClaimType = table.Column<string>(nullable: true),
+                    ClaimValue = table.Column<string>(nullable: true),
+                    RoleId = table.Column<string>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetRoleClaims", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AspNetRoleClaims_AspNetRoles_RoleId",
+                        column: x => x.RoleId,
+                        principalTable: "AspNetRoles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetUserClaims",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                    ClaimType = table.Column<string>(nullable: true),
+                    ClaimValue = table.Column<string>(nullable: true),
+                    UserId = table.Column<string>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUserClaims", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AspNetUserClaims_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetUserLogins",
+                columns: table => new
+                {
+                    LoginProvider = table.Column<string>(nullable: false),
+                    ProviderKey = table.Column<string>(nullable: false),
+                    ProviderDisplayName = table.Column<string>(nullable: true),
+                    UserId = table.Column<string>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUserLogins", x => new { x.LoginProvider, x.ProviderKey });
+                    table.ForeignKey(
+                        name: "FK_AspNetUserLogins_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetUserRoles",
+                columns: table => new
+                {
+                    UserId = table.Column<string>(nullable: false),
+                    RoleId = table.Column<string>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUserRoles", x => new { x.UserId, x.RoleId });
+                    table.ForeignKey(
+                        name: "FK_AspNetUserRoles_AspNetRoles_RoleId",
+                        column: x => x.RoleId,
+                        principalTable: "AspNetRoles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_AspNetUserRoles_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetUserTokens",
+                columns: table => new
+                {
+                    UserId = table.Column<string>(nullable: false),
+                    LoginProvider = table.Column<string>(nullable: false),
+                    Name = table.Column<string>(nullable: false),
+                    Value = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUserTokens", x => new { x.UserId, x.LoginProvider, x.Name });
+                    table.ForeignKey(
+                        name: "FK_AspNetUserTokens_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -299,7 +459,7 @@ namespace test.Data.Migrations
                     id_region = table.Column<int>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
                     id_military_district = table.Column<int>(nullable: false),
-                    name_region = table.Column<string>(nullable: true)
+                    name_region = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -316,12 +476,14 @@ namespace test.Data.Migrations
                 name: "exam_for_speciality",
                 columns: table => new
                 {
+                    IdExamForSpeciality = table.Column<int>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
                     id_entrance_exam = table.Column<int>(nullable: false),
                     id_speciality = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_exam_for_speciality", x => new { x.id_entrance_exam, x.id_speciality });
+                    table.PrimaryKey("PK_exam_for_speciality", x => x.IdExamForSpeciality);
                     table.ForeignKey(
                         name: "r_73",
                         column: x => x.id_entrance_exam,
@@ -343,7 +505,7 @@ namespace test.Data.Migrations
                     id_area = table.Column<int>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
                     id_region = table.Column<int>(nullable: false),
-                    name_area = table.Column<string>(nullable: true)
+                    name_area = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -363,7 +525,7 @@ namespace test.Data.Migrations
                     id_town = table.Column<int>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
                     id_area = table.Column<int>(nullable: false),
-                    name_city = table.Column<string>(nullable: true)
+                    name_city = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -383,7 +545,7 @@ namespace test.Data.Migrations
                     id_military_unit = table.Column<int>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
                     id_area = table.Column<int>(nullable: false),
-                    name_military_unit = table.Column<string>(nullable: true)
+                    name_military_unit = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -403,7 +565,7 @@ namespace test.Data.Migrations
                     id_educational_institution = table.Column<int>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
                     id_town = table.Column<int>(nullable: false),
-                    name_educational_institution = table.Column<string>(nullable: true)
+                    name_educational_institution = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -498,8 +660,9 @@ namespace test.Data.Migrations
                     arrival_date = table.Column<DateTime>(type: "date", nullable: true),
                     card_ppo = table.Column<int>(nullable: true),
                     children = table.Column<int>(nullable: true),
-                    date_of_birth = table.Column<DateTime>(type: "date", nullable: true),
+                    date_of_birth = table.Column<DateTime>(type: "date", nullable: false),
                     date_of_deduction = table.Column<DateTime>(type: "date", nullable: true),
+                    IdArea = table.Column<int>(nullable: false),
                     id_category_ms = table.Column<int>(nullable: false),
                     id_education_type = table.Column<int>(nullable: false),
                     id_educational_institution = table.Column<int>(nullable: false),
@@ -511,12 +674,13 @@ namespace test.Data.Migrations
                     id_nationality = table.Column<int>(nullable: false),
                     id_preemptive_right = table.Column<int>(nullable: false),
                     id_reason_for_deduction = table.Column<int>(nullable: false),
+                    IdRegion = table.Column<int>(nullable: false),
                     id_sex = table.Column<int>(nullable: false),
                     id_social_background = table.Column<int>(nullable: false),
                     id_town = table.Column<int>(nullable: false),
                     inteernational_passport = table.Column<bool>(nullable: true),
                     live_in_camp = table.Column<bool>(nullable: true),
-                    name = table.Column<string>(nullable: true),
+                    name = table.Column<string>(nullable: false),
                     notes_educational_institution = table.Column<string>(nullable: true),
                     num_of_personal_file = table.Column<int>(nullable: true),
                     other_notes = table.Column<string>(nullable: true),
@@ -525,11 +689,11 @@ namespace test.Data.Migrations
                     passport_number = table.Column<int>(nullable: true),
                     passport_series = table.Column<int>(nullable: true),
                     passport_unit_code = table.Column<string>(nullable: true),
-                    patronymic = table.Column<string>(type: "char(18)", nullable: true),
+                    patronymic = table.Column<string>(nullable: false),
                     personal_number_ms = table.Column<int>(nullable: true),
-                    place_of_birth = table.Column<string>(nullable: true),
+                    place_of_birth = table.Column<string>(nullable: false),
                     stock_position_ms = table.Column<string>(nullable: true),
-                    surname = table.Column<string>(nullable: true),
+                    surname = table.Column<string>(nullable: false),
                     year_of_ending_education = table.Column<DateTime>(type: "date", nullable: true)
                 },
                 constraints: table =>
@@ -625,18 +789,20 @@ namespace test.Data.Migrations
                 name: "application_to_speciality",
                 columns: table => new
                 {
-                    id_enrollee = table.Column<int>(nullable: false),
-                    id_entrance_exam = table.Column<int>(nullable: false),
-                    id_speciality = table.Column<int>(nullable: false),
+                    IdApplicationToSpeciality = table.Column<int>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
                     date_of_passing_exam = table.Column<DateTime>(type: "date", nullable: true),
                     exam_mark = table.Column<int>(nullable: true),
                     groupe = table.Column<string>(nullable: true),
+                    id_enrollee = table.Column<int>(nullable: false),
+                    id_entrance_exam = table.Column<int>(nullable: false),
+                    id_speciality = table.Column<int>(nullable: false),
                     id_test_type = table.Column<int>(nullable: false),
                     priority_number = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_application_to_speciality", x => new { x.id_enrollee, x.id_entrance_exam, x.id_speciality });
+                    table.PrimaryKey("PK_application_to_speciality", x => x.IdApplicationToSpeciality);
                     table.ForeignKey(
                         name: "r_41",
                         column: x => x.id_enrollee,
@@ -644,16 +810,16 @@ namespace test.Data.Migrations
                         principalColumn: "id_enrollee",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
+                        name: "r_77",
+                        column: x => x.id_entrance_exam,
+                        principalTable: "exam_for_speciality",
+                        principalColumn: "IdExamForSpeciality",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
                         name: "r_78",
                         column: x => x.id_test_type,
                         principalTable: "test_type",
                         principalColumn: "id_test_type",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "r_77",
-                        columns: x => new { x.id_entrance_exam, x.id_speciality },
-                        principalTable: "exam_for_speciality",
-                        principalColumns: new[] { "id_entrance_exam", "id_speciality" },
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -661,13 +827,15 @@ namespace test.Data.Migrations
                 name: "enrollee_achievement",
                 columns: table => new
                 {
-                    id_enrollee = table.Column<int>(nullable: false),
+                    IdEnrolleeAchievement = table.Column<int>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
                     id_achievement = table.Column<int>(nullable: false),
+                    id_enrollee = table.Column<int>(nullable: false),
                     priority = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_enrollee_achievement", x => new { x.id_enrollee, x.id_achievement });
+                    table.PrimaryKey("PK_enrollee_achievement", x => x.IdEnrolleeAchievement);
                     table.ForeignKey(
                         name: "r_64",
                         column: x => x.id_achievement,
@@ -686,14 +854,16 @@ namespace test.Data.Migrations
                 name: "enrollee_documents",
                 columns: table => new
                 {
-                    id_enrollee = table.Column<int>(nullable: false),
+                    IdEnrolleeDocument = table.Column<int>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
                     id_document = table.Column<int>(nullable: false),
+                    id_enrollee = table.Column<int>(nullable: false),
                     load_date = table.Column<DateTime>(type: "date", nullable: true),
                     presence_in_personal_file = table.Column<bool>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_enrollee_documents", x => new { x.id_enrollee, x.id_document });
+                    table.PrimaryKey("PK_enrollee_documents", x => x.IdEnrolleeDocument);
                     table.ForeignKey(
                         name: "r_72",
                         column: x => x.id_document,
@@ -712,13 +882,15 @@ namespace test.Data.Migrations
                 name: "family",
                 columns: table => new
                 {
-                    id_parent = table.Column<int>(nullable: false),
+                    IdFamily = table.Column<int>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
                     id_enrollee = table.Column<int>(nullable: false),
-                    id_family_type = table.Column<int>(nullable: false)
+                    id_family_type = table.Column<int>(nullable: false),
+                    id_parent = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_family", x => new { x.id_parent, x.id_enrollee });
+                    table.PrimaryKey("PK_family", x => x.IdFamily);
                     table.ForeignKey(
                         name: "r_45",
                         column: x => x.id_enrollee,
@@ -743,13 +915,15 @@ namespace test.Data.Migrations
                 name: "subject_mark",
                 columns: table => new
                 {
-                    id_subject = table.Column<int>(nullable: false),
+                    id_subject_mark = table.Column<int>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
                     id_enrollee = table.Column<int>(nullable: false),
+                    id_subject = table.Column<int>(nullable: false),
                     mark = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_subject_mark", x => new { x.id_subject, x.id_enrollee });
+                    table.PrimaryKey("PK_subject_mark", x => x.id_subject_mark);
                     table.ForeignKey(
                         name: "r_70",
                         column: x => x.id_enrollee,
@@ -765,10 +939,14 @@ namespace test.Data.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "RoleNameIndex",
-                table: "AspNetRoles",
-                column: "NormalizedName",
-                unique: true);
+                name: "IX_application_to_speciality_id_enrollee",
+                table: "application_to_speciality",
+                column: "id_enrollee");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_application_to_speciality_id_entrance_exam",
+                table: "application_to_speciality",
+                column: "id_entrance_exam");
 
             migrationBuilder.CreateIndex(
                 name: "IX_application_to_speciality_id_test_type",
@@ -776,19 +954,63 @@ namespace test.Data.Migrations
                 column: "id_test_type");
 
             migrationBuilder.CreateIndex(
-                name: "IX_application_to_speciality_id_entrance_exam_id_speciality",
-                table: "application_to_speciality",
-                columns: new[] { "id_entrance_exam", "id_speciality" });
-
-            migrationBuilder.CreateIndex(
                 name: "IX_area_id_region",
                 table: "area",
                 column: "id_region");
 
             migrationBuilder.CreateIndex(
+                name: "IX_area_name_area_id_region",
+                table: "area",
+                columns: new[] { "name_area", "id_region" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AspNetRoleClaims_RoleId",
+                table: "AspNetRoleClaims",
+                column: "RoleId");
+
+            migrationBuilder.CreateIndex(
+                name: "RoleNameIndex",
+                table: "AspNetRoles",
+                column: "NormalizedName",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AspNetUserClaims_UserId",
+                table: "AspNetUserClaims",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AspNetUserLogins_UserId",
+                table: "AspNetUserLogins",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AspNetUserRoles_RoleId",
+                table: "AspNetUserRoles",
+                column: "RoleId");
+
+            migrationBuilder.CreateIndex(
+                name: "EmailIndex",
+                table: "AspNetUsers",
+                column: "NormalizedEmail");
+
+            migrationBuilder.CreateIndex(
+                name: "UserNameIndex",
+                table: "AspNetUsers",
+                column: "NormalizedUserName",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_city_id_area",
                 table: "city",
                 column: "id_area");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_city_name_city_id_area",
+                table: "city",
+                columns: new[] { "name_city", "id_area" },
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_educational_institution_id_town",
@@ -871,9 +1093,24 @@ namespace test.Data.Migrations
                 column: "id_achievement");
 
             migrationBuilder.CreateIndex(
+                name: "IX_enrollee_achievement_id_enrollee",
+                table: "enrollee_achievement",
+                column: "id_enrollee");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_enrollee_documents_id_document",
                 table: "enrollee_documents",
                 column: "id_document");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_enrollee_documents_id_enrollee",
+                table: "enrollee_documents",
+                column: "id_enrollee");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_exam_for_speciality_id_entrance_exam",
+                table: "exam_for_speciality",
+                column: "id_entrance_exam");
 
             migrationBuilder.CreateIndex(
                 name: "IX_exam_for_speciality_id_speciality",
@@ -889,6 +1126,11 @@ namespace test.Data.Migrations
                 name: "IX_family_id_family_type",
                 table: "family",
                 column: "id_family_type");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_family_id_parent",
+                table: "family",
+                column: "id_parent");
 
             migrationBuilder.CreateIndex(
                 name: "IX_military_office_id_town",
@@ -931,27 +1173,44 @@ namespace test.Data.Migrations
                 column: "id_military_district");
 
             migrationBuilder.CreateIndex(
+                name: "IX_region_name_region_id_military_district",
+                table: "region",
+                columns: new[] { "name_region", "id_military_district" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_subject_mark_id_enrollee",
                 table: "subject_mark",
                 column: "id_enrollee");
 
-            migrationBuilder.AddForeignKey(
-                name: "FK_AspNetUserTokens_AspNetUsers_UserId",
-                table: "AspNetUserTokens",
-                column: "UserId",
-                principalTable: "AspNetUsers",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
+            migrationBuilder.CreateIndex(
+                name: "IX_subject_mark_id_subject",
+                table: "subject_mark",
+                column: "id_subject");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropForeignKey(
-                name: "FK_AspNetUserTokens_AspNetUsers_UserId",
-                table: "AspNetUserTokens");
+            migrationBuilder.DropTable(
+                name: "AppConfig");
 
             migrationBuilder.DropTable(
                 name: "application_to_speciality");
+
+            migrationBuilder.DropTable(
+                name: "AspNetRoleClaims");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUserClaims");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUserLogins");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUserRoles");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
                 name: "enrollee_achievement");
@@ -963,13 +1222,22 @@ namespace test.Data.Migrations
                 name: "family");
 
             migrationBuilder.DropTable(
+                name: "Pochta");
+
+            migrationBuilder.DropTable(
                 name: "subject_mark");
+
+            migrationBuilder.DropTable(
+                name: "exam_for_speciality");
 
             migrationBuilder.DropTable(
                 name: "test_type");
 
             migrationBuilder.DropTable(
-                name: "exam_for_speciality");
+                name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUsers");
 
             migrationBuilder.DropTable(
                 name: "achievement");
@@ -1051,34 +1319,6 @@ namespace test.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "military_district");
-
-            migrationBuilder.DropIndex(
-                name: "RoleNameIndex",
-                table: "AspNetRoles");
-
-            migrationBuilder.AlterColumn<int>(
-                name: "Id",
-                table: "AspNetUserClaims",
-                nullable: false,
-                oldClrType: typeof(int))
-                .OldAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn);
-
-            migrationBuilder.AlterColumn<int>(
-                name: "Id",
-                table: "AspNetRoleClaims",
-                nullable: false,
-                oldClrType: typeof(int))
-                .OldAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AspNetUserRoles_UserId",
-                table: "AspNetUserRoles",
-                column: "UserId");
-
-            migrationBuilder.CreateIndex(
-                name: "RoleNameIndex",
-                table: "AspNetRoles",
-                column: "NormalizedName");
         }
     }
 }

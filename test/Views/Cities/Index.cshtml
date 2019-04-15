@@ -10,38 +10,55 @@
     <div class="form-group">
         <a asp-action="Create"><input type="submit" value="Создать новую запись" class="btn btn-default" /></a>
     </div>
-    
+
 </p>
 <table class="table">
     <thead>
         <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.City.First().NameCity)
-                </th>
             <th>
-               @Html.DisplayNameFor(model => model.City.First().IdAreaNavigation)
+                @Html.DisplayNameFor(model => model.City.First().NameCity)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.City.First().IdAreaNavigation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.City.First().IdAreaNavigation.IdRegion)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.City) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.NameCity)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IdAreaNavigation.NameArea)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.IdTown">Изменить</a> |
-                <a asp-action="Details" asp-route-id="@item.IdTown">Информация</a> |
-                <a asp-action="Delete" asp-route-id="@item.IdTown">Удалить</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model.City)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NameCity)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IdAreaNavigation.NameArea)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IdAreaNavigation.IdRegionNavigation.NameRegion)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.IdTown">Изменить</a> |
+                    <a asp-action="Details" asp-route-id="@item.IdTown">Информация</a> |
+                    <a asp-action="Delete" asp-route-id="@item.IdTown">Удалить</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+@if (Model.PageViewModel.HasPreviousPage && Model.PageViewModel.PageNumber != 2)
+{
+    <a asp-action="Index"
+       asp-route-page="1"
+       class="btn btn-default btn">
+        <i class="glyphicon glyphicon-chevron-left"></i>
+        <i class="glyphicon glyphicon-chevron-left"></i>
+        В начало
+    </a>
+}
 @if (Model.PageViewModel.HasPreviousPage)
 {
     <a asp-action="Index"
@@ -51,12 +68,30 @@
         Назад
     </a>
 }
+
+@if (Model.PageViewModel.HasNextPage || Model.PageViewModel.HasPreviousPage)
+{
+    <div class="btn btn-default " style="pointer-events:none;">@Model.PageViewModel.PageNumber / @(Model.PageViewModel.TotalPages)</div>
+}
+
 @if (Model.PageViewModel.HasNextPage)
 {
     <a asp-action="Index"
        asp-route-page="@(Model.PageViewModel.PageNumber + 1)"
        class="btn btn-default btn">
         Вперед
+        <i class="glyphicon glyphicon-chevron-right"></i>
+    </a>
+}
+
+
+@if (Model.PageViewModel.HasNextPage)
+{
+    <a asp-action="Index"
+       asp-route-page="@(Model.PageViewModel.TotalPages)"
+       class="btn btn-default btn">
+        В конец (@(Model.PageViewModel.TotalPages))
+        <i class="glyphicon glyphicon-chevron-right"></i>
         <i class="glyphicon glyphicon-chevron-right"></i>
     </a>
 }

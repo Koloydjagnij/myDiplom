@@ -12,6 +12,7 @@ namespace test
         }
 
         public int IdSocialStatus { get; set; }
+        [Required(ErrorMessage ="Не указано название социального статуса")]
         [Display(Name = "Социальный статус")]
         public string NameSocialStatus { get; set; }
 

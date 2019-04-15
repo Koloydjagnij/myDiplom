@@ -12,6 +12,7 @@ namespace test
         }
 
         public int IdParentType { get; set; }
+        [Required(ErrorMessage ="Не указано название типа родителя")]
         [Display(Name = "Тип родителя")]
         public string NameParentType { get; set; }
 

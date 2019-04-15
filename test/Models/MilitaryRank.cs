@@ -12,6 +12,7 @@ namespace test
         }
 
         public int IdMilitaryRank { get; set; }
+        [Required(ErrorMessage ="Не указано воинское звание")]
         [Display(Name = "Воинское звание")]
         public string NameMilitaryRank { get; set; }
 

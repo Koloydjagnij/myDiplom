@@ -12,6 +12,7 @@ namespace test
         }
 
         public int IdCategoryMs { get; set; }
+        [Required(ErrorMessage ="Не указана категория в/с")]
         [Display(Name = "Категория военной службы")]
         public string NameCategoryMs { get; set; }
 

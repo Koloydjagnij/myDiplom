@@ -1,0 +1,228 @@
+﻿@using test.Views.Enrollees
+@model test.Views.Enrollees.IndexViewModel
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+@addTagHelper "*, test"
+
+@{
+    ViewData["Title"] = "Список абитуриентов";
+}
+<div class="row bottom-left">
+    <div class="col-md-4 col-lg-4 col-xl-4">
+        <div class="h2">Список абитуриентов</div>
+    </div>
+    <div class="col-md-4 col-lg-4 col-xl-4">
+        @if (SignInManager.IsSignedIn(User) && (User.IsInRole("Admin") || User.IsInRole("AddAbitur")))
+        {
+
+            <a asp-action="Create" class="container"><input type="submit" value="Создать новую запись" class="btn btn-default btn-group-lg" /></a>
+
+        }
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h4 class="panel-title">
+            <form class="form-horizontal" asp-action="Index">
+                <div class="form-inline">
+                    <label>ФИО: </label>
+                    @Html.TextBox("name", Model.FilterViewModel.SelectedName, htmlAttributes: new { @class = "form-control" })
+                    <input type="submit" value="Найти" class="btn btn-default" />
+                    <a class="btn btn-default" data-toggle="collapse" href="#collapseOne">
+                        Фильтры
+                    </a>
+                    @if (Model.FilterViewModel.isFiltrated)
+                    {
+                        <label class="control-label">
+                            <img src="~/images/isFilter.png" width="30" height="30" title="Применены фильтры"  style="vertical-align:central" class="img-responsive" />
+                        </label>
+                    }
+                </div>
+            </form>
+
+        </h4>
+    </div>
+    <div id="collapseOne" class="panel-collapse collapse">
+        <div class="panel-body">
+            <!--Форма фильтров-->
+            <form class="form-horizontal" asp-action="Index">
+
+                <div class="form-inline">
+
+                    <label class="control-label">Тип образования: </label>
+                    @Html.ListBox("eduType", Model.FilterViewModel.EduTypes as MultiSelectList,
+                            htmlAttributes: new { @class = "form-control" })
+
+                    <label class="control-label">Семейное положение: </label>
+                    @Html.DropDownList("maritalStatus", Model.FilterViewModel.MaritalStatuses as SelectList,
+                            htmlAttributes: new { @class = "form-control" })
+
+                    <label class="control-label">Преимущественное право: </label>
+                    @Html.DropDownList("preemptiveRight", Model.FilterViewModel.PreemptiveRights as SelectList,
+                            htmlAttributes: new { @class = "form-control" })
+
+                    <input type="submit" value="Применить" class="btn btn-default" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Enrollees.First().PersonalFile)
+            </th>
+            <th>
+                <sort-header action="Index" up="@Model.SortViewModel.Up"
+                             current="@Model.SortViewModel.Current" property="@Model.SortViewModel.ProfNumSort">
+                    @Html.DisplayNameFor(model => model.Enrollees.First().NumOfPersonalFile)
+                </sort-header>
+
+            </th>
+            <th>
+                <sort-header action="Index" up="@Model.SortViewModel.Up"
+                             current="@Model.SortViewModel.Current" property="@Model.SortViewModel.SurnameSort">
+                    @Html.DisplayNameFor(model => model.Enrollees.First().Surname)
+                </sort-header>
+            </th>
+            <th>
+                <sort-header action="Index" up="@Model.SortViewModel.Up"
+                             current="@Model.SortViewModel.Current" property="@Model.SortViewModel.NameSort">
+                    @Html.DisplayNameFor(model => model.Enrollees.First().Name)
+                </sort-header>
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Enrollees.First().Patronymic)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Enrollees.First().DateOfBirth)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.Enrollees.First().IdEducationType)
+            </th>
+
+
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Enrollees)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PersonalFile)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NumOfPersonalFile)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Surname)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Patronymic)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateOfBirth)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.IdEducationTypeNavigation.NameEducationType)
+                </td>
+
+
+
+                <td>
+                    @if (SignInManager.IsSignedIn(User) && (User.IsInRole("Admin") || User.IsInRole("EditAbitur")))
+                    {
+                        <td>
+                             <a asp-action="Edit" asp-route-id="@item.IdEnrollee"><img src="~/images/change.png" width="20" height="20" title="Изменить" class="img-responsive" /></a>
+                        </td>
+                     }
+                    @if (SignInManager.IsSignedIn(User) && (User.IsInRole("Admin") || User.IsInRole("FullDetailAbitur")))
+                    {
+                        <td>
+                            <a asp-action="Details" asp-route-id="@item.IdEnrollee"><img src="~/images/info.png" width="20" height="20" title="Просмотреть детальную информацию" class="img-responsive" /></a>
+                        </td>
+                    }
+                    @if (SignInManager.IsSignedIn(User) && (User.IsInRole("Admin") || User.IsInRole("DeleteAbitur")))
+                    {
+                        <td>
+                            <a asp-action="Delete" asp-route-id="@item.IdEnrollee"><img src="~/images/delete.png" width="20" height="20" title="Перейти к удалению данной записи" class="img-responsive" /></a>
+                        </td>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@if (Model.PageViewModel.HasPreviousPage && Model.PageViewModel.PageNumber != 2)
+{
+    <a asp-action="Index"
+       asp-route-page="1"
+       class="btn btn-default btn">
+        <i class="glyphicon glyphicon-chevron-left"></i>
+        <i class="glyphicon glyphicon-chevron-left"></i>
+        В начало
+    </a>
+}
+@if (Model.PageViewModel.HasPreviousPage)
+{
+    <a asp-action="Index"
+       asp-route-page="@(Model.PageViewModel.PageNumber - 1)"
+       class="btn btn-default btn">
+        <i class="glyphicon glyphicon-chevron-left"></i>
+        Назад
+    </a>
+}
+
+@if (Model.PageViewModel.HasNextPage || Model.PageViewModel.HasPreviousPage)
+{
+    <div class="btn btn-default " style="pointer-events:none;">@Model.PageViewModel.PageNumber / @(Model.PageViewModel.TotalPages)</div>
+}
+
+@if (Model.PageViewModel.HasNextPage)
+{
+    <a asp-action="Index"
+       asp-route-page="@(Model.PageViewModel.PageNumber + 1)"
+       class="btn btn-default btn">
+        Вперед
+        <i class="glyphicon glyphicon-chevron-right"></i>
+    </a>
+}
+
+
+@if (Model.PageViewModel.HasNextPage)
+{
+    <a asp-action="Index"
+       asp-route-page="@(Model.PageViewModel.TotalPages)"
+       class="btn btn-default btn">
+        В конец (@(Model.PageViewModel.TotalPages))
+        <i class="glyphicon glyphicon-chevron-right"></i>
+        <i class="glyphicon glyphicon-chevron-right"></i>
+    </a>
+}
+@section Scripts {
+
+    <script>
+        $(document).ready(function () {
+            $('#eduType').multiselect({
+                enableFiltering: true,
+                includeResetOption: true,
+                maxHeight: 200
+            });
+        });
+    </script>
+}
