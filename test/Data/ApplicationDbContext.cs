@@ -50,15 +50,38 @@ namespace test.Data
         public virtual DbSet<TestType> TestType { get; set; }
         public virtual DbSet<AppConfig> AppConfig { get; set; }
         public virtual DbSet<Pochta> Pochta { get; set; }
+        public virtual DbSet<DocumentFile> DocumentFile { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //создаем роли
 
+            modelBuilder.Entity<DocumentFile>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+
+                entity.ToTable("DocumentFile");
+
+                entity.Property(e => e.Id)
+                    .HasColumnName("id")
+                    .ValueGeneratedOnAdd();
+
+                entity.Property(e => e.IdEnrollee)
+                    .IsRequired()
+                    .HasColumnName("id_enrollee");
+
+                entity.Property(e => e.NameFile).HasColumnName("NameFile");
+                entity.Property(e => e.File).HasColumnName("File");
+
+                entity.HasOne(d => d.IdEnrolleeNavigation)
+                    .WithMany(p => p.DocumentFile)
+                    .HasForeignKey(d => d.IdEnrollee)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("EnrolleesDocuments");
+            });
+
             base.OnModelCreating(modelBuilder);
-            // Customize the ASP.NET Identity model and override the defaults if needed.
-            // For example, you can rename the ASP.NET Identity table names and more.
-            // Add your customizations after calling base.OnModelCreating(builder);
+           
             modelBuilder.Entity<Sex>()
                 .Property(e => e.IdSex)
                 .ValueGeneratedOnAdd();
@@ -298,7 +321,6 @@ namespace test.Data
 
                 entity.Property(e => e.Patronymic)
                     .HasColumnName("patronymic");
-                    //.HasColumnType("char(18)");
 
                 entity.Property(e => e.PersonalNumberMs).HasColumnName("personal_number_ms");
 

@@ -47,6 +47,8 @@ namespace test
                 {
                     options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/Account/Login");
                     options.AccessDeniedPath = new Microsoft.AspNetCore.Http.PathString("/Account/Login");
+                    options.ExpireTimeSpan = TimeSpan.FromSeconds(20); // время автоизации
+                    //options.SlidingExpiration = false; //продление куки
                 });
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();

@@ -147,7 +147,7 @@
                     @if (SignInManager.IsSignedIn(User) && (User.IsInRole("Admin") || User.IsInRole("EditAbitur")))
                     {
                         <td>
-                             <a asp-action="Edit" asp-route-id="@item.IdEnrollee"><img src="~/images/change.png" width="20" height="20" title="Изменить" class="img-responsive" /></a>
+                             <a asp-action="Edit" asp-route-id="@item.IdEnrollee"><img src="~/images/edit.png" width="20" height="20" title="Изменить" class="img-responsive" /></a>
                         </td>
                      }
                     @if (SignInManager.IsSignedIn(User) && (User.IsInRole("Admin") || User.IsInRole("FullDetailAbitur")))
@@ -221,6 +221,7 @@
             $('#eduType').multiselect({
                 enableFiltering: true,
                 includeResetOption: true,
+                includeSelectAllOption: true,
                 maxHeight: 200
             });
         });

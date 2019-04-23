@@ -10,6 +10,9 @@ using test.Data;
 using test.ViewsModels;
 using test.Views.Enrollees;
 using Microsoft.AspNetCore.Authorization;
+using System.IO;
+using test.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace test.Controllers.EnrolleeControl
 {
@@ -137,7 +140,27 @@ namespace test.Controllers.EnrolleeControl
                 .Include(e => e.IdSexNavigation)
                 .Include(e => e.IdSocialBackgroundNavigation)
                 .Include(e => e.IdTownNavigation)
-                .Include(e => e.Family) //добавляем семью
+                .Include(e => e.Family)
+                .Include(e => e.IdTownNavigation)
+                    .ThenInclude(m => m.IdAreaNavigation)
+                        .ThenInclude(r => r.IdRegionNavigation)
+                .Include(f => f.Family)
+                    .ThenInclude(p => p.IdFamilyTypeNavigation)
+                .Include(f => f.Family)
+                    .ThenInclude(f => f.IdParentNavigation)
+                    .ThenInclude(f => f.IdCityNavigation)
+                .Include(f => f.Family)
+                    .ThenInclude(f => f.IdParentNavigation)
+                    .ThenInclude(f => f.IdFactOfProsecutionNavigation)
+                .Include(f => f.Family)
+                    .ThenInclude(f => f.IdParentNavigation)
+                    .ThenInclude(f => f.IdSexNavigation)
+                .Include(f => f.Family)
+                    .ThenInclude(f => f.IdParentNavigation)
+                    .ThenInclude(f => f.IdSocialStatusNavigation)
+                .Include(f => f.Family)
+                    .ThenInclude(f => f.IdParentNavigation)
+                    .ThenInclude(f => f.IdParentTypeNavigation)//добавляем семью
                 .SingleOrDefaultAsync(m => m.IdEnrollee == id);
 
          var EnrolleView = new CreateViewModel();
@@ -314,12 +337,27 @@ namespace test.Controllers.EnrolleeControl
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin,EditAbitur")]
-        public async Task<IActionResult> Edit(int id, [FromForm] CreateViewModel createViewModel )
+        public async Task<IActionResult> Edit(int id,  CreateViewModel createViewModel )
         {
 
             var enrollee = createViewModel.Enrollees;
             List<Family> FamiliesForm = new List<Family>();
             List<Parent> ParentsForm = new List<Parent>();
+
+            if (createViewModel.Files != null)
+            {
+                byte[] imageData = null;
+                // считываем переданный файл в массив байтов
+                using (var binaryReader = new BinaryReader(createViewModel.Files.OpenReadStream()))
+                {
+                    imageData = binaryReader.ReadBytes((int)createViewModel.Files.Length);
+                }
+                // установка массива байтов
+                DocumentFile file = new DocumentFile();
+                file.File= imageData;
+                file.IdEnrollee = createViewModel.Enrollees.IdEnrollee;
+                _context.Add(file);
+            }
 
             //все значения с формы
             var allFamilyFields =this.Request.Form.ToArray();
@@ -385,7 +423,7 @@ namespace test.Controllers.EnrolleeControl
                 {
                     _context.Update(fam);
                 }
-                   
+                
                     _context.Update(enrollee);
                     await _context.SaveChangesAsync();
                 }
@@ -514,7 +552,30 @@ namespace test.Controllers.EnrolleeControl
             return RedirectToAction(nameof(Edit), new { id = redirectId });
         }
 
-        
+        [HttpPost]
+        public async Task<IActionResult> AddFile(int IdEnrolle, DocumentFile documents, List<IFormFile> upFile)
+        {
+            if (upFile!= null)
+            {
+                var filePath = Path.GetTempFileName();
+                foreach (var formFile in upFile)
+                {
+                    if (formFile.Length > 0)
+                    {
+                        using (var stream = new FileStream(filePath, FileMode.Create))
+                        {
+                            await formFile.CopyToAsync(stream);
+                        }
+                    }
+                }
+                
+                // считываем переданный файл в массив байтов
+
+                return Ok();
+            }
+            return NotFound();
+
+        }
         public async Task<IActionResult> AddFamily(int id, CreateViewModel model)
         {
             var parent = new Parent { IdParentType = 1, IdCity = 1, IdSex = 1, IdSocialStatus = 1, IdFactOfProsecution=1 };

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using test.Models;
 
 namespace test
 {
@@ -12,8 +13,9 @@ namespace test
             ApplicationToSpeciality = new HashSet<ApplicationToSpeciality>();
             EnrolleeAchievement = new HashSet<EnrolleeAchievement>();
             EnrolleeDocuments = new HashSet<EnrolleeDocuments>();
-            Family = new HashSet<Family>();
+            Family = new List<Family>();
             SubjectMark = new HashSet<SubjectMark>();
+            DocumentFile = new List<DocumentFile>();
         }
         [Display(Name = "Запись создана")]
         [DataType(DataType.DateTime)]
@@ -176,5 +178,6 @@ namespace test
         public ICollection<EnrolleeDocuments> EnrolleeDocuments { get; set; }
         public ICollection<Family> Family { get; set; }
         public ICollection<SubjectMark> SubjectMark { get; set; }
+        public ICollection<DocumentFile> DocumentFile { get; set; }
     }
 }
