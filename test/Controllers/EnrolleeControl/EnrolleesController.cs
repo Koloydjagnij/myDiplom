@@ -347,23 +347,26 @@ namespace test.Controllers.EnrolleeControl
 
             if (createViewModel.Files != null)
             {
-                byte[] imageData = null;
-                string fileName = "";
-                string fileType = "";
-                // считываем переданный файл в массив байтов
-                using (var binaryReader = new BinaryReader(createViewModel.Files.OpenReadStream()))
+                foreach (var unloadFile in createViewModel.Files)
                 {
-                    imageData = binaryReader.ReadBytes((int)createViewModel.Files.Length);
-                    fileName = createViewModel.Files.FileName;
-                    fileType = createViewModel.Files.ContentType;
+                    byte[] imageData = null;
+                    string fileName = "";
+                    string fileType = "";
+                    // считываем переданный файл в массив байтов
+                    using (var binaryReader = new BinaryReader(unloadFile.OpenReadStream()))
+                    {
+                        imageData = binaryReader.ReadBytes((int)unloadFile.Length);
+                        fileName = unloadFile.FileName;
+                        fileType = unloadFile.ContentType;
+                    }
+                    // установка массива байтов
+                    DocumentFile file = new DocumentFile();
+                    file.File = imageData;
+                    file.IdEnrollee = createViewModel.Enrollees.IdEnrollee;
+                    file.NameFile = fileName;
+                    file.TypeFile = fileType;
+                    _context.Add(file);
                 }
-                // установка массива байтов
-                DocumentFile file = new DocumentFile();
-                file.File= imageData;
-                file.IdEnrollee = createViewModel.Enrollees.IdEnrollee;
-                file.NameFile = fileName;
-                file.TypeFile = fileType;
-                _context.Add(file);
             }
 
             //все значения с формы

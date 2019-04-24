@@ -599,7 +599,7 @@
                 </div>
             </div>
 
-            <h4>Документы</h4>
+            <h4>Прикрепленные файлы</h4>
             
             <div class="container table-bordered">
                 <br />
@@ -617,7 +617,7 @@
                             
                                 <figure class="col-md-2 col-lg-2 col-xl-2">
                                     <img src="~/images/add.png" style='width:100px; height:100px;' />   
-                                    <figcaption>@Html.EditorFor(model => model.Files, new { enctype = "multipart/form-data" })</figcaption>
+                                    <figcaption><input id="Files" class="text-box single-line" type="file" name="Files" multiple></figcaption>
                                 </figure>
                 </div>
             </div>

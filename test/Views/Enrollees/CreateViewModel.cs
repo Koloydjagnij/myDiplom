@@ -20,6 +20,6 @@ namespace test.Views.Enrollees
         public IEnumerable<Area> AreaList { get; set; }
         public IEnumerable<FactOfProsecution> FactOfProsecutionList { get; set; }
         public IList<Family> Families { get; set; }
-        public IFormFile Files { get; set; }
+        public IList<IFormFile> Files { get; set; }
     }
 }
