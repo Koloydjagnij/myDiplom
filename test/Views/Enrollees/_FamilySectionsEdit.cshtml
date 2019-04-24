@@ -1,0 +1,101 @@
+﻿
+@using test.Models
+@model IList<test.Family>
+<h3>Члены семьи</h3>
+<a asp-action="AddFamilyInterface" >Добавить члена семьи</a>
+
+
+<div id="Families">
+
+    @foreach (var family in Model)
+    {
+        <div name="Enrollee_Families" class="list-group-item">
+            <div class="row">
+                <div class="col-md-5 col-lg-5 col-xl-5">
+                    <div class="form-group">
+                        @Html.HiddenFor(modelItem => family.IdFamily)
+                        @Html.HiddenFor(modelItem => family.IdParent)
+                        <div class="col-md-2 col-lg-2 col-xl-2 text-right">
+                            @Html.LabelFor(modelItem => family.IdParentNavigation.Surname)
+                        </div>
+                        <div class="col-md-2 col-lg-2 col-xl-2">
+                            @Html.EditorFor(modelItem => family.IdParentNavigation.Surname, new { @id = "family_IdParentNavigation_Surname_" + family.IdFamily })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-2 col-lg-2 col-xl-2 text-right">
+                            @Html.LabelFor(modelItem => family.IdParentNavigation.Name)
+                        </div>
+                        <div class="col-md-2 col-lg-2 col-xl-2">
+                            @Html.EditorFor(modelItem => family.IdParentNavigation.Name)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-2 col-lg-2 col-xl-2 text-right">
+                            @Html.LabelFor(modelItem => family.IdParentNavigation.Patronymic)
+                        </div>
+                        <div class="col-md-2 col-lg-2 col-xl-2">
+                            @Html.EditorFor(modelItem => family.IdParentNavigation.Patronymic)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-2 col-lg-2 col-xl-2 text-right">
+                            @Html.LabelFor(modelItem => family.IdParentNavigation.IdSex)
+                        </div>
+                        <div class="col-md-2 col-lg-2 col-xl-2">
+                            @Html.DropDownList("family.IdParentNavigation.IdSex", new SelectList(Model.SexList, "IdSex", "NameSex", family.IdParentNavigation.IdSex))
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-5 col-lg-5 col-xl-5">
+                    <div class="form-group">
+                        <div class="col-md-3 col-lg-3 col-xl-3 text-right">
+                            @Html.LabelFor(modelItem => family.IdFamilyType)
+                        </div>
+                        <div class="col-md-2 col-lg-2 col-xl-2">
+                            @Html.DropDownList("family.IdFamilyType", new SelectList(Model.FamilyTypeList, "IdFamilyType", "NameFamilyType", family.IdFamilyType))
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-3 col-lg-3 col-xl-3 text-right">
+                            @Html.LabelFor(modelItem => family.IdParentNavigation.IdParentType)
+                        </div>
+                        <div class="col-md-2 col-lg-2 col-xl-2">
+                            @Html.DropDownList("family.IdParentNavigation.IdParentType", new SelectList(Model.ParentTypeList, "IdParentType", "NameParentType", family.IdParentNavigation.IdParentType))
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-3 col-lg-3 col-xl-3 text-right">
+                            @Html.LabelFor(modelItem => family.IdParentNavigation.IdFactOfProsecution)
+                        </div>
+                        <div class="col-md-2 col-lg-2 col-xl-2">
+                            @Html.DropDownList("family.IdParentNavigation.IdFactOfProsecution", new SelectList(Model.FactOfProsecutionList, "IdFactOfProsecution", "NameFactOfProsecution", family.IdParentNavigation.IdFactOfProsecution))
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-5 col-lg-5 col-xl-5">
+                    <div class="form-group">
+                        <div class="col-md-3 col-lg-3 col-xl-3 text-right">
+                            @Html.LabelFor(modelItem => family.IdParentNavigation.IdSocialStatus)
+                        </div>
+                        <div class="col-md-2 col-lg-2 col-xl-2">
+                            @Html.DropDownList("family.IdParentNavigation.IdSocialStatus", new SelectList(Model.SocialStatusList, "IdSocialStatus", "NameSocialStatus", family.IdParentNavigation.IdSocialStatus))
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-2 col-lg-2 col-xl-2 text-right">
+                            @Html.LabelFor(modelItem => family.IdParentNavigation.IdCity)
+                        </div>
+                        <div class="col-md-2 col-lg-2 col-xl-2">
+                            @Html.DropDownList("family.IdParentNavigation.IdCity", new SelectList(Model.CityList, "IdTown", "NameCity", family.IdParentNavigation.IdCity))
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row"><br /></div>
+
+
+    }
+</div>

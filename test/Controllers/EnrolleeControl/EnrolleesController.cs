@@ -265,6 +265,7 @@ namespace test.Controllers.EnrolleeControl
                 .Include(e => e.IdReasonForDeductionNavigation)
                 .Include(e => e.IdSexNavigation)
                 .Include(e => e.IdSocialBackgroundNavigation)
+                .Include(e=> e.DocumentFile)
                 .Include(e => e.IdTownNavigation)
                     .ThenInclude(m=>m.IdAreaNavigation)
                         .ThenInclude(r=>r.IdRegionNavigation)
@@ -337,7 +338,7 @@ namespace test.Controllers.EnrolleeControl
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin,EditAbitur")]
-        public async Task<IActionResult> Edit(int id,  CreateViewModel createViewModel )
+        public async Task<IActionResult> Edit(int id,  CreateViewModel createViewModel)
         {
 
             var enrollee = createViewModel.Enrollees;
@@ -347,15 +348,21 @@ namespace test.Controllers.EnrolleeControl
             if (createViewModel.Files != null)
             {
                 byte[] imageData = null;
+                string fileName = "";
+                string fileType = "";
                 // считываем переданный файл в массив байтов
                 using (var binaryReader = new BinaryReader(createViewModel.Files.OpenReadStream()))
                 {
                     imageData = binaryReader.ReadBytes((int)createViewModel.Files.Length);
+                    fileName = createViewModel.Files.FileName;
+                    fileType = createViewModel.Files.ContentType;
                 }
                 // установка массива байтов
                 DocumentFile file = new DocumentFile();
                 file.File= imageData;
                 file.IdEnrollee = createViewModel.Enrollees.IdEnrollee;
+                file.NameFile = fileName;
+                file.TypeFile = fileType;
                 _context.Add(file);
             }
 
@@ -521,7 +528,16 @@ namespace test.Controllers.EnrolleeControl
         {
             return _context.Enrollee.Any(e => e.IdEnrollee == id);
         }
-        
+
+        public FileResult GetFile(int id)
+        {
+            var documentFile = _context.DocumentFile.SingleOrDefault(m => m.Id == id);
+            byte[] mas = documentFile.File;
+            string file_type = documentFile.TypeFile;
+            string file_name = documentFile.NameFile;
+            return File(mas, file_type, file_name);
+        }
+
         [HttpPost, ActionName("EditFamily")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditFamily(int id)

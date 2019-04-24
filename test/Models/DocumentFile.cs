@@ -9,6 +9,7 @@ namespace test.Models
     {
         public int Id { get; set; }
         public string NameFile { get; set; }
+        public string TypeFile { get; set; }
         public byte[] File { get; set; }
         public int IdEnrollee { get; set; }
 

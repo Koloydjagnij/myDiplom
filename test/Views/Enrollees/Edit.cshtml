@@ -5,7 +5,7 @@
 }
 
 
-<form class="form-horizontal" asp-action="Edit" method="post">
+<form class="form-horizontal" asp-action="Edit" method="post" enctype="multipart/form-data">
     <ul class="nav nav-tabs">
         <li class="active"><a data-toggle="tab" href="#panel1">Персональные данные</a></li>
         <li><a data-toggle="tab" href="#panel2">Образование</a></li>
@@ -573,16 +573,7 @@
         </div>
         <div id="panel7" class="tab-pane fade">
             <!--Документы и файлы-->
-            <div class="row">
-                <div class="form-group">
-                    <div class="col-md-2 col-lg-2 col-xl-2 text-right">
-                        @Html.LabelFor(model => model.Enrollees.DocumentFile)
-                    </div>
-                    <div class="col-md-2 col-lg-2 col-xl-2">
-                        @Html.EditorFor(model => model.Files)
-                    </div>
-                </div>
-            </div>
+
 
             <div class="row">
                 <div class="form-group">
@@ -608,8 +599,30 @@
                 </div>
             </div>
 
+            <h4>Документы</h4>
+            
+            <div class="container table-bordered">
+                <br />
+                <div class="row">
+                    @foreach (var file in Model.Enrollees.DocumentFile)
+                    {
+                        @if (file.File != null)
+                        {
+                            <figure class="col-md-2 col-lg-2 col-xl-2">
+                                <img style='width:120px; height:100px;' src="data:@file.TypeFile;base64,@(Convert.ToBase64String(file.File))" />
+                                <a asp-action="GetFile" asp-route-id="@file.Id"><figcaption>Скачать "@file.NameFile"</figcaption></a>
+                            </figure>
+                        }
+                    }
+                            
+                                <figure class="col-md-2 col-lg-2 col-xl-2">
+                                    <img src="~/images/add.png" style='width:100px; height:100px;' />   
+                                    <figcaption>@Html.EditorFor(model => model.Files, new { enctype = "multipart/form-data" })</figcaption>
+                                </figure>
+                </div>
+            </div>
         </div>
-    </div>
+        </div>
     <br />
     <div class="form-group">
         <input id="SaveAbitur" type="submit" value="Сохранить" class="btn btn-default" />
