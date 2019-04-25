@@ -264,6 +264,17 @@
                         </div>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-md-2 col-lg-2 col-xl-2 text-right">
+                            @Html.LabelFor(model => model.Enrollees.AddressLine)
+                        </div>
+                        <div class="col-md-2 col-lg-2 col-xl-2">
+                            @Html.TextAreaFor(model => model.Enrollees.AddressLine, new { rows = "1", cols = "113" })
+                            @Html.ValidationMessageFor(model => model.Enrollees.AddressLine)
+                        </div>
+                    </div>
+                </div>
             </div>
             <br />
             <div class="container table-bordered">

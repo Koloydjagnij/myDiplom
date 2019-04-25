@@ -25,12 +25,19 @@ namespace test.Controllers.EnrolleeControl
         {
             _context = context;
         }
-        // получить список районов в выбранном регионе
+        /// <summary>
+        /// получить список районов в выбранном регионе
+        /// </summary>
+        /// <param name="id"> ID региона</param>
+        /// <returns></returns>
         public ActionResult GetItemsAreas(int id)
         {
             return PartialView(_context.Area.Where(c => c.IdRegion == id|| c.NameArea=="Не выбрано").ToList());
         }
-        //получиь список городов в выбранном районе
+        /// <summary>
+        /// получиь список городов в выбранном районе
+        /// </summary>
+
         public ActionResult GetItemsCities(int id)
         {
             return PartialView(_context.City.Where(c => c.IdArea == id|| c.NameCity=="Не выбрано").ToList());
@@ -48,10 +55,20 @@ namespace test.Controllers.EnrolleeControl
             ProfNumDesc// по номеру дела по убыванию
         }
 
-        // GET: Enrollees
+        /// <summary>
+        /// Возвращает список абитуриентов с учетом фильтров и постраничной навигации
+        /// </summary>
+        /// <param name="eduType">Массив из ID типов образования для фильтрации</param>
+        /// <param name="maritalStatus"></param>
+        /// <param name="preemptiveRight"></param>
+        /// <param name="name">Поиск по ФИО</param>
+        /// <param name="page"> Номер станицы при большом количестве данных</param>
+        /// <param name="sortOrder"> Способ и столбец по которому сортируем</param>
+        /// <returns>Возвращает список абитуриентов с учетом фильтров и постраничной навигации</returns>
         [Authorize(Roles = "Admin,ListAbitur")]
         public async Task<IActionResult> Index(int[] eduType, int? maritalStatus, int? preemptiveRight, string name, int page = 1, SortState sortOrder = SortState.SurnameAsc)
         {
+            #region SortedAndFiltratedAbitur
             ViewData["NameSort"] = sortOrder == SortState.NameAsc ? SortState.NameDesc : SortState.NameAsc;
             ViewData["SurnameSort"] = sortOrder == SortState.SurnameAsc ? SortState.SurnameDesc : SortState.SurnameAsc;
             //ViewData["GroupSort"] = sortOrder == SortState.GroupAsc ? SortState.GroupDesc : SortState.GroupAsc;
@@ -101,6 +118,7 @@ namespace test.Controllers.EnrolleeControl
                     source = source.OrderBy(s => s.Surname);
                     break;
             }
+            #endregion
             var count = await source.CountAsync();
             var items = await source.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
             PageViewModel pageViewModel = new PageViewModel(count, page, pageSize);
@@ -115,7 +133,10 @@ namespace test.Controllers.EnrolleeControl
 
         }
 
-        //получаем список всех необходимых документов
+        /// <summary>
+        /// Создает список всех необходимых документов
+        /// </summary>
+        /// <param name="enrollee">Абитуриент</param>
         private void PopulateAssignedDocumentData(Enrollee enrollee)
         {
             var allDocuments = _context.Document;
@@ -133,7 +154,7 @@ namespace test.Controllers.EnrolleeControl
             ViewBag.Documents = viewModel;
         }
 
-        // GET: Enrollees/Details/5
+
         [Authorize(Roles = "Admin,FullDetailAbitur")]
         public async Task<IActionResult> Details(int? id)
         {
@@ -141,7 +162,7 @@ namespace test.Controllers.EnrolleeControl
             {
                 return NotFound();
             }
-
+            #region LoadRelationships
             var enrollee = await _context.Enrollee
                 .Include(e => e.IdCategoryMsNavigation)
                 .Include(e => e.IdEducationTypeNavigation)
@@ -181,8 +202,8 @@ namespace test.Controllers.EnrolleeControl
                     .ThenInclude(f => f.IdParentNavigation)
                     .ThenInclude(f => f.IdParentTypeNavigation)//добавляем семью
                 .SingleOrDefaultAsync(m => m.IdEnrollee == id);
-
-         var EnrolleView = new CreateViewModel();
+            #endregion
+            var EnrolleView = new CreateViewModel();
             EnrolleView.Enrollees = enrollee;
             if (enrollee == null)
             {
@@ -192,10 +213,11 @@ namespace test.Controllers.EnrolleeControl
             return View(EnrolleView);
         }
 
-        // GET: Enrollees/Create
+
         [Authorize(Roles = "Admin,AddAbitur")]
         public IActionResult Create()
         {
+            #region LoadViewData
             ViewData["IdCategoryMs"] = new SelectList(_context.MilitaryServiceCategory, "IdCategoryMs", "NameCategoryMs");
             ViewData["IdEducationType"] = new SelectList(_context.EducationType, "IdEducationType", "NameEducationType");
             ViewData["IdEducationalInstitution"] = new SelectList(_context.EducationalInstitution, "IdEducationalInstitution", "NameEducationalInstitution");
@@ -215,7 +237,7 @@ namespace test.Controllers.EnrolleeControl
             ViewData["IdParentType"] = new SelectList(_context.ParentType, "IdParentType", "NameParentType");
             ViewData["IdRegion"] = new SelectList(_context.Region.OrderBy(r=>r.NameRegion), "IdRegion", "NameRegion");
             ViewData["IdArea"] = new SelectList(_context.Area.Where(a=>a.NameArea=="Не выбрано").OrderBy(a=>a.NameArea), "IdArea", "NameArea");
-
+            #endregion
             var EnrolleeView = new CreateViewModel();
             EnrolleeView.Enrollees = new Enrollee();
             EnrolleeView.Enrollees.Family = new List<Family>();
@@ -231,17 +253,17 @@ namespace test.Controllers.EnrolleeControl
         public async Task<IActionResult> Create(CreateViewModel createViewModel)
         {
             var enrollee = createViewModel.Enrollees;
-            //create data
+            //фиксируетсяс дата создания
             enrollee.CreatedTo = DateTime.Now;
-            //generate num personal file
+            //gгенерируется номер личного дела
             var countLastName = _context.Enrollee.Where(m => m.Surname.Substring(0, 1).ToUpper() == enrollee.Surname.Substring(0, 1).ToUpper()).Count();
             enrollee.NumOfPersonalFile = enrollee.Surname.Substring(0, 1).ToUpper() + "-" + String.Format("{0:000}",countLastName+1);
 
-            //add and save in DB
+            //сохраняются изменения в базе данных
             _context.Add(enrollee);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
-            
+            #region LoadViewData
             ViewData["IdCategoryMs"] = new SelectList(_context.MilitaryServiceCategory, "IdCategoryMs", "NameCategoryMs", enrollee.IdCategoryMs);
             ViewData["IdEducationType"] = new SelectList(_context.EducationType, "IdEducationType", "NameEducationType", enrollee.IdEducationType);
             ViewData["IdEducationalInstitution"] = new SelectList(_context.EducationalInstitution, "IdEducationalInstitution", "NameEducationalInstitution", enrollee.IdEducationalInstitution);
@@ -261,10 +283,12 @@ namespace test.Controllers.EnrolleeControl
             ViewData["IdParentType"] = new SelectList(_context.ParentType, "IdParentType", "NameParentType");
             ViewData["IdRegion"] = new SelectList(_context.Region.OrderBy(r=>r.NameRegion), "IdRegion", "NameRegion");
             ViewData["IdArea"] = new SelectList(_context.Area.Where(a=>a.IdRegion==enrollee.IdRegion|| a.NameArea=="Не выбрано").OrderBy(a=>a.NameArea), "IdArea", "NameArea");
+
+            #endregion
             return View(createViewModel);
         }
 
-        // GET: Enrollees/Edit/5
+
         [Authorize(Roles = "Admin,EditAbitur")]
         public async Task<IActionResult> Edit(int? id)
         {
@@ -273,7 +297,7 @@ namespace test.Controllers.EnrolleeControl
                 return NotFound();
             }
 
-            
+            #region LoadRelationships
             var enrollee = await _context.Enrollee
                 .Include(e => e.IdCategoryMsNavigation)
                 .Include(e => e.IdEducationTypeNavigation)
@@ -314,7 +338,7 @@ namespace test.Controllers.EnrolleeControl
                     .ThenInclude(f => f.IdParentTypeNavigation)
                 //добавляем семью
                 .SingleOrDefaultAsync(m => m.IdEnrollee == id);
-
+            #endregion
             PopulateAssignedDocumentData(enrollee);
             
             if (enrollee == null)
@@ -334,7 +358,7 @@ namespace test.Controllers.EnrolleeControl
             EnrolleeView.CityList = _context.City;
             EnrolleeView.FactOfProsecutionList = _context.FactOfProsecution;
 
-
+            #region LoadViewData
             ViewData["IdCategoryMs"] = new SelectList(_context.MilitaryServiceCategory, "IdCategoryMs", "NameCategoryMs", enrollee.IdCategoryMs);
             ViewData["IdEducationType"] = new SelectList(_context.EducationType, "IdEducationType", "NameEducationType", enrollee.IdEducationType);
             ViewData["IdEducationalInstitution"] = new SelectList(_context.EducationalInstitution, "IdEducationalInstitution", "NameEducationalInstitution", enrollee.IdEducationalInstitution);
@@ -355,12 +379,11 @@ namespace test.Controllers.EnrolleeControl
             ViewData["IdRegion"] = new SelectList(_context.Region.OrderBy(r=>r.NameRegion), "IdRegion", "NameRegion");
             ViewData["IdArea"] = new SelectList(_context.Area.Where(a=>a.IdRegion==enrollee.IdRegion|| a.NameArea=="Не выбрано").OrderBy(a=>a.NameArea), "IdArea", "NameArea");
 
-
+            #endregion
 
             return View(EnrolleeView);
         }
 
-        // POST: Enrollees/Edit/5
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -371,7 +394,7 @@ namespace test.Controllers.EnrolleeControl
             var enrollee = createViewModel.Enrollees;
             List<Family> FamiliesForm = new List<Family>();
             List<Parent> ParentsForm = new List<Parent>();
-
+            #region LoadFiles
             if (createViewModel.Files != null)
             {
                 foreach (var unloadFile in createViewModel.Files)
@@ -395,7 +418,8 @@ namespace test.Controllers.EnrolleeControl
                     _context.Add(file);
                 }
             }
-
+            #endregion
+            #region LoadFamilies
             //все значения с формы
             var allFamilyFields =this.Request.Form.ToArray();
             //список ключей
@@ -439,8 +463,8 @@ namespace test.Controllers.EnrolleeControl
                 }
                 enrollee.Family = FamiliesForm;
             }
-            
-            
+            #endregion
+
 
 
             if (id != enrollee.IdEnrollee)
@@ -476,7 +500,7 @@ namespace test.Controllers.EnrolleeControl
                     }
                 }
                 return RedirectToAction(nameof(Index));
-            
+            #region LoadViewData
             ViewData["IdCategoryMs"] = new SelectList(_context.MilitaryServiceCategory, "IdCategoryMs", "NameCategoryMs", enrollee.IdCategoryMs);
             ViewData["IdEducationType"] = new SelectList(_context.EducationType, "IdEducationType", "NameEducationType", enrollee.IdEducationType);
             ViewData["IdEducationalInstitution"] = new SelectList(_context.EducationalInstitution, "IdEducationalInstitution", "NameEducationalInstitution", enrollee.IdEducationalInstitution);
@@ -496,18 +520,13 @@ namespace test.Controllers.EnrolleeControl
             ViewData["IdParentType"] = new SelectList(_context.ParentType, "IdParentType", "NameParentType");
             ViewData["IdRegion"] = new SelectList(_context.Region.OrderBy(r=>r.NameRegion), "IdRegion", "NameRegion");
             ViewData["IdArea"] = new SelectList(_context.Area.Where(a=>a.IdRegion==enrollee.IdRegion||a.NameArea=="Не выбрано").OrderBy(a=>a.NameArea), "IdArea", "NameArea");
+
+            #endregion
             return View(createViewModel);
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ChangeFamily(Family family)
-        {
-            return View(family);
-        }
 
 
-        // GET: Enrollees/Delete/5
         [Authorize(Roles = "Admin,DeleteAbitur")]
         public async Task<IActionResult> Delete(int? id)
         {
@@ -515,7 +534,7 @@ namespace test.Controllers.EnrolleeControl
             {
                 return NotFound();
             }
-
+            #region LoadRelationships
             var enrollee = await _context.Enrollee
                 .Include(e => e.IdCategoryMsNavigation)
                 .Include(e => e.IdEducationTypeNavigation)
@@ -534,6 +553,7 @@ namespace test.Controllers.EnrolleeControl
                     .ThenInclude(m=>m.IdAreaNavigation)
                         .ThenInclude(r=>r.IdRegionNavigation)
                 .SingleOrDefaultAsync(m => m.IdEnrollee == id);
+            #endregion
             if (enrollee == null)
             {
                 return NotFound();
@@ -542,7 +562,7 @@ namespace test.Controllers.EnrolleeControl
             return View(enrollee);
         }
 
-        // POST: Enrollees/Delete/5
+
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin,DeleteAbitur")]
@@ -558,7 +578,11 @@ namespace test.Controllers.EnrolleeControl
         {
             return _context.Enrollee.Any(e => e.IdEnrollee == id);
         }
-
+        /// <summary>
+        /// Загружает файл из базы в браузер для скачивания
+        /// </summary>
+        /// <param name="id">Id файла в базе данных</param>
+        /// <returns></returns>
         public FileResult GetFile(int id)
         {
             var documentFile = _context.DocumentFile.SingleOrDefault(m => m.Id == id);
@@ -590,30 +614,7 @@ namespace test.Controllers.EnrolleeControl
             return RedirectToAction(nameof(Edit), new { id = redirectId });
         }
 
-        [HttpPost]
-        public async Task<IActionResult> AddFile(int IdEnrolle, DocumentFile documents, List<IFormFile> upFile)
-        {
-            if (upFile!= null)
-            {
-                var filePath = Path.GetTempFileName();
-                foreach (var formFile in upFile)
-                {
-                    if (formFile.Length > 0)
-                    {
-                        using (var stream = new FileStream(filePath, FileMode.Create))
-                        {
-                            await formFile.CopyToAsync(stream);
-                        }
-                    }
-                }
-                
-                // считываем переданный файл в массив байтов
 
-                return Ok();
-            }
-            return NotFound();
-
-        }
         public async Task<IActionResult> AddFamily(int id, CreateViewModel model)
         {
             var parent = new Parent { IdParentType = 1, IdCity = 1, IdSex = 1, IdSocialStatus = 1, IdFactOfProsecution=1 };

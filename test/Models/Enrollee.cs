@@ -112,6 +112,10 @@ namespace test
         [Display(Name = "Причина отчисления")]
         public int IdReasonForDeduction { get; set; }
 
+        //??[Required]
+        [Display(Name = "Адрес")]
+        public string AddressLine { get; set; }
+
         [Required]
         [Display(Name = "Город")]
         public int IdTown { get; set; }
