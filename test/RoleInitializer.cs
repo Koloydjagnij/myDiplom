@@ -58,6 +58,7 @@ namespace test
             {
                 await roleManager.CreateAsync(new IdentityRole("User"));
             }
+            /*
             //секретарь
             if (await roleManager.FindByNameAsync("Secretary") == null)
             {
@@ -68,7 +69,7 @@ namespace test
             {
                 await roleManager.CreateAsync(new IdentityRole("ChiefSecretary"));
             }
-
+            */
         }
     }
 }

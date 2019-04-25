@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using test.ViewModels;
 using test.Models;
 using Microsoft.AspNetCore.Authorization;
+using System;
+using test.Views.Roles;
 
 namespace test.Controllers
 {
@@ -56,6 +58,44 @@ namespace test.Controllers
         }
 
         public IActionResult UserList() => View(_userManager.Users.ToList());
+
+
+        public async Task<IActionResult> ResetPasswordUser(string userId) {
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+            {
+                return NotFound();
+            }
+            ResetPasswordUserViewModel model = new ResetPasswordUserViewModel { Id = user.Id, Email = user.Email };
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ResetPasswordUser(ResetPasswordUserViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+
+                var user = await _userManager.FindByIdAsync(model.Id);
+                if (user == null)
+                {
+                    throw new ApplicationException($"не удалось загрузить пользователя'{_userManager.GetUserId(User)}'.");
+                }
+
+
+                var _passwordHasher =
+                    HttpContext.RequestServices.GetService(typeof(IPasswordHasher<ApplicationUser>)) as IPasswordHasher<ApplicationUser>;
+
+                user.PasswordHash = _passwordHasher.HashPassword(user, model.NewPassword);
+                await _userManager.UpdateAsync(user);
+
+                return RedirectToAction("UserList");
+            }
+            else
+            {
+                return View(model);
+            }
+        }
 
         public async Task<IActionResult> Edit(string userId)
         {

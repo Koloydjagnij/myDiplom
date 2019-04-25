@@ -82,7 +82,7 @@ namespace test.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    ModelState.AddModelError(string.Empty, "Ошибка входа! Проверьте правильность логина и пароля.");
                     return View(model);
                 }
             }
@@ -414,6 +414,42 @@ namespace test.Controllers
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            var user = await _userManager.FindByEmailAsync(model.Email);
+            if (user == null)
+            {
+                // Don't reveal that the user does not exist
+                return RedirectToAction(nameof(ResetPasswordConfirmation));
+            }
+            var result = await _userManager.ResetPasswordAsync(user, model.Code, model.Password);
+            if (result.Succeeded)
+            {
+                return RedirectToAction(nameof(ResetPasswordConfirmation));
+            }
+            AddErrors(result);
+            return View();
+        }
+
+
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult ResetPasswordUser(string code = null)
+        {
+            if (code == null)
+            {
+                throw new ApplicationException("A code must be supplied for password reset.");
+            }
+            var model = new ResetPasswordViewModel { Code = code };
+            return View(model);
+        }
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ResetPasswordUser(ResetPasswordViewModel model)
         {
             if (!ModelState.IsValid)
             {
