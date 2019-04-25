@@ -37,7 +37,7 @@
                                 @Html.LabelFor(model => model.Enrollees.Surname)
                             </div>
                             <div class="col-md-2 col-lg-2 col-xl-2">
-                                @Html.DisplayFor(model => model.Enrollees.Surname)
+                                @Html.EditorFor(model => model.Enrollees.Surname)
                                 @Html.ValidationMessageFor(model => model.Enrollees.Surname)
                             </div>
                         </div>
@@ -46,7 +46,7 @@
                                 @Html.LabelFor(model => model.Enrollees.Name)
                             </div>
                             <div class="col-md-2 col-lg-2 col-xl-2">
-                                @Html.DisplayFor(model => model.Enrollees.Name)
+                                @Html.EditorFor(model => model.Enrollees.Name)
                                 @Html.ValidationMessageFor(model => model.Enrollees.Name)
                             </div>
                         </div>
@@ -55,7 +55,7 @@
                                 @Html.LabelFor(model => model.Enrollees.Patronymic)
                             </div>
                             <div class="col-md-2 col-lg-2 col-xl-2">
-                                @Html.DisplayFor(model => model.Enrollees.Patronymic)
+                                @Html.EditorFor(model => model.Enrollees.Patronymic)
                                 @Html.ValidationMessageFor(model => model.Enrollees.Patronymic)
                             </div>
                         </div>
@@ -64,7 +64,7 @@
                                 @Html.LabelFor(model => model.Enrollees.DateOfBirth)
                             </div>
                             <div class="col-md-2 col-lg-2 col-xl-2">
-                                @Html.DisplayFor(model => model.Enrollees.DateOfBirth)
+                                @Html.EditorFor(model => model.Enrollees.DateOfBirth)
                                 @Html.ValidationMessageFor(model => model.Enrollees.DateOfBirth)
                             </div>
                         </div>
@@ -100,7 +100,7 @@
                                 @Html.LabelFor(model => model.Enrollees.DateOfDeduction)
                             </div>
                             <div class="col-md-2 col-lg-2 col-xl-2">
-                                @Html.DisplayFor(model => model.Enrollees.DateOfDeduction)
+                                @Html.EditorFor(model => model.Enrollees.DateOfDeduction)
                                 @Html.ValidationMessageFor(model => model.Enrollees.DateOfDeduction)
                             </div>
                         </div>
@@ -127,7 +127,7 @@
                                 @Html.LabelFor(model => model.Enrollees.PassportSeries)
                             </div>
                             <div class="col-md-2 col-lg-2 col-xl-2">
-                                @Html.DisplayFor(model => model.Enrollees.PassportSeries)
+                                @Html.EditorFor(model => model.Enrollees.PassportSeries)
                                 @Html.ValidationMessageFor(model => model.Enrollees.PassportSeries)
                             </div>
                         </div>
@@ -138,7 +138,7 @@
                                 @Html.LabelFor(model => model.Enrollees.PassportNumber)
                             </div>
                             <div class="col-md-2 col-lg-2 col-xl-2">
-                                @Html.DisplayFor(model => model.Enrollees.PassportNumber)
+                                @Html.EditorFor(model => model.Enrollees.PassportNumber)
                                 @Html.ValidationMessageFor(model => model.Enrollees.PassportNumber)
                             </div>
                         </div>
@@ -153,7 +153,7 @@
                                 @Html.LabelFor(model => model.Enrollees.PassportUnitCode)
                             </div>
                             <div class="col-md-2 col-lg-2 col-xl-2">
-                                @Html.DisplayFor(model => model.Enrollees.PassportUnitCode)
+                                @Html.EditorFor(model => model.Enrollees.PassportUnitCode)
                                 @Html.ValidationMessageFor(model => model.Enrollees.PassportUnitCode)
                             </div>
                         </div>
@@ -164,7 +164,7 @@
                                 @Html.LabelFor(model => model.Enrollees.PassportIssueDate)
                             </div>
                             <div class="col-md-2 col-lg-2 col-xl-2">
-                                @Html.DisplayFor(model => model.Enrollees.PassportIssueDate)
+                                @Html.EditorFor(model => model.Enrollees.PassportIssueDate)
                                 @Html.ValidationMessageFor(model => model.Enrollees.PassportIssueDate)
                             </div>
                         </div>
@@ -256,7 +256,7 @@
                             @Html.LabelFor(model => model.Enrollees.CardPpo)
                         </div>
                         <div class="col-md-2 col-lg-2 col-xl-2">
-                            @Html.DisplayFor(model => model.Enrollees.CardPpo)
+                            @Html.EditorFor(model => model.Enrollees.CardPpo)
                             @Html.ValidationMessageFor(model => model.Enrollees.CardPpo)
                         </div>
                     </div>
@@ -270,7 +270,7 @@
                             @Html.LabelFor(model => model.Enrollees.AdmitSsgt)
                         </div>
                         <div class="col-md-2 col-lg-2 col-xl-2">
-                            @Html.DisplayFor(model => model.Enrollees.AdmitSsgt)
+                            @Html.EditorFor(model => model.Enrollees.AdmitSsgt)
                             @Html.ValidationMessageFor(model => model.Enrollees.AdmitSsgt)
                         </div>
                     </div>
@@ -320,7 +320,7 @@
                         @Html.LabelFor(model => model.Enrollees.YearOfEndingEducation)
                     </div>
                     <div class="col-md-2 col-lg-2 col-xl-2">
-                        @Html.DisplayFor(model => model.Enrollees.YearOfEndingEducation)
+                        @Html.EditorFor(model => model.Enrollees.YearOfEndingEducation)
                         @Html.ValidationMessageFor(model => model.Enrollees.YearOfEndingEducation)
                     </div>
                 </div>
@@ -393,7 +393,7 @@
                 @foreach (var family in Model.Enrollees.Family)
                 {
 
-                    <div name="family" class="list-group-item">
+                    <div id="Family" name="Family" class="list-group-item">
                         <div class="row">
                             <div class="col-md-5 col-lg-5 col-xl-5">
                                 <div class="form-group">
@@ -493,7 +493,8 @@
                         @Html.LabelFor(model => model.Enrollees.IdMilitaryOffice)
                     </div>
                     <div class="col-md-2 col-lg-2 col-xl-2">
-                        @Html.DropDownList("Enrollees.IdMilitaryOffice", ViewBag.IdMilitaryOffice as SelectList)
+                        @Html.TextAreaFor(model => model.Enrollees.IdMilitaryOffice, new { rows = "5", cols = "70" })
+
                     </div>
                 </div>
             </div>
@@ -504,7 +505,7 @@
                         @Html.LabelFor(model => model.Enrollees.IdMilitaryUnit)
                     </div>
                     <div class="col-md-2 col-lg-2 col-xl-2">
-                        @Html.DropDownList("Enrollees.IdMilitaryUnit", ViewBag.IdMilitaryUnit as SelectList)
+                        @Html.TextAreaFor(model => model.Enrollees.IdMilitaryUnit, new { rows = "5", cols = "70" })
                     </div>
                 </div>
             </div>
@@ -573,6 +574,8 @@
         </div>
         <div id="panel7" class="tab-pane fade">
             <!--Документы и файлы-->
+
+
             <div class="row">
                 <div class="form-group">
                     <div class="col-md-2 col-lg-2 col-xl-2 text-right">
@@ -597,11 +600,35 @@
                 </div>
             </div>
 
+            <h4>Прикрепленные файлы</h4>
+
+            <div class="container table-bordered">
+                <br />
+                <div class="row">
+                    @foreach (var file in Model.Enrollees.DocumentFile)
+                    {
+                        @if (file.File != null)
+                        {
+                            <figure class="col-md-2 col-lg-2 col-xl-2">
+                                <img style='width:120px; height:100px;' src="data:@file.TypeFile;base64,@(Convert.ToBase64String(file.File))" />
+                                <a asp-action="GetFile" asp-route-id="@file.Id"><figcaption>Скачать "@file.NameFile"</figcaption></a>
+                            </figure>
+                        }
+                    }
+
+                    <figure class="col-md-2 col-lg-2 col-xl-2">
+                        <img src="~/images/add.png" style='width:100px; height:100px;' />
+                        <figcaption><input id="Files" class="text-box single-line" type="file" name="Files" multiple></figcaption>
+                    </figure>
+                </div>
+            </div>
         </div>
     </div>
     <br />
-    <div class="form-group">
-        <input id="SaveAbitur" type="submit" value="Сохранить" class="btn btn-default" />
+    <div class="container">
+        <div class="form-group">
+            <input id="SaveAbitur" type="submit" value="Сохранить" class="btn btn-default" />
+        </div>
     </div>
 </form>
 <div>

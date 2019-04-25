@@ -22,13 +22,9 @@ namespace test
         public DateTime? CreatedTo { get; set; }
 
         public int IdEnrollee { get; set; }
-        [Display(Name = "Личное дело")]
-        public virtual string PersonalFile
-        {
-            get { return Surname.Substring(0, 1) + "-" + NumOfPersonalFile; }
-        }
+
         [Display(Name = "Номер личного дела")]
-        public int? NumOfPersonalFile { get; set; }
+        public string NumOfPersonalFile { get; set; }
 
         [Required]
         [Display(Name = "Фамилия")]
@@ -111,7 +107,7 @@ namespace test
         public int IdPreemptiveRight { get; set; }
 
         [Display(Name = "Военкомат")]
-        public int IdMilitaryOffice { get; set; }
+        public string IdMilitaryOffice { get; set; }
 
         [Display(Name = "Причина отчисления")]
         public int IdReasonForDeduction { get; set; }
@@ -145,13 +141,13 @@ namespace test
         public string NotesEducationalInstitution { get; set; }
 
         [Display(Name = "Личный номер ВС")]
-        public int? PersonalNumberMs { get; set; }
+        public string PersonalNumberMs { get; set; }
 
         [Display(Name = "Должность запаса ВС")]
         public string StockPositionMs { get; set; }
 
         [Display(Name = "Военная часть")]
-        public int IdMilitaryUnit { get; set; }
+        public string IdMilitaryUnit { get; set; }
 
         [Display(Name = "Воинское звание")]
         public int IdMilitaryRank { get; set; }
@@ -164,9 +160,9 @@ namespace test
         public EducationalInstitution IdEducationalInstitutionNavigation { get; set; }
         public FactOfProsecution IdFactOfProsecutionNavigation { get; set; }
         public MaritalStatus IdMaritalStatusNavigation { get; set; }
-        public MilitaryOffice IdMilitaryOfficeNavigation { get; set; }
+        //public MilitaryOffice IdMilitaryOfficeNavigation { get; set; }
         public MilitaryRank IdMilitaryRankNavigation { get; set; }
-        public MilitaryUnit IdMilitaryUnitNavigation { get; set; }
+       // public MilitaryUnit IdMilitaryUnitNavigation { get; set; }
         public Nationality IdNationalityNavigation { get; set; }
         public PreemptiveRight IdPreemptiveRightNavigation { get; set; }
         public ReasonForDeduction IdReasonForDeductionNavigation { get; set; }

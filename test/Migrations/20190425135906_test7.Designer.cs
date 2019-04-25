@@ -11,9 +11,10 @@ using test.Data;
 namespace test.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190425135906_test7")]
+    partial class test7
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -415,7 +416,7 @@ namespace test.Migrations
                         .IsRequired()
                         .HasColumnName("patronymic");
 
-                    b.Property<string>("PersonalNumberMs")
+                    b.Property<int?>("PersonalNumberMs")
                         .HasColumnName("personal_number_ms");
 
                     b.Property<string>("PlaceOfBirth")

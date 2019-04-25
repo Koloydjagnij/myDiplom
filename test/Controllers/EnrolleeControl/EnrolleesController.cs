@@ -130,9 +130,9 @@ namespace test.Controllers.EnrolleeControl
                 .Include(e => e.IdEducationalInstitutionNavigation)
                 .Include(e => e.IdFactOfProsecutionNavigation)
                 .Include(e => e.IdMaritalStatusNavigation)
-                .Include(e => e.IdMilitaryOfficeNavigation)
+                //.Include(e => e.IdMilitaryOfficeNavigation)
                 .Include(e => e.IdMilitaryRankNavigation)
-                .Include(e => e.IdMilitaryUnitNavigation)
+                //.Include(e => e.IdMilitaryUnitNavigation)
                 .Include(e => e.IdNationalityNavigation)
                 .Include(e => e.IdPreemptiveRightNavigation)
                 .Include(e => e.IdPreemptiveRightNavigation)
@@ -144,6 +144,7 @@ namespace test.Controllers.EnrolleeControl
                 .Include(e => e.IdTownNavigation)
                     .ThenInclude(m => m.IdAreaNavigation)
                         .ThenInclude(r => r.IdRegionNavigation)
+                            .ThenInclude(mu => mu.IdMilitaryDistrictNavigation)
                 .Include(f => f.Family)
                     .ThenInclude(p => p.IdFamilyTypeNavigation)
                 .Include(f => f.Family)
@@ -210,10 +211,15 @@ namespace test.Controllers.EnrolleeControl
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin,AddAbitur")]
         public async Task<IActionResult> Create(CreateViewModel createViewModel)
-        //public async Task<IActionResult> Create([Bind("IdEnrollee,NumOfPersonalFile,Surname,Name,Patronymic,DateOfBirth,PlaceOfBirth,PassportSeries,PassportNumber,PassportIssueDate,PassportIssuedBy,PassportUnitCode,InteernationalPassport,CardPpo,AdmitSsgt,OtherNotes,ArrivalDate,LiveInCamp,DateOfDeduction,Children,IdSocialBackground,IdSex,IdMaritalStatus,IdNationality,IdPreemptiveRight,IdMilitaryOffice,IdReasonForDeduction,IdTown,IdFactOfProsecution,IdEducationalInstitution,IdEducationType,YearOfEndingEducation,NotesEducationalInstitution,PersonalNumberMs,StockPositionMs,IdMilitaryUnit,IdMilitaryRank,IdCategoryMs")] Enrollee enrollee)
         {
             var enrollee = createViewModel.Enrollees;
+            //create data
             enrollee.CreatedTo = DateTime.Now;
+            //generate num personal file
+            var countLastName = _context.Enrollee.Where(m => m.Surname.Substring(0, 1).ToUpper() == enrollee.Surname.Substring(0, 1).ToUpper()).Count();
+            enrollee.NumOfPersonalFile = enrollee.Surname.Substring(0, 1).ToUpper() + "-" + String.Format("{0:000}",countLastName+1);
+
+            //add and save in DB
             _context.Add(enrollee);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -256,9 +262,9 @@ namespace test.Controllers.EnrolleeControl
                 .Include(e => e.IdEducationalInstitutionNavigation)
                 .Include(e => e.IdFactOfProsecutionNavigation)
                 .Include(e => e.IdMaritalStatusNavigation)
-                .Include(e => e.IdMilitaryOfficeNavigation)
+                //.Include(e => e.IdMilitaryOfficeNavigation)
                 .Include(e => e.IdMilitaryRankNavigation)
-                .Include(e => e.IdMilitaryUnitNavigation)
+                //.Include(e => e.IdMilitaryUnitNavigation)
                 .Include(e => e.IdNationalityNavigation)
                 .Include(e => e.IdPreemptiveRightNavigation)
                 .Include(e => e.IdPreemptiveRightNavigation)
@@ -269,6 +275,7 @@ namespace test.Controllers.EnrolleeControl
                 .Include(e => e.IdTownNavigation)
                     .ThenInclude(m=>m.IdAreaNavigation)
                         .ThenInclude(r=>r.IdRegionNavigation)
+                            .ThenInclude(mu=>mu.IdMilitaryDistrictNavigation)
                 .Include(f => f.Family)
                     .ThenInclude(p=>p.IdFamilyTypeNavigation)
                 .Include(f => f.Family)
@@ -495,9 +502,9 @@ namespace test.Controllers.EnrolleeControl
                 .Include(e => e.IdEducationalInstitutionNavigation)
                 .Include(e => e.IdFactOfProsecutionNavigation)
                 .Include(e => e.IdMaritalStatusNavigation)
-                .Include(e => e.IdMilitaryOfficeNavigation)
+               // .Include(e => e.IdMilitaryOfficeNavigation)
                 .Include(e => e.IdMilitaryRankNavigation)
-                .Include(e => e.IdMilitaryUnitNavigation)
+                //.Include(e => e.IdMilitaryUnitNavigation)
                 .Include(e => e.IdNationalityNavigation)
                 .Include(e => e.IdPreemptiveRightNavigation)
                 .Include(e => e.IdReasonForDeductionNavigation)

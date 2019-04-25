@@ -11,9 +11,10 @@ using test.Data;
 namespace test.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190425133153_test6")]
+    partial class test6
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -343,13 +344,13 @@ namespace test.Migrations
                     b.Property<int>("IdMaritalStatus")
                         .HasColumnName("id_marital_status");
 
-                    b.Property<string>("IdMilitaryOffice")
+                    b.Property<int>("IdMilitaryOffice")
                         .HasColumnName("id_military_office");
 
                     b.Property<int>("IdMilitaryRank")
                         .HasColumnName("id_military_rank");
 
-                    b.Property<string>("IdMilitaryUnit")
+                    b.Property<int>("IdMilitaryUnit")
                         .HasColumnName("id_military_unit");
 
                     b.Property<int>("IdNationality")
@@ -377,10 +378,6 @@ namespace test.Migrations
 
                     b.Property<bool?>("LiveInCamp")
                         .HasColumnName("live_in_camp");
-
-                    b.Property<int?>("MilitaryOfficeIdMilitaryOffice");
-
-                    b.Property<int?>("MilitaryUnitIdMilitaryUnit");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -415,7 +412,7 @@ namespace test.Migrations
                         .IsRequired()
                         .HasColumnName("patronymic");
 
-                    b.Property<string>("PersonalNumberMs")
+                    b.Property<int?>("PersonalNumberMs")
                         .HasColumnName("personal_number_ms");
 
                     b.Property<string>("PlaceOfBirth")
@@ -445,7 +442,11 @@ namespace test.Migrations
 
                     b.HasIndex("IdMaritalStatus");
 
+                    b.HasIndex("IdMilitaryOffice");
+
                     b.HasIndex("IdMilitaryRank");
+
+                    b.HasIndex("IdMilitaryUnit");
 
                     b.HasIndex("IdNationality");
 
@@ -458,10 +459,6 @@ namespace test.Migrations
                     b.HasIndex("IdSocialBackground");
 
                     b.HasIndex("IdTown");
-
-                    b.HasIndex("MilitaryOfficeIdMilitaryOffice");
-
-                    b.HasIndex("MilitaryUnitIdMilitaryUnit");
 
                     b.ToTable("enrollee");
                 });
@@ -1176,10 +1173,20 @@ namespace test.Migrations
                         .HasForeignKey("IdMaritalStatus")
                         .HasConstraintName("r_9");
 
+                    b.HasOne("test.MilitaryOffice", "IdMilitaryOfficeNavigation")
+                        .WithMany("Enrollee")
+                        .HasForeignKey("IdMilitaryOffice")
+                        .HasConstraintName("r_17");
+
                     b.HasOne("test.MilitaryRank", "IdMilitaryRankNavigation")
                         .WithMany("Enrollee")
                         .HasForeignKey("IdMilitaryRank")
                         .HasConstraintName("r_80");
+
+                    b.HasOne("test.MilitaryUnit", "IdMilitaryUnitNavigation")
+                        .WithMany("Enrollee")
+                        .HasForeignKey("IdMilitaryUnit")
+                        .HasConstraintName("r_79");
 
                     b.HasOne("test.Nationality", "IdNationalityNavigation")
                         .WithMany("Enrollee")
@@ -1210,14 +1217,6 @@ namespace test.Migrations
                         .WithMany("Enrollee")
                         .HasForeignKey("IdTown")
                         .HasConstraintName("r_52");
-
-                    b.HasOne("test.MilitaryOffice")
-                        .WithMany("Enrollee")
-                        .HasForeignKey("MilitaryOfficeIdMilitaryOffice");
-
-                    b.HasOne("test.MilitaryUnit")
-                        .WithMany("Enrollee")
-                        .HasForeignKey("MilitaryUnitIdMilitaryUnit");
                 });
 
             modelBuilder.Entity("test.EnrolleeAchievement", b =>

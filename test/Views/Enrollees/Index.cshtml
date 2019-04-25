@@ -78,9 +78,6 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Enrollees.First().PersonalFile)
-            </th>
-            <th>
                 <sort-header action="Index" up="@Model.SortViewModel.Up"
                              current="@Model.SortViewModel.Current" property="@Model.SortViewModel.ProfNumSort">
                     @Html.DisplayNameFor(model => model.Enrollees.First().NumOfPersonalFile)
@@ -118,9 +115,6 @@
         @foreach (var item in Model.Enrollees)
         {
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.PersonalFile)
-                </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.NumOfPersonalFile)
                 </td>

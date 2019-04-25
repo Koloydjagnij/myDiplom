@@ -28,7 +28,8 @@
                                 @Html.LabelFor(model => model.Enrollees.NumOfPersonalFile)
                             </div>
                             <div class="col-md-2 col-lg-2 col-xl-2">
-                                @Html.EditorFor(model => model.Enrollees.NumOfPersonalFile)
+                                @Html.HiddenFor(model => model.Enrollees.NumOfPersonalFile)
+                                @Html.DisplayFor(model => model.Enrollees.NumOfPersonalFile)
                                 @Html.ValidationMessageFor(model => model.Enrollees.NumOfPersonalFile)
                             </div>
                         </div>
@@ -215,6 +216,20 @@
             <div class="container table-bordered">
                 <!--адрес проживания-->
                 <br />
+                @if (Model.Enrollees.PersonalNumberMs != null)
+                {
+                    <div class="row">
+                        <div class="form-group">
+                            <div class="col-md-2 col-lg-2 col-xl-2 text-right">
+                                @Html.LabelFor(model => model.Enrollees.IdTownNavigation.IdAreaNavigation.IdRegionNavigation.IdMilitaryDistrictNavigation.NameMilitaryDistrict)
+                            </div>
+                            <div class="col-md-2 col-lg-2 col-xl-2">
+                                @Html.DisplayFor(model=> model.Enrollees.IdTownNavigation.IdAreaNavigation.IdRegionNavigation.IdMilitaryDistrictNavigation.NameMilitaryDistrict)
+                            </div>
+                        </div>
+                    </div>
+
+                }
                 <div class="row">
                     <div class="form-group">
                         <div class="col-md-2 col-lg-2 col-xl-2 text-right">
@@ -493,7 +508,8 @@
                         @Html.LabelFor(model => model.Enrollees.IdMilitaryOffice)
                     </div>
                     <div class="col-md-2 col-lg-2 col-xl-2">
-                        @Html.DropDownList("Enrollees.IdMilitaryOffice", ViewBag.IdMilitaryOffice as SelectList)
+                        @Html.TextAreaFor(model => model.Enrollees.IdMilitaryOffice, new { rows = "5", cols = "70" })
+                        
                     </div>
                 </div>
             </div>
@@ -504,7 +520,7 @@
                         @Html.LabelFor(model => model.Enrollees.IdMilitaryUnit)
                     </div>
                     <div class="col-md-2 col-lg-2 col-xl-2">
-                        @Html.DropDownList("Enrollees.IdMilitaryUnit", ViewBag.IdMilitaryUnit as SelectList)
+                        @Html.TextAreaFor(model => model.Enrollees.IdMilitaryUnit, new { rows = "5", cols = "70" })
                     </div>
                 </div>
             </div>

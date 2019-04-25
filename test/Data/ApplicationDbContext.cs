@@ -364,11 +364,11 @@ namespace test.Data
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("r_9");
 
-                entity.HasOne(d => d.IdMilitaryOfficeNavigation)
-                    .WithMany(p => p.Enrollee)
-                    .HasForeignKey(d => d.IdMilitaryOffice)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("r_17");
+                //entity.HasOne(d => d.IdMilitaryOfficeNavigation)
+                //    .WithMany(p => p.Enrollee)
+                //    .HasForeignKey(d => d.IdMilitaryOffice)
+                //    .OnDelete(DeleteBehavior.ClientSetNull)
+                //    .HasConstraintName("r_17");
 
                 entity.HasOne(d => d.IdMilitaryRankNavigation)
                     .WithMany(p => p.Enrollee)
@@ -376,11 +376,11 @@ namespace test.Data
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("r_80");
 
-                entity.HasOne(d => d.IdMilitaryUnitNavigation)
-                    .WithMany(p => p.Enrollee)
-                    .HasForeignKey(d => d.IdMilitaryUnit)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("r_79");
+                //entity.HasOne(d => d.IdMilitaryUnitNavigation)
+                //    .WithMany(p => p.Enrollee)
+                //    .HasForeignKey(d => d.IdMilitaryUnit)
+                //    .OnDelete(DeleteBehavior.ClientSetNull)
+                //    .HasConstraintName("r_79");
 
                 entity.HasOne(d => d.IdNationalityNavigation)
                     .WithMany(p => p.Enrollee)
