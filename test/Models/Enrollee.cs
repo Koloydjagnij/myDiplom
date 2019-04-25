@@ -23,7 +23,7 @@ namespace test
 
         public int IdEnrollee { get; set; }
 
-        [Display(Name = "Номер личного дела")]
+        [Display(Name = "Личное дело")]
         public string NumOfPersonalFile { get; set; }
 
         [Required]
@@ -134,6 +134,8 @@ namespace test
 
         
         [Display(Name = "Год выпуска")]
+        [DisplayFormat(DataFormatString = "{0:yyyy}", ApplyFormatInEditMode = false)]
+        // [Range(1970, 9999, ErrorMessage = "Год окончания учебного заведния допустим в диапазоне от 1970 до текущего года включительно")]
         [DataType(DataType.Date)]
         public DateTime? YearOfEndingEducation { get; set; }
 
@@ -172,6 +174,7 @@ namespace test
         public ICollection<ApplicationToSpeciality> ApplicationToSpeciality { get; set; }
         public ICollection<EnrolleeAchievement> EnrolleeAchievement { get; set; }
         public ICollection<EnrolleeDocuments> EnrolleeDocuments { get; set; }
+        [UIHint("Collection")]
         public ICollection<Family> Family { get; set; }
         public ICollection<SubjectMark> SubjectMark { get; set; }
         public ICollection<DocumentFile> DocumentFile { get; set; }

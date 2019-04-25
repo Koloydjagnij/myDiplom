@@ -118,13 +118,14 @@ namespace test
         {
             
             List<AppConfig> Seting = new List<AppConfig>();
-            Seting.Add(new AppConfig { Key = "SendEmail", Value = "Требуется заполнить" });
-            Seting.Add(new AppConfig { Key = "EmailPassword", Value = "Требуется заполнить" });
-            Seting.Add(new AppConfig { Key = "host", Value = "Требуется заполнить" });
-            Seting.Add(new AppConfig { Key = "port", Value = "Требуется заполнить" });
-            Seting.Add(new AppConfig { Key = "useSsl", Value = "Требуется заполнить" });
-            Seting.Add(new AppConfig { Key = "Sender", Value = "Требуется заполнить" });
-            Seting.Add(new AppConfig { Key = "AddressPochtaLib", Value = "Требуется заполнить" });
+            Seting.Add(new AppConfig { Name="Адрес почты", Key = "SendEmail", Value = "Требуется заполнить" });
+            Seting.Add(new AppConfig { Name="Пароль от почты", Key = "EmailPassword", Value = "Требуется заполнить" });
+            Seting.Add(new AppConfig { Name = "Хост ссервера рассылок", Key = "host", Value = "Требуется заполнить" });
+            Seting.Add(new AppConfig { Name = "Порт сервера рассылок", Key = "port", Value = "Требуется заполнить" });
+            Seting.Add(new AppConfig { Name = "Использовать SSL", Key = "useSsl", Value = "Требуется заполнить" });
+            Seting.Add(new AppConfig { Name = "Имя отправителя", Key = "Sender", Value = "Требуется заполнить" });
+            Seting.Add(new AppConfig { Name = "Путь к файлу адресов почты РФ", Key = "AddressPochtaLib", Value = "Требуется заполнить" });
+            Seting.Add(new AppConfig { Name = "Количество человек в группе", Key = "CountAbiturInGroup", Value = "20" });
 
             foreach (var i in Seting)
                 if (applicationDbContext.AppConfig.Where(p => p.Key == i.Key).FirstOrDefault() == null)

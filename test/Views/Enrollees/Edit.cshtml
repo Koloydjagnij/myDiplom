@@ -14,6 +14,10 @@
         <li><a data-toggle="tab" href="#panel5">Дополнительно</a></li>
         <li><a data-toggle="tab" href="#panel6">Внутренние экзамены</a></li>
         <li><a data-toggle="tab" href="#panel7">Документы и файлы</a></li>
+        @if (User.IsInRole("Admin"))
+        {
+            <li><a data-toggle="tab" href="#panel8">История изменений</a></li>
+        }
     </ul>
     <div class="row"><br /></div>
     <div class="tab-content">
@@ -224,7 +228,7 @@
                                 @Html.LabelFor(model => model.Enrollees.IdTownNavigation.IdAreaNavigation.IdRegionNavigation.IdMilitaryDistrictNavigation.NameMilitaryDistrict)
                             </div>
                             <div class="col-md-2 col-lg-2 col-xl-2">
-                                @Html.DisplayFor(model=> model.Enrollees.IdTownNavigation.IdAreaNavigation.IdRegionNavigation.IdMilitaryDistrictNavigation.NameMilitaryDistrict)
+                                @Html.DisplayFor(model => model.Enrollees.IdTownNavigation.IdAreaNavigation.IdRegionNavigation.IdMilitaryDistrictNavigation.NameMilitaryDistrict)
                             </div>
                         </div>
                     </div>
@@ -509,7 +513,7 @@
                     </div>
                     <div class="col-md-2 col-lg-2 col-xl-2">
                         @Html.TextAreaFor(model => model.Enrollees.IdMilitaryOffice, new { rows = "5", cols = "70" })
-                        
+
                     </div>
                 </div>
             </div>
@@ -590,7 +594,6 @@
         <div id="panel7" class="tab-pane fade">
             <!--Документы и файлы-->
 
-
             <div class="row">
                 <div class="form-group">
                     <div class="col-md-2 col-lg-2 col-xl-2 text-right">
@@ -615,8 +618,31 @@
                 </div>
             </div>
 
+            <h4>Необходимые документы</h4>
+            <div class="container table-bordered">
+                <div class="row">
+                    @{
+                        List<test.Views.Enrollees.AssignedDocumentData> documents = ViewBag.Documents;
+
+                        foreach (var doc in documents)
+                        {
+
+                            <div class="col-md-4 col-lg-4 col-xl-4">
+                                <input type="checkbox"
+                                       name="selectedDocuments"
+                                       value="@doc.DocumentId"
+                                       @(Html.Raw(doc.Assigned ? "checked=\"checked\"" : "")) />
+                                @doc.Title
+                            </div>
+
+                        }
+
+                    }
+                </div>
+            </div>
+
             <h4>Прикрепленные файлы</h4>
-            
+
             <div class="container table-bordered">
                 <br />
                 <div class="row">
@@ -630,21 +656,27 @@
                             </figure>
                         }
                     }
-                            
-                                <figure class="col-md-2 col-lg-2 col-xl-2">
-                                    <img src="~/images/add.png" style='width:100px; height:100px;' />   
-                                    <figcaption><input id="Files" class="text-box single-line" type="file" name="Files" multiple></figcaption>
-                                </figure>
+
+                    <figure class="col-md-2 col-lg-2 col-xl-2">
+                        <img src="~/images/add.png" style='width:100px; height:100px;' />
+                        <figcaption><input id="Files" class="text-box single-line" type="file" name="Files" multiple></figcaption>
+                    </figure>
                 </div>
             </div>
         </div>
-        </div>
-    <br />
-    <div class="container">
-        <div class="form-group">
-            <input id="SaveAbitur" type="submit" value="Сохранить" class="btn btn-default" />
-        </div>
     </div>
+    @if (User.IsInRole("Admin"))
+    {
+        <div id="panel8" class="tab-pane fade">
+            <!--История изменений-->
+        </div>
+    }
+        <br />
+        <div class="container">
+            <div class="form-group">
+                <input id="SaveAbitur" type="submit" value="Сохранить" class="btn btn-default" />
+            </div>
+        </div>
 </form>
 <div>
     <a asp-action="Index">Назад к списку абитуриентов</a>

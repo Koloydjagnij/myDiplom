@@ -11,9 +11,10 @@ using test.Data;
 namespace test.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190425173340_test9")]
+    partial class test9
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1000,8 +1001,6 @@ namespace test.Migrations
                     b.Property<int>("IdSpeciality")
                         .ValueGeneratedOnAdd()
                         .HasColumnName("id_speciality");
-
-                    b.Property<int>("CountAbiturToSpeciality");
 
                     b.Property<string>("NameSpeciality")
                         .IsRequired()

@@ -15,6 +15,9 @@ namespace test
         [Required(ErrorMessage ="Не указано название специальности")]
         [Display(Name = "Специальность")]
         public string NameSpeciality { get; set; }
+        [Required(ErrorMessage = "Не указано количество мест на специальности")]
+        [Display(Name = "Количество мест на специальности")]
+        public int CountAbiturToSpeciality { get; set; }
 
         public ICollection<ExamForSpeciality> ExamForSpeciality { get; set; }
     }

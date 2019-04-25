@@ -106,57 +106,81 @@
             <th>
                 @Html.DisplayNameFor(model => model.Enrollees.First().IdEducationType)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Enrollees.First().YearOfEndingEducation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Enrollees.First().DateOfDeduction)
+            </th>
 
 
-            <th></th>
+            @if (SignInManager.IsSignedIn(User) && (User.IsInRole("Admin") || User.IsInRole("EditAbitur")))
+            {
+                <th/>
+            }
+            @if (SignInManager.IsSignedIn(User) && (User.IsInRole("Admin") || User.IsInRole("FullDetailAbitur")))
+            {
+                <th />
+            }
+            @if (SignInManager.IsSignedIn(User) && (User.IsInRole("Admin") || User.IsInRole("DeleteAbitur")))
+            {
+                <th />
+            }
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model.Enrollees)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.NumOfPersonalFile)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Surname)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Patronymic)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DateOfBirth)
-                </td>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.NumOfPersonalFile)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Surname)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Patronymic)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateOfBirth)
+            </td>
 
+            <td>
+                @Html.DisplayFor(modelItem => item.IdEducationTypeNavigation.NameEducationType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.YearOfEndingEducation)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateOfDeduction)
+            </td>
+            
+
+
+
+            
+                @if (SignInManager.IsSignedIn(User) && (User.IsInRole("Admin") || User.IsInRole("EditAbitur")))
+                {
                 <td>
-                    @Html.DisplayFor(modelItem => item.IdEducationTypeNavigation.NameEducationType)
+                    <a asp-action="Edit" asp-route-id="@item.IdEnrollee"><img src="~/images/edit.png" width="20" height="20" title="Изменить" class="img-responsive" /></a>
                 </td>
-
-
-
-                <td>
-                    @if (SignInManager.IsSignedIn(User) && (User.IsInRole("Admin") || User.IsInRole("EditAbitur")))
-                    {
-                        <td>
-                             <a asp-action="Edit" asp-route-id="@item.IdEnrollee"><img src="~/images/edit.png" width="20" height="20" title="Изменить" class="img-responsive" /></a>
-                        </td>
-                     }
-                    @if (SignInManager.IsSignedIn(User) && (User.IsInRole("Admin") || User.IsInRole("FullDetailAbitur")))
-                    {
-                        <td>
-                            <a asp-action="Details" asp-route-id="@item.IdEnrollee"><img src="~/images/info.png" width="20" height="20" title="Просмотреть детальную информацию" class="img-responsive" /></a>
-                        </td>
-                    }
-                    @if (SignInManager.IsSignedIn(User) && (User.IsInRole("Admin") || User.IsInRole("DeleteAbitur")))
-                    {
-                        <td>
-                            <a asp-action="Delete" asp-route-id="@item.IdEnrollee"><img src="~/images/delete.png" width="20" height="20" title="Перейти к удалению данной записи" class="img-responsive" /></a>
-                        </td>
-                    }
-                </td>
+            }
+                @if (SignInManager.IsSignedIn(User) && (User.IsInRole("Admin") || User.IsInRole("FullDetailAbitur")))
+                {
+                    <td>
+                        <a asp-action="Details" asp-route-id="@item.IdEnrollee"><img src="~/images/info.png" width="20" height="20" title="Просмотреть детальную информацию" class="img-responsive" /></a>
+                    </td>
+                }
+                @if (SignInManager.IsSignedIn(User) && (User.IsInRole("Admin") || User.IsInRole("DeleteAbitur")))
+                {
+                    <td>
+                        <a asp-action="Delete" asp-route-id="@item.IdEnrollee"><img src="~/images/delete.png" width="20" height="20" title="Перейти к удалению данной записи" class="img-responsive" /></a>
+                    </td>
+                }
+                
             </tr>
         }
     </tbody>

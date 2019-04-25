@@ -115,6 +115,24 @@ namespace test.Controllers.EnrolleeControl
 
         }
 
+        //получаем список всех необходимых документов
+        private void PopulateAssignedDocumentData(Enrollee enrollee)
+        {
+            var allDocuments = _context.Document;
+            var enrolleeDocuments = new HashSet<int>(enrollee.EnrolleeDocuments.Select(c => c.IdDocument));
+            var viewModel = new List<AssignedDocumentData>();
+            foreach (var doc in allDocuments)
+            {
+                viewModel.Add(new AssignedDocumentData
+                {
+                    DocumentId = doc.IdDocument,
+                    Title = doc.NameDocument,
+                    Assigned = enrolleeDocuments.Contains(doc.IdDocument)
+                });
+            }
+            ViewBag.Documents = viewModel;
+        }
+
         // GET: Enrollees/Details/5
         [Authorize(Roles = "Admin,FullDetailAbitur")]
         public async Task<IActionResult> Details(int? id)
@@ -271,6 +289,7 @@ namespace test.Controllers.EnrolleeControl
                 .Include(e => e.IdReasonForDeductionNavigation)
                 .Include(e => e.IdSexNavigation)
                 .Include(e => e.IdSocialBackgroundNavigation)
+                .Include(e=>e.EnrolleeDocuments)
                 .Include(e=> e.DocumentFile)
                 .Include(e => e.IdTownNavigation)
                     .ThenInclude(m=>m.IdAreaNavigation)
@@ -295,7 +314,8 @@ namespace test.Controllers.EnrolleeControl
                     .ThenInclude(f => f.IdParentTypeNavigation)
                 //добавляем семью
                 .SingleOrDefaultAsync(m => m.IdEnrollee == id);
-            
+
+            PopulateAssignedDocumentData(enrollee);
             
             if (enrollee == null)
             {
@@ -345,7 +365,7 @@ namespace test.Controllers.EnrolleeControl
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin,EditAbitur")]
-        public async Task<IActionResult> Edit(int id,  CreateViewModel createViewModel)
+        public async Task<IActionResult> Edit(int id,  CreateViewModel createViewModel, string[] selectedDocuments)
         {
 
             var enrollee = createViewModel.Enrollees;
@@ -548,15 +568,7 @@ namespace test.Controllers.EnrolleeControl
             return File(mas, file_type, file_name);
         }
 
-        [HttpPost, ActionName("EditFamily")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditFamily(int id)
-        {
-            var family = await _context.Family.SingleOrDefaultAsync(m => m.IdFamily == id);
-            _context.Family.Remove(family);
-            await _context.SaveChangesAsync();
-            return Ok();// RedirectToAction(nameof(Index));
-        }
+
 
         [HttpPost, ActionName("DeleteFmily")]
         [ValidateAntiForgeryToken]
