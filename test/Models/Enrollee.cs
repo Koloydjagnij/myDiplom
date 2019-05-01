@@ -16,6 +16,7 @@ namespace test
             Family = new List<Family>();
             SubjectMark = new HashSet<SubjectMark>();
             DocumentFile = new List<DocumentFile>();
+            ChangeHistory = new List<ChangeHistory>();
         }
         [Display(Name = "Запись создана")]
         [DataType(DataType.DateTime)]
@@ -177,10 +178,12 @@ namespace test
         public City IdTownNavigation { get; set; }
         public ICollection<ApplicationToSpeciality> ApplicationToSpeciality { get; set; }
         public ICollection<EnrolleeAchievement> EnrolleeAchievement { get; set; }
+        [UIHint("Collection")]
         public ICollection<EnrolleeDocuments> EnrolleeDocuments { get; set; }
         [UIHint("Collection")]
         public ICollection<Family> Family { get; set; }
         public ICollection<SubjectMark> SubjectMark { get; set; }
         public ICollection<DocumentFile> DocumentFile { get; set; }
+        public IList<ChangeHistory> ChangeHistory { get; set; }
     }
 }

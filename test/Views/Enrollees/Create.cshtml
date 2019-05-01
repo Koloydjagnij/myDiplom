@@ -5,7 +5,7 @@
 }
 
 
-<form class="form-horizontal" asp-action="Create" method="post">
+<form class="form-horizontal" asp-action="Create" method="post" enctype="multipart/form-data">
     <ul class="nav nav-tabs">
         <li class="active"><a data-toggle="tab" href="#panel1">Персональные данные</a></li>
         <li><a data-toggle="tab" href="#panel2">Образование</a></li>
@@ -14,6 +14,10 @@
         <li><a data-toggle="tab" href="#panel5">Дополнительно</a></li>
         <li><a data-toggle="tab" href="#panel6">Внутренние экзамены</a></li>
         <li><a data-toggle="tab" href="#panel7">Документы и файлы</a></li>
+        @if (User.IsInRole("Admin"))
+        {
+            <li><a data-toggle="tab" href="#panel8"><img src="~/images/OldVersions.png" width="20" height="20" title="Просмотреть историю изменений" class="img-responsive" /></a></li>
+        }
     </ul>
     <div class="row"><br /></div>
     <div class="tab-content">
@@ -28,6 +32,7 @@
                                 @Html.LabelFor(model => model.Enrollees.NumOfPersonalFile)
                             </div>
                             <div class="col-md-2 col-lg-2 col-xl-2">
+                                @Html.HiddenFor(model => model.Enrollees.NumOfPersonalFile)
                                 @Html.DisplayFor(model => model.Enrollees.NumOfPersonalFile)
                                 @Html.ValidationMessageFor(model => model.Enrollees.NumOfPersonalFile)
                             </div>
@@ -215,6 +220,20 @@
             <div class="container table-bordered">
                 <!--адрес проживания-->
                 <br />
+                @if (Model.Enrollees.PersonalNumberMs != null)
+                {
+                    <div class="row">
+                        <div class="form-group">
+                            <div class="col-md-2 col-lg-2 col-xl-2 text-right">
+                                @Html.LabelFor(model => model.Enrollees.IdTownNavigation.IdAreaNavigation.IdRegionNavigation.IdMilitaryDistrictNavigation.NameMilitaryDistrict)
+                            </div>
+                            <div class="col-md-2 col-lg-2 col-xl-2">
+                                @Html.DisplayFor(model => model.Enrollees.IdTownNavigation.IdAreaNavigation.IdRegionNavigation.IdMilitaryDistrictNavigation.NameMilitaryDistrict)
+                            </div>
+                        </div>
+                    </div>
+
+                }
                 <div class="row">
                     <div class="form-group">
                         <div class="col-md-2 col-lg-2 col-xl-2 text-right">
@@ -242,6 +261,17 @@
                         </div>
                         <div class="col-md-2 col-lg-2 col-xl-2">
                             @Html.DropDownList("Enrollees.IdTown", ViewBag.IdTown as SelectList)
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-md-2 col-lg-2 col-xl-2 text-right">
+                            @Html.LabelFor(model => model.Enrollees.AddressLine)
+                        </div>
+                        <div class="col-md-2 col-lg-2 col-xl-2">
+                            @Html.TextAreaFor(model => model.Enrollees.AddressLine, new { rows = "1", cols = "113" })
+                            @Html.ValidationMessageFor(model => model.Enrollees.AddressLine)
                         </div>
                     </div>
                 </div>
@@ -575,7 +605,6 @@
         <div id="panel7" class="tab-pane fade">
             <!--Документы и файлы-->
 
-
             <div class="row">
                 <div class="form-group">
                     <div class="col-md-2 col-lg-2 col-xl-2 text-right">
@@ -600,7 +629,30 @@
                 </div>
             </div>
 
-            <h4>Прикрепленные файлы</h4>
+            <h3>Необходимые документы</h3>
+            <div class="container table-bordered">
+                <div class="row">
+                    @{
+                        List<test.Views.Enrollees.AssignedDocumentData> documents = ViewBag.Documents;
+
+                        foreach (var doc in documents)
+                        {
+
+                            <div class="col-md-4 col-lg-4 col-xl-4">
+                                <input type="checkbox"
+                                       name="selectedDocuments"
+                                       value="@doc.DocumentId"
+                                       @(Html.Raw(doc.Assigned ? "checked=\"checked\"" : "")) />
+                                @doc.Title
+                            </div>
+
+                        }
+
+                    }
+                </div>
+            </div>
+
+            <h3>Прикрепленные файлы</h3>
 
             <div class="container table-bordered">
                 <br />
@@ -623,7 +675,16 @@
                 </div>
             </div>
         </div>
+
+        @if (User.IsInRole("Admin"))
+        {
+            <div id="panel8" class="tab-pane fade">
+                <!--История изменений-->
+                <h3>История изменений</h3>
+            </div>
+        }
     </div>
+
     <br />
     <div class="container">
         <div class="form-group">

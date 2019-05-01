@@ -51,10 +51,29 @@ namespace test.Data
         public virtual DbSet<AppConfig> AppConfig { get; set; }
         public virtual DbSet<Pochta> Pochta { get; set; }
         public virtual DbSet<DocumentFile> DocumentFile { get; set; }
+        public virtual DbSet<ChangeHistory> ChangeHistory { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //создаем роли
+            modelBuilder.Entity<ChangeHistory>(entity =>
+            {
+                entity.HasKey(e => e.ChangeHistoryId);
+
+                entity.ToTable("change_history");
+
+                entity.Property(e => e.ChangeHistoryId)
+                    .HasColumnName("id_change_history")
+                    .ValueGeneratedOnAdd();
+
+                entity.Property(e => e.FieldName).HasColumnName("field_name");
+                entity.Property(e => e.OldValue).HasColumnName("old_value");
+                entity.Property(e => e.NewValue).HasColumnName("new_value");
+                entity.Property(e => e.DateTime).HasColumnName("date_time");
+                entity.Property(e => e.ChangedBy).HasColumnName("changeBy");
+
+
+            });
 
             modelBuilder.Entity<DocumentFile>(entity =>
             {

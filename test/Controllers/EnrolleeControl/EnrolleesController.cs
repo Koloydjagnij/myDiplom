@@ -139,7 +139,7 @@ namespace test.Controllers.EnrolleeControl
         /// <param name="enrollee">Абитуриент</param>
         private void PopulateAssignedDocumentData(Enrollee enrollee)
         {
-            var allDocuments = _context.Document;
+            var allDocuments = _context.Document.Where(c=>c.NameDocument!="Не выбрано");
             var enrolleeDocuments = new HashSet<int>(enrollee.EnrolleeDocuments.Select(c => c.IdDocument));
             var viewModel = new List<AssignedDocumentData>();
             foreach (var doc in allDocuments)
@@ -179,6 +179,7 @@ namespace test.Controllers.EnrolleeControl
                 .Include(e => e.IdSexNavigation)
                 .Include(e => e.IdSocialBackgroundNavigation)
                 .Include(e => e.IdTownNavigation)
+                .Include(e=>e.ChangeHistory)
                 .Include(e => e.Family)
                 .Include(e => e.IdTownNavigation)
                     .ThenInclude(m => m.IdAreaNavigation)
@@ -241,6 +242,7 @@ namespace test.Controllers.EnrolleeControl
             var EnrolleeView = new CreateViewModel();
             EnrolleeView.Enrollees = new Enrollee();
             EnrolleeView.Enrollees.Family = new List<Family>();
+            PopulateAssignedDocumentData(EnrolleeView.Enrollees);
 
             return View(EnrolleeView);
         }
@@ -250,7 +252,7 @@ namespace test.Controllers.EnrolleeControl
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin,AddAbitur")]
-        public async Task<IActionResult> Create(CreateViewModel createViewModel)
+        public async Task<IActionResult> Create(CreateViewModel createViewModel, string[] selectedDocuments )
         {
             var enrollee = createViewModel.Enrollees;
             //фиксируетсяс дата создания
@@ -258,7 +260,7 @@ namespace test.Controllers.EnrolleeControl
             //gгенерируется номер личного дела
             var countLastName = _context.Enrollee.Where(m => m.Surname.Substring(0, 1).ToUpper() == enrollee.Surname.Substring(0, 1).ToUpper()).Count();
             enrollee.NumOfPersonalFile = enrollee.Surname.Substring(0, 1).ToUpper() + "-" + String.Format("{0:000}",countLastName+1);
-
+            UpdateEnrolleeDocuments(selectedDocuments, enrollee);
             //сохраняются изменения в базе данных
             _context.Add(enrollee);
                 await _context.SaveChangesAsync();
@@ -313,8 +315,9 @@ namespace test.Controllers.EnrolleeControl
                 .Include(e => e.IdReasonForDeductionNavigation)
                 .Include(e => e.IdSexNavigation)
                 .Include(e => e.IdSocialBackgroundNavigation)
-                .Include(e=>e.EnrolleeDocuments)
+                .Include(e => e.EnrolleeDocuments)
                 .Include(e=> e.DocumentFile)
+                .Include(e=>e.ChangeHistory)
                 .Include(e => e.IdTownNavigation)
                     .ThenInclude(m=>m.IdAreaNavigation)
                         .ThenInclude(r=>r.IdRegionNavigation)
@@ -392,8 +395,10 @@ namespace test.Controllers.EnrolleeControl
         {
 
             var enrollee = createViewModel.Enrollees;
+
             List<Family> FamiliesForm = new List<Family>();
             List<Parent> ParentsForm = new List<Parent>();
+            UpdateEnrolleeDocuments(selectedDocuments, enrollee);
             #region LoadFiles
             if (createViewModel.Files != null)
             {
@@ -525,6 +530,41 @@ namespace test.Controllers.EnrolleeControl
             return View(createViewModel);
         }
 
+        //обновление связей между документами и абитуриентом
+        private void UpdateEnrolleeDocuments(string[] selectedDocument, Enrollee enrolleeToUpdate)
+        {
+            if (selectedDocument == null)
+            {
+                enrolleeToUpdate.EnrolleeDocuments = new List<EnrolleeDocuments>();
+                return;
+            }
+
+            //множество выбранных документов
+            var selectedDocumentsHS = new HashSet<string>(selectedDocument);
+            // множество уже выбранных документов
+            var enrolleeDocuments = new HashSet<int>
+                (_context.EnrolleeDocuments.Where(e=>e.IdEnrollee==enrolleeToUpdate.IdEnrollee).Select(c => c.IdDocument));
+            foreach (var document in _context.Document)
+            {
+                if (selectedDocumentsHS.Contains(document.IdDocument.ToString()))
+                {
+                    if (!enrolleeDocuments.Contains(document.IdDocument))
+                    {
+                        enrolleeToUpdate.EnrolleeDocuments.Add(new EnrolleeDocuments { IdEnrollee = enrolleeToUpdate.IdEnrollee, IdDocument = document.IdDocument });
+                    }
+                }
+                else
+                {
+                    if (enrolleeDocuments.Contains(document.IdDocument))
+                    {
+                        var ed = _context.EnrolleeDocuments.FirstOrDefault(e => e.IdEnrollee == enrolleeToUpdate.IdEnrollee && e.IdDocument == document.IdDocument);
+                        _context.EnrolleeDocuments.Remove(ed);
+                        //enrolleeToUpdate.EnrolleeDocuments.Remove(new EnrolleeDocuments { IdEnrollee = enrolleeToUpdate.IdEnrollee, IdDocument = document.IdDocument });
+                    }
+                }
+            }
+        }
+
 
 
         [Authorize(Roles = "Admin,DeleteAbitur")]
@@ -548,6 +588,7 @@ namespace test.Controllers.EnrolleeControl
                 .Include(e => e.IdPreemptiveRightNavigation)
                 .Include(e => e.IdReasonForDeductionNavigation)
                 .Include(e => e.IdSexNavigation)
+                .Include(e=>e.ChangeHistory)
                 .Include(e => e.IdSocialBackgroundNavigation)
                 .Include(e => e.IdTownNavigation)
                     .ThenInclude(m=>m.IdAreaNavigation)

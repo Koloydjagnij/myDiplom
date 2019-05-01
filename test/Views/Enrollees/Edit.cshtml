@@ -16,7 +16,7 @@
         <li><a data-toggle="tab" href="#panel7">Документы и файлы</a></li>
         @if (User.IsInRole("Admin"))
         {
-            <li><a data-toggle="tab" href="#panel8">История изменений</a></li>
+            <li><a data-toggle="tab" href="#panel8"><img src="~/images/OldVersions.png" width="20" height="20" title="Просмотреть историю изменений" class="img-responsive" /></a></li>
         }
     </ul>
     <div class="row"><br /></div>
@@ -629,7 +629,7 @@
                 </div>
             </div>
 
-            <h4>Необходимые документы</h4>
+            <h3>Необходимые документы</h3>
             <div class="container table-bordered">
                 <div class="row">
                     @{
@@ -652,7 +652,7 @@
                 </div>
             </div>
 
-            <h4>Прикрепленные файлы</h4>
+            <h3>Прикрепленные файлы</h3>
 
             <div class="container table-bordered">
                 <br />
@@ -675,13 +675,28 @@
                 </div>
             </div>
         </div>
+
+        @if (User.IsInRole("Admin"))
+        {
+            <div id="panel8" class="tab-pane fade">
+                <!--История изменений-->
+                <h3>История изменений</h3>
+
+                    @foreach (var change in Model.Enrollees.ChangeHistory)
+                    {
+                        <tr>
+                            <td>@change.FieldName:<td>
+                            <td>@change.OldValue</td>
+                            <td>@change.NewValue</td>
+                            <td>@change.DateTime</td>
+                            <td>@change.ChangedBy</td>
+                        </tr>
+                    }
+
+            </div>
+        }
     </div>
-    @if (User.IsInRole("Admin"))
-    {
-        <div id="panel8" class="tab-pane fade">
-            <!--История изменений-->
-        </div>
-    }
+
         <br />
         <div class="container">
             <div class="form-group">
