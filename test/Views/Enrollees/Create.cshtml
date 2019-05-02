@@ -286,7 +286,10 @@
                             @Html.LabelFor(model => model.Enrollees.CardPpo)
                         </div>
                         <div class="col-md-2 col-lg-2 col-xl-2">
-                            @Html.EditorFor(model => model.Enrollees.CardPpo)
+
+
+                            @Html.DropDownList("Enrollees.CardPpo", ViewBag.cardPPOType as SelectList)
+
                             @Html.ValidationMessageFor(model => model.Enrollees.CardPpo)
                         </div>
                     </div>
@@ -300,7 +303,7 @@
                             @Html.LabelFor(model => model.Enrollees.AdmitSsgt)
                         </div>
                         <div class="col-md-2 col-lg-2 col-xl-2">
-                            @Html.EditorFor(model => model.Enrollees.AdmitSsgt)
+                            @Html.DropDownList("Enrollees.AdmitSsgt", ViewBag.AdmitSsgtType as SelectList)
                             @Html.ValidationMessageFor(model => model.Enrollees.AdmitSsgt)
                         </div>
                     </div>
@@ -316,7 +319,70 @@
                     </div>
                 </div>
             </div>
+            <br />
+            <div class="container table-bordered">
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-md-2 col-lg-2 col-xl-2 text-right">
+                            @Html.LabelFor(model => model.Enrollees.IdFirstSpec)
+                        </div>
+                        <div class="col-md-2 col-lg-2 col-xl-2">
+                            @Html.DropDownList("Enrollees.IdFirstSpec", ViewBag.IdFirstSpec as SelectList)
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-md-2 col-lg-2 col-xl-2 text-right">
+                            @Html.LabelFor(model => model.Enrollees.IdSecondSpec)
+                        </div>
+                        <div class="col-md-2 col-lg-2 col-xl-2">
+                            @Html.DropDownList("Enrollees.IdSecondSpec", ViewBag.IdSecondSpec as SelectList)
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-md-2 col-lg-2 col-xl-2 text-right">
+                            @Html.LabelFor(model => model.Enrollees.IdThirdSpec)
+                        </div>
+                        <div class="col-md-2 col-lg-2 col-xl-2">
+                            @Html.DropDownList("Enrollees.IdThirdSpec", ViewBag.IdThirdSpec as SelectList)
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-md-2 col-lg-2 col-xl-2 text-right">
+                            @Html.LabelFor(model => model.Enrollees.IdReserveSpec)
+                        </div>
+                        <div class="col-md-2 col-lg-2 col-xl-2">
+                            @Html.DropDownList("Enrollees.IdReserveSpec", ViewBag.IdReserveSpec as SelectList)
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-md-2 col-lg-2 col-xl-2 text-right">
+                            @Html.LabelFor(model => model.Enrollees.IdCurrentSpec)
+                        </div>
+                        <div class="col-md-2 col-lg-2 col-xl-2">
+                            @Html.DropDownList("Enrollees.IdCurrentSpec", ViewBag.IdCurrentSpec as SelectList)
+                        </div>
+                    </div>
+                </div>
 
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-md-2 col-lg-2 col-xl-2 text-right">
+                            @Html.LabelFor(model => model.Enrollees.IdGroup)
+                        </div>
+                        <div class="col-md-2 col-lg-2 col-xl-2">
+                            @Html.DropDownList("Enrollees.IdGroup", ViewBag.IdGroup as SelectList)
+                        </div>
+                    </div>
+                </div>
+            </div>
 
         </div>
         <div id="panel2" class="tab-pane fade">
@@ -681,6 +747,19 @@
             <div id="panel8" class="tab-pane fade">
                 <!--История изменений-->
                 <h3>История изменений</h3>
+
+                @foreach (var change in Model.Enrollees.ChangeHistory)
+                {
+                    <tr>
+                        <td>@change.FieldName:
+                        <td>
+                        <td>@change.OldValue</td>
+                        <td>@change.NewValue</td>
+                        <td>@change.DateTime</td>
+                        <td>@change.ChangedBy</td>
+                    </tr>
+                }
+
             </div>
         }
     </div>

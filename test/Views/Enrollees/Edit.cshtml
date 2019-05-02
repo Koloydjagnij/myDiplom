@@ -319,7 +319,71 @@
                     </div>
                 </div>
             </div>
+            <br/>
+            <div class="container table-bordered">
+                <br/>
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-md-2 col-lg-2 col-xl-2 text-right">
+                            @Html.LabelFor(model => model.Enrollees.IdFirstSpec)
+                        </div>
+                        <div class="col-md-2 col-lg-2 col-xl-2">
+                            @Html.DropDownList("Enrollees.IdFirstSpec", ViewBag.IdFirstSpec as SelectList)
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-md-2 col-lg-2 col-xl-2 text-right">
+                            @Html.LabelFor(model => model.Enrollees.IdSecondSpec)
+                        </div>
+                        <div class="col-md-2 col-lg-2 col-xl-2">
+                            @Html.DropDownList("Enrollees.IdSecondSpec", ViewBag.IdSecondSpec as SelectList)
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-md-2 col-lg-2 col-xl-2 text-right">
+                            @Html.LabelFor(model => model.Enrollees.IdThirdSpec)
+                        </div>
+                        <div class="col-md-2 col-lg-2 col-xl-2">
+                            @Html.DropDownList("Enrollees.IdThirdSpec", ViewBag.IdThirdSpec as SelectList)
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-md-2 col-lg-2 col-xl-2 text-right">
+                            @Html.LabelFor(model => model.Enrollees.IdReserveSpec)
+                        </div>
+                        <div class="col-md-2 col-lg-2 col-xl-2">
+                            @Html.DropDownList("Enrollees.IdReserveSpec", ViewBag.IdReserveSpec as SelectList)
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-md-2 col-lg-2 col-xl-2 text-right">
+                            @Html.LabelFor(model => model.Enrollees.IdCurrentSpec)
+                        </div>
+                        <div class="col-md-2 col-lg-2 col-xl-2">
+                            @Html.DropDownList("Enrollees.IdCurrentSpec", ViewBag.IdCurrentSpec as SelectList)
+                        </div>
+                    </div>
+                </div>
 
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-md-2 col-lg-2 col-xl-2 text-right">
+                            @Html.LabelFor(model => model.Enrollees.IdGroup)
+                        </div>
+                        <div class="col-md-2 col-lg-2 col-xl-2">
+                            @Html.DropDownList("Enrollees.IdGroup", ViewBag.IdGroup as SelectList)
+                        </div>
+                    </div>
+                </div>
+            </div>
 
         </div>
         <div id="panel2" class="tab-pane fade">
@@ -635,23 +699,27 @@
             <h3>Необходимые документы</h3>
             <div class="container table-bordered">
                 <div class="row">
+                    <br />
                     @{
                         List<test.Views.Enrollees.AssignedDocumentData> documents = ViewBag.Documents;
-
-                        foreach (var doc in documents)
+                        @if (documents == null)
                         {
+                            foreach (var doc in documents)
+                            {
 
-                            <div class="col-md-4 col-lg-4 col-xl-4">
-                                <input type="checkbox"
-                                       name="selectedDocuments"
-                                       value="@doc.DocumentId"
-                                       @(Html.Raw(doc.Assigned ? "checked=\"checked\"" : "")) />
-                                @doc.Title
-                            </div>
+                                <div class="col-md-4 col-lg-4 col-xl-4">
+                                    <input type="checkbox"
+                                           name="selectedDocuments"
+                                           value="@doc.DocumentId"
+                                           @(Html.Raw(doc.Assigned ? "checked=\"checked\"" : "")) />
+                                    @doc.Title
+                                </div>
 
+                            }
+                        }
+                        else { <div> Не заполнен справочник необходимых документов, обратитесь к администратору</div>}
                         }
 
-                    }
                 </div>
             </div>
 

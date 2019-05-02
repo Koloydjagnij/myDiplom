@@ -11,8 +11,8 @@ using test.Data;
 namespace test.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20190501202937_test12")]
-    partial class test12
+    [Migration("20190502143009_test1")]
+    partial class test1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -331,10 +331,16 @@ namespace test.Migrations
                         .HasColumnName("date_of_deduction")
                         .HasColumnType("date");
 
+                    b.Property<float>("GradePointAVG")
+                        .HasColumnName("grade_point_AVG");
+
                     b.Property<int>("IdArea");
 
                     b.Property<int>("IdCategoryMs")
                         .HasColumnName("id_category_ms");
+
+                    b.Property<int>("IdCurrentSpec")
+                        .HasColumnName("id_current_spec");
 
                     b.Property<int>("IdEducationType")
                         .HasColumnName("id_education_type");
@@ -344,6 +350,12 @@ namespace test.Migrations
 
                     b.Property<int>("IdFactOfProsecution")
                         .HasColumnName("id_fact_of_prosecution");
+
+                    b.Property<int>("IdFirstSpec")
+                        .HasColumnName("id_first_spec");
+
+                    b.Property<int>("IdGroup")
+                        .HasColumnName("id_group");
 
                     b.Property<int>("IdMaritalStatus")
                         .HasColumnName("id_marital_status");
@@ -368,11 +380,20 @@ namespace test.Migrations
 
                     b.Property<int>("IdRegion");
 
+                    b.Property<int>("IdReserveSpec")
+                        .HasColumnName("id_reserve_spec");
+
+                    b.Property<int>("IdSecondSpec")
+                        .HasColumnName("id_second_spec");
+
                     b.Property<int>("IdSex")
                         .HasColumnName("id_sex");
 
                     b.Property<int>("IdSocialBackground")
                         .HasColumnName("id_social_background");
+
+                    b.Property<int>("IdThirdSpec")
+                        .HasColumnName("id_third_spec");
 
                     b.Property<int>("IdTown")
                         .HasColumnName("id_town");
@@ -442,11 +463,17 @@ namespace test.Migrations
 
                     b.HasIndex("IdCategoryMs");
 
+                    b.HasIndex("IdCurrentSpec");
+
                     b.HasIndex("IdEducationType");
 
                     b.HasIndex("IdEducationalInstitution");
 
                     b.HasIndex("IdFactOfProsecution");
+
+                    b.HasIndex("IdFirstSpec");
+
+                    b.HasIndex("IdGroup");
 
                     b.HasIndex("IdMaritalStatus");
 
@@ -458,9 +485,15 @@ namespace test.Migrations
 
                     b.HasIndex("IdReasonForDeduction");
 
+                    b.HasIndex("IdReserveSpec");
+
+                    b.HasIndex("IdSecondSpec");
+
                     b.HasIndex("IdSex");
 
                     b.HasIndex("IdSocialBackground");
+
+                    b.HasIndex("IdThirdSpec");
 
                     b.HasIndex("IdTown");
 
@@ -821,6 +854,23 @@ namespace test.Migrations
                     b.HasIndex("IdEnrollee");
 
                     b.ToTable("DocumentFile");
+                });
+
+            modelBuilder.Entity("test.Models.Group", b =>
+                {
+                    b.Property<int>("IdGroup")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("id_group");
+
+                    b.Property<int>("CountEnrolleeInGroup")
+                        .HasColumnName("CountEnrolleeInGroup");
+
+                    b.Property<string>("GroupName")
+                        .HasColumnName("group_name");
+
+                    b.HasKey("IdGroup");
+
+                    b.ToTable("Groups");
                 });
 
             modelBuilder.Entity("test.Models.Pochta", b =>
@@ -1193,6 +1243,10 @@ namespace test.Migrations
                         .HasForeignKey("IdCategoryMs")
                         .HasConstraintName("r_81");
 
+                    b.HasOne("test.Speciality", "IdCurrentSpecNavigation")
+                        .WithMany("EnrolleesCurrent")
+                        .HasForeignKey("IdCurrentSpec");
+
                     b.HasOne("test.EducationType", "IdEducationTypeNavigation")
                         .WithMany("Enrollee")
                         .HasForeignKey("IdEducationType")
@@ -1207,6 +1261,15 @@ namespace test.Migrations
                         .WithMany("Enrollee")
                         .HasForeignKey("IdFactOfProsecution")
                         .HasConstraintName("r_65");
+
+                    b.HasOne("test.Speciality", "IdFirstSpecNavigation")
+                        .WithMany("EnrolleesFirst")
+                        .HasForeignKey("IdFirstSpec");
+
+                    b.HasOne("test.Models.Group", "IdGroupNavigation")
+                        .WithMany("Enrollees")
+                        .HasForeignKey("IdGroup")
+                        .HasConstraintName("enrolleesGroup");
 
                     b.HasOne("test.MaritalStatus", "IdMaritalStatusNavigation")
                         .WithMany("Enrollee")
@@ -1233,6 +1296,14 @@ namespace test.Migrations
                         .HasForeignKey("IdReasonForDeduction")
                         .HasConstraintName("r_31");
 
+                    b.HasOne("test.Speciality", "IdReserveSpecNavigation")
+                        .WithMany("EnrolleesReserve")
+                        .HasForeignKey("IdReserveSpec");
+
+                    b.HasOne("test.Speciality", "IdSecondSpecNavigation")
+                        .WithMany("EnrolleesSecond")
+                        .HasForeignKey("IdSecondSpec");
+
                     b.HasOne("test.Sex", "IdSexNavigation")
                         .WithMany("Enrollee")
                         .HasForeignKey("IdSex")
@@ -1242,6 +1313,10 @@ namespace test.Migrations
                         .WithMany("Enrollee")
                         .HasForeignKey("IdSocialBackground")
                         .HasConstraintName("r_6");
+
+                    b.HasOne("test.Speciality", "IdThirdSpecNavigation")
+                        .WithMany("EnrolleesThird")
+                        .HasForeignKey("IdThirdSpec");
 
                     b.HasOne("test.City", "IdTownNavigation")
                         .WithMany("Enrollee")

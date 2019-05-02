@@ -85,6 +85,13 @@ namespace test.Controllers.EnrolleeControl
             ViewData["IdParentType"] = new SelectList(_context.ParentType, "IdParentType", "NameParentType");
             ViewData["IdRegion"] = new SelectList(_context.Region.OrderBy(r => r.NameRegion), "IdRegion", "NameRegion");
             ViewData["IdArea"] = new SelectList(_context.Area.Where(a => a.IdRegion == enrollee.IdRegion || a.NameArea == "Не выбрано").OrderBy(a => a.NameArea), "IdArea", "NameArea");
+            ViewData["IdFirstSpec"] = new SelectList(_context.Speciality, "IdSpeciality", "NameSpeciality", enrollee.IdFirstSpec);
+            ViewData["IdSecondSpec"] = new SelectList(_context.Speciality, "IdSpeciality", "NameSpeciality", enrollee.IdSecondSpec);
+            ViewData["IdThirdSpec"] = new SelectList(_context.Speciality, "IdSpeciality", "NameSpeciality", enrollee.IdThirdSpec);
+            ViewData["IdReserveSpec"] = new SelectList(_context.Speciality, "IdSpeciality", "NameSpeciality", enrollee.IdReserveSpec);
+            ViewData["IdCurrentSpec"] = new SelectList(_context.Speciality, "IdSpeciality", "NameSpeciality", enrollee.IdCurrentSpec);
+            ViewData["IdGroup"] = new SelectList(_context.Groups, "IdGroup", "GroupName", enrollee.IdGroup);
+
         }
 
         //виды сортировки
@@ -111,7 +118,7 @@ namespace test.Controllers.EnrolleeControl
         /// <param name="sortOrder"> Способ и столбец по которому сортируем</param>
         /// <returns>Возвращает список абитуриентов с учетом фильтров и постраничной навигации</returns>
         [Authorize(Roles = "Admin,ListAbitur")]
-        public async Task<IActionResult> Index(int[] eduType, int? maritalStatus, int? preemptiveRight, string name, int page = 1, SortState sortOrder = SortState.SurnameAsc)
+        public async Task<IActionResult> Index(int[] groups, int[] fSpec, int[] cSpec, int[] eduType, int? maritalStatus, int? preemptiveRight, string name, int page = 1, SortState sortOrder = SortState.SurnameAsc)
         {
             #region SortedAndFiltratedAbitur
             ViewData["NameSort"] = sortOrder == SortState.NameAsc ? SortState.NameDesc : SortState.NameAsc;
@@ -124,18 +131,37 @@ namespace test.Controllers.EnrolleeControl
             IQueryable<Enrollee> source = _context.Enrollee;
 
             //фильтрация 
+            //по группе
+            if ((groups.Length != 0 && (groups.Length == 1 && groups[0] != 0)) || (groups.Length > 1))
+            {
+                source = source.Where(p => Array.IndexOf(groups, p.IdGroup) >= 0);
+            }
+            //по первому приоритету
+            if ((fSpec.Length != 0 && (fSpec.Length == 1 && fSpec[0] != 0)) || (fSpec.Length > 1))
+            {
+                source = source.Where(p => Array.IndexOf(fSpec, p.IdFirstSpec) >= 0);
+            }
+            // по текущему приоритету
+            if ((cSpec.Length != 0 && (cSpec.Length == 1 && cSpec[0] != 0)) || (cSpec.Length > 1))
+            {
+                source = source.Where(p => Array.IndexOf(cSpec, p.IdCurrentSpec) >= 0);
+            }
+            // по типу образования
             if ((eduType.Length != 0 && (eduType.Length == 1 && eduType[0] != 0)) || (eduType.Length > 1))
             {
                 source = source.Where(p => Array.IndexOf(eduType, p.IdEducationType)>=0);
             }
+            //по семейному положению
             if (maritalStatus != null && maritalStatus != 0)
             {
                 source = source.Where(p => p.IdMaritalStatus == maritalStatus);
             }
+            //по преимущественным правам
             if (preemptiveRight != null && preemptiveRight != 0)
             {
                 source = source.Where(p => p.IdPreemptiveRight == preemptiveRight);
             }
+            //по фио
             if (!String.IsNullOrEmpty(name))
             {
                 source = source.Where(p => (p.Surname+" "+p.Name+" "+p.Patronymic).ToUpper().Contains(name.ToUpper()));
@@ -170,7 +196,7 @@ namespace test.Controllers.EnrolleeControl
             IndexViewModel viewModel = new IndexViewModel
             {
                 PageViewModel = pageViewModel,
-                FilterViewModel = new FilterViewModel(_context.EducationType.ToList(), eduType, _context.MaritalStatus.ToList(), maritalStatus, _context.PreemptiveRight.ToList(), preemptiveRight, name),
+                FilterViewModel = new FilterViewModel(_context.Groups.ToList(), groups, _context.Speciality.ToList(), fSpec,cSpec, _context.EducationType.ToList(), eduType, _context.MaritalStatus.ToList(), maritalStatus, _context.PreemptiveRight.ToList(), preemptiveRight, name),
                 SortViewModel = new SortViewModel(sortOrder),
                 Enrollees = items
             };
@@ -214,6 +240,11 @@ namespace test.Controllers.EnrolleeControl
                 .Include(e => e.IdEducationalInstitutionNavigation)
                 .Include(e => e.IdFactOfProsecutionNavigation)
                 .Include(e => e.IdMaritalStatusNavigation)
+                .Include(e=>e.IdFirstSpecNavigation)
+                .Include(e=>e.IdSecondSpecNavigation)
+                .Include(e=>e.IdThirdSpecNavigation)
+                .Include(e=>e.IdReserveSpec)
+                .Include(e=>e.IdGroupNavigation)
                 //.Include(e => e.IdMilitaryOfficeNavigation)
                 .Include(e => e.IdMilitaryRankNavigation)
                 //.Include(e => e.IdMilitaryUnitNavigation)
@@ -264,6 +295,21 @@ namespace test.Controllers.EnrolleeControl
         public IActionResult Create()
         {
             #region LoadViewData
+            List<EnumType> cardPPO = new List<EnumType>();
+            cardPPO.Add(new EnumType { Id = 0, Name = "Не выбрано" });
+            cardPPO.Add(new EnumType { Id = 1, Name = "I группа" });
+            cardPPO.Add(new EnumType { Id = 2, Name = "II группа" });
+            cardPPO.Add(new EnumType { Id = 3, Name = "III группа" });
+            cardPPO.Add(new EnumType { Id = 4, Name = "IV группа" });
+            ViewData["cardPPOType"] = new SelectList(cardPPO, "Id", "Name");
+
+            List<EnumType> AdmitSsgt = new List<EnumType>();
+            AdmitSsgt.Add(new EnumType { Id = 0, Name = "Не выбрано" });
+            AdmitSsgt.Add(new EnumType { Id = 1, Name = "1 форма" });
+            AdmitSsgt.Add(new EnumType { Id = 2, Name = "2 форма" });
+            AdmitSsgt.Add(new EnumType { Id = 3, Name = "3 форма" });
+            ViewData["AdmitSsgtType"] = new SelectList(AdmitSsgt, "Id", "Name");
+
             ViewData["IdCategoryMs"] = new SelectList(_context.MilitaryServiceCategory, "IdCategoryMs", "NameCategoryMs");
             ViewData["IdEducationType"] = new SelectList(_context.EducationType, "IdEducationType", "NameEducationType");
             ViewData["IdEducationalInstitution"] = new SelectList(_context.EducationalInstitution, "IdEducationalInstitution", "NameEducationalInstitution");
@@ -283,6 +329,13 @@ namespace test.Controllers.EnrolleeControl
             ViewData["IdParentType"] = new SelectList(_context.ParentType, "IdParentType", "NameParentType");
             ViewData["IdRegion"] = new SelectList(_context.Region.OrderBy(r=>r.NameRegion), "IdRegion", "NameRegion");
             ViewData["IdArea"] = new SelectList(_context.Area.Where(a=>a.NameArea=="Не выбрано").OrderBy(a=>a.NameArea), "IdArea", "NameArea");
+            ViewData["IdFirstSpec"] = new SelectList(_context.Speciality.ToList(), "IdSpeciality", "NameSpeciality");
+            ViewData["IdSecondSpec"] = new SelectList(_context.Speciality, "IdSpeciality", "NameSpeciality");
+            ViewData["IdThirdSpec"] = new SelectList(_context.Speciality, "IdSpeciality", "NameSpeciality");
+            ViewData["IdReserveSpec"] = new SelectList(_context.Speciality, "IdSpeciality", "NameSpeciality");
+            ViewData["IdCurrentSpec"] = new SelectList(_context.Speciality, "IdSpeciality", "NameSpeciality");
+            ViewData["IdGroup"] = new SelectList(_context.Groups, "IdGroup", "GroupName");
+
             #endregion
             var EnrolleeView = new CreateViewModel();
             EnrolleeView.Enrollees = new Enrollee();
@@ -310,9 +363,9 @@ namespace test.Controllers.EnrolleeControl
             _context.Add(enrollee);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
-            #region LoadViewData
+            
             GetEnumList(enrollee);
-            #endregion
+
             return View(createViewModel);
         }
 
@@ -332,6 +385,11 @@ namespace test.Controllers.EnrolleeControl
                 .Include(e => e.IdEducationalInstitutionNavigation)
                 .Include(e => e.IdFactOfProsecutionNavigation)
                 .Include(e => e.IdMaritalStatusNavigation)
+                .Include(e => e.IdFirstSpecNavigation)
+                .Include(e => e.IdSecondSpecNavigation)
+                .Include(e => e.IdThirdSpecNavigation)
+                .Include(e => e.IdReserveSpecNavigation)
+                .Include(e => e.IdGroupNavigation)
                 //.Include(e => e.IdMilitaryOfficeNavigation)
                 .Include(e => e.IdMilitaryRankNavigation)
                 //.Include(e => e.IdMilitaryUnitNavigation)
@@ -514,11 +572,9 @@ namespace test.Controllers.EnrolleeControl
                     }
                 }
                 return RedirectToAction(nameof(Index));
-            #region LoadViewData
-            GetEnumList(enrollee);
-            
 
-            #endregion
+            GetEnumList(enrollee);
+
             return View(createViewModel);
         }
 
@@ -573,7 +629,12 @@ namespace test.Controllers.EnrolleeControl
                 .Include(e => e.IdEducationalInstitutionNavigation)
                 .Include(e => e.IdFactOfProsecutionNavigation)
                 .Include(e => e.IdMaritalStatusNavigation)
-               // .Include(e => e.IdMilitaryOfficeNavigation)
+                .Include(e => e.IdFirstSpecNavigation)
+                .Include(e => e.IdSecondSpecNavigation)
+                .Include(e => e.IdThirdSpecNavigation)
+                .Include(e => e.IdReserveSpecNavigation)
+                .Include(e => e.IdGroupNavigation)
+                // .Include(e => e.IdMilitaryOfficeNavigation)
                 .Include(e => e.IdMilitaryRankNavigation)
                 //.Include(e => e.IdMilitaryUnitNavigation)
                 .Include(e => e.IdNationalityNavigation)

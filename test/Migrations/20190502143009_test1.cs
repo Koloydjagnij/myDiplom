@@ -29,6 +29,7 @@ namespace test.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
                     Key = table.Column<string>(nullable: true),
+                    Name = table.Column<string>(nullable: true),
                     Value = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -139,6 +140,20 @@ namespace test.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_family_type", x => x.id_family_type);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Groups",
+                columns: table => new
+                {
+                    id_group = table.Column<int>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                    CountEnrolleeInGroup = table.Column<int>(nullable: false),
+                    group_name = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Groups", x => x.id_group);
                 });
 
             migrationBuilder.CreateTable(
@@ -313,6 +328,7 @@ namespace test.Migrations
                 {
                     id_speciality = table.Column<int>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                    CountAbiturToSpeciality = table.Column<int>(nullable: false),
                     name_speciality = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
@@ -656,33 +672,44 @@ namespace test.Migrations
                 {
                     id_enrollee = table.Column<int>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                    AddressLine = table.Column<string>(nullable: true),
                     admit_ssgt = table.Column<int>(nullable: true),
                     arrival_date = table.Column<DateTime>(type: "date", nullable: true),
                     card_ppo = table.Column<int>(nullable: true),
                     children = table.Column<int>(nullable: true),
+                    CreatedTo = table.Column<DateTime>(nullable: true),
                     date_of_birth = table.Column<DateTime>(type: "date", nullable: false),
                     date_of_deduction = table.Column<DateTime>(type: "date", nullable: true),
+                    grade_point_AVG = table.Column<float>(nullable: false),
                     IdArea = table.Column<int>(nullable: false),
                     id_category_ms = table.Column<int>(nullable: false),
+                    id_current_spec = table.Column<int>(nullable: false),
                     id_education_type = table.Column<int>(nullable: false),
                     id_educational_institution = table.Column<int>(nullable: false),
                     id_fact_of_prosecution = table.Column<int>(nullable: false),
+                    id_first_spec = table.Column<int>(nullable: false),
+                    id_group = table.Column<int>(nullable: false),
                     id_marital_status = table.Column<int>(nullable: false),
-                    id_military_office = table.Column<int>(nullable: false),
+                    id_military_office = table.Column<string>(nullable: true),
                     id_military_rank = table.Column<int>(nullable: false),
-                    id_military_unit = table.Column<int>(nullable: false),
+                    id_military_unit = table.Column<string>(nullable: true),
                     id_nationality = table.Column<int>(nullable: false),
                     id_preemptive_right = table.Column<int>(nullable: false),
                     id_reason_for_deduction = table.Column<int>(nullable: false),
                     IdRegion = table.Column<int>(nullable: false),
+                    id_reserve_spec = table.Column<int>(nullable: false),
+                    id_second_spec = table.Column<int>(nullable: false),
                     id_sex = table.Column<int>(nullable: false),
                     id_social_background = table.Column<int>(nullable: false),
+                    id_third_spec = table.Column<int>(nullable: false),
                     id_town = table.Column<int>(nullable: false),
                     inteernational_passport = table.Column<bool>(nullable: true),
                     live_in_camp = table.Column<bool>(nullable: true),
+                    MilitaryOfficeIdMilitaryOffice = table.Column<int>(nullable: true),
+                    MilitaryUnitIdMilitaryUnit = table.Column<int>(nullable: true),
                     name = table.Column<string>(nullable: false),
                     notes_educational_institution = table.Column<string>(nullable: true),
-                    num_of_personal_file = table.Column<int>(nullable: true),
+                    num_of_personal_file = table.Column<string>(nullable: true),
                     other_notes = table.Column<string>(nullable: true),
                     passport_issue_date = table.Column<DateTime>(type: "date", nullable: true),
                     passport_issued_by = table.Column<string>(nullable: true),
@@ -690,7 +717,7 @@ namespace test.Migrations
                     passport_series = table.Column<int>(nullable: true),
                     passport_unit_code = table.Column<string>(nullable: true),
                     patronymic = table.Column<string>(nullable: false),
-                    personal_number_ms = table.Column<int>(nullable: true),
+                    personal_number_ms = table.Column<string>(nullable: true),
                     place_of_birth = table.Column<string>(nullable: false),
                     stock_position_ms = table.Column<string>(nullable: true),
                     surname = table.Column<string>(nullable: false),
@@ -704,6 +731,12 @@ namespace test.Migrations
                         column: x => x.id_category_ms,
                         principalTable: "military_service_category",
                         principalColumn: "id_category_ms",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_enrollee_speciality_id_current_spec",
+                        column: x => x.id_current_spec,
+                        principalTable: "speciality",
+                        principalColumn: "id_speciality",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "r_68",
@@ -724,28 +757,28 @@ namespace test.Migrations
                         principalColumn: "id_fact_of_prosecution",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
+                        name: "FK_enrollee_speciality_id_first_spec",
+                        column: x => x.id_first_spec,
+                        principalTable: "speciality",
+                        principalColumn: "id_speciality",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "enrolleesGroup",
+                        column: x => x.id_group,
+                        principalTable: "Groups",
+                        principalColumn: "id_group",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
                         name: "r_9",
                         column: x => x.id_marital_status,
                         principalTable: "marital_status",
                         principalColumn: "id_marital_status",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "r_17",
-                        column: x => x.id_military_office,
-                        principalTable: "military_office",
-                        principalColumn: "id_military_office",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
                         name: "r_80",
                         column: x => x.id_military_rank,
                         principalTable: "military_rank",
                         principalColumn: "id_military_rank",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "r_79",
-                        column: x => x.id_military_unit,
-                        principalTable: "military_unit",
-                        principalColumn: "id_military_unit",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "r_10",
@@ -766,6 +799,18 @@ namespace test.Migrations
                         principalColumn: "id_reason_for_deduction",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
+                        name: "FK_enrollee_speciality_id_reserve_spec",
+                        column: x => x.id_reserve_spec,
+                        principalTable: "speciality",
+                        principalColumn: "id_speciality",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_enrollee_speciality_id_second_spec",
+                        column: x => x.id_second_spec,
+                        principalTable: "speciality",
+                        principalColumn: "id_speciality",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
                         name: "r_8",
                         column: x => x.id_sex,
                         principalTable: "sex",
@@ -778,10 +823,28 @@ namespace test.Migrations
                         principalColumn: "id_social_background",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
+                        name: "FK_enrollee_speciality_id_third_spec",
+                        column: x => x.id_third_spec,
+                        principalTable: "speciality",
+                        principalColumn: "id_speciality",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
                         name: "r_52",
                         column: x => x.id_town,
                         principalTable: "city",
                         principalColumn: "id_town",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_enrollee_military_office_MilitaryOfficeIdMilitaryOffice",
+                        column: x => x.MilitaryOfficeIdMilitaryOffice,
+                        principalTable: "military_office",
+                        principalColumn: "id_military_office",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_enrollee_military_unit_MilitaryUnitIdMilitaryUnit",
+                        column: x => x.MilitaryUnitIdMilitaryUnit,
+                        principalTable: "military_unit",
+                        principalColumn: "id_military_unit",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -820,6 +883,52 @@ namespace test.Migrations
                         column: x => x.id_test_type,
                         principalTable: "test_type",
                         principalColumn: "id_test_type",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "change_history",
+                columns: table => new
+                {
+                    id_change_history = table.Column<int>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                    changeBy = table.Column<string>(nullable: true),
+                    date_time = table.Column<DateTime>(nullable: false),
+                    EnrolleeIdEnrollee = table.Column<int>(nullable: true),
+                    field_name = table.Column<string>(nullable: true),
+                    new_value = table.Column<string>(nullable: true),
+                    old_value = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_change_history", x => x.id_change_history);
+                    table.ForeignKey(
+                        name: "FK_change_history_enrollee_EnrolleeIdEnrollee",
+                        column: x => x.EnrolleeIdEnrollee,
+                        principalTable: "enrollee",
+                        principalColumn: "id_enrollee",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "DocumentFile",
+                columns: table => new
+                {
+                    id = table.Column<int>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                    File = table.Column<byte[]>(nullable: true),
+                    id_enrollee = table.Column<int>(nullable: false),
+                    NameFile = table.Column<string>(nullable: true),
+                    TypeFile = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DocumentFile", x => x.id);
+                    table.ForeignKey(
+                        name: "EnrolleesDocuments",
+                        column: x => x.id_enrollee,
+                        principalTable: "enrollee",
+                        principalColumn: "id_enrollee",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -1002,6 +1111,11 @@ namespace test.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_change_history_EnrolleeIdEnrollee",
+                table: "change_history",
+                column: "EnrolleeIdEnrollee");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_city_id_area",
                 table: "city",
                 column: "id_area");
@@ -1013,6 +1127,11 @@ namespace test.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_DocumentFile_id_enrollee",
+                table: "DocumentFile",
+                column: "id_enrollee");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_educational_institution_id_town",
                 table: "educational_institution",
                 column: "id_town");
@@ -1021,6 +1140,11 @@ namespace test.Migrations
                 name: "IX_enrollee_id_category_ms",
                 table: "enrollee",
                 column: "id_category_ms");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_enrollee_id_current_spec",
+                table: "enrollee",
+                column: "id_current_spec");
 
             migrationBuilder.CreateIndex(
                 name: "IX_enrollee_id_education_type",
@@ -1038,24 +1162,24 @@ namespace test.Migrations
                 column: "id_fact_of_prosecution");
 
             migrationBuilder.CreateIndex(
+                name: "IX_enrollee_id_first_spec",
+                table: "enrollee",
+                column: "id_first_spec");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_enrollee_id_group",
+                table: "enrollee",
+                column: "id_group");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_enrollee_id_marital_status",
                 table: "enrollee",
                 column: "id_marital_status");
 
             migrationBuilder.CreateIndex(
-                name: "IX_enrollee_id_military_office",
-                table: "enrollee",
-                column: "id_military_office");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_enrollee_id_military_rank",
                 table: "enrollee",
                 column: "id_military_rank");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_enrollee_id_military_unit",
-                table: "enrollee",
-                column: "id_military_unit");
 
             migrationBuilder.CreateIndex(
                 name: "IX_enrollee_id_nationality",
@@ -1073,6 +1197,16 @@ namespace test.Migrations
                 column: "id_reason_for_deduction");
 
             migrationBuilder.CreateIndex(
+                name: "IX_enrollee_id_reserve_spec",
+                table: "enrollee",
+                column: "id_reserve_spec");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_enrollee_id_second_spec",
+                table: "enrollee",
+                column: "id_second_spec");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_enrollee_id_sex",
                 table: "enrollee",
                 column: "id_sex");
@@ -1083,9 +1217,24 @@ namespace test.Migrations
                 column: "id_social_background");
 
             migrationBuilder.CreateIndex(
+                name: "IX_enrollee_id_third_spec",
+                table: "enrollee",
+                column: "id_third_spec");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_enrollee_id_town",
                 table: "enrollee",
                 column: "id_town");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_enrollee_MilitaryOfficeIdMilitaryOffice",
+                table: "enrollee",
+                column: "MilitaryOfficeIdMilitaryOffice");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_enrollee_MilitaryUnitIdMilitaryUnit",
+                table: "enrollee",
+                column: "MilitaryUnitIdMilitaryUnit");
 
             migrationBuilder.CreateIndex(
                 name: "IX_enrollee_achievement_id_achievement",
@@ -1213,6 +1362,12 @@ namespace test.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "change_history");
+
+            migrationBuilder.DropTable(
+                name: "DocumentFile");
+
+            migrationBuilder.DropTable(
                 name: "enrollee_achievement");
 
             migrationBuilder.DropTable(
@@ -1261,9 +1416,6 @@ namespace test.Migrations
                 name: "entrance_exams");
 
             migrationBuilder.DropTable(
-                name: "speciality");
-
-            migrationBuilder.DropTable(
                 name: "parent_type");
 
             migrationBuilder.DropTable(
@@ -1271,6 +1423,9 @@ namespace test.Migrations
 
             migrationBuilder.DropTable(
                 name: "military_service_category");
+
+            migrationBuilder.DropTable(
+                name: "speciality");
 
             migrationBuilder.DropTable(
                 name: "education_type");
@@ -1282,16 +1437,13 @@ namespace test.Migrations
                 name: "fact_of_prosecution");
 
             migrationBuilder.DropTable(
+                name: "Groups");
+
+            migrationBuilder.DropTable(
                 name: "marital_status");
 
             migrationBuilder.DropTable(
-                name: "military_office");
-
-            migrationBuilder.DropTable(
                 name: "military_rank");
-
-            migrationBuilder.DropTable(
-                name: "military_unit");
 
             migrationBuilder.DropTable(
                 name: "nationality");
@@ -1307,6 +1459,12 @@ namespace test.Migrations
 
             migrationBuilder.DropTable(
                 name: "social_background");
+
+            migrationBuilder.DropTable(
+                name: "military_office");
+
+            migrationBuilder.DropTable(
+                name: "military_unit");
 
             migrationBuilder.DropTable(
                 name: "city");
