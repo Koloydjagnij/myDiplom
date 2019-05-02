@@ -1,0 +1,31 @@
+﻿@model test.Models.Group
+
+@{
+    ViewData["Title"] = "Удаление группы";
+}
+
+<h3>Удалить данную группу?</h3>
+<div>
+
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.GroupName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.GroupName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CountEnrolleeInGroup)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CountEnrolleeInGroup)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="IdGroup" />
+        <input type="submit" value="Удалить" class="btn btn-default" /> |
+        <a asp-action="Index">Назад к списку групп</a>
+    </form>
+</div>

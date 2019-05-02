@@ -35,7 +35,10 @@ namespace test.Views.Enrollees
             SelectedPreemptiveRight = preemptiveRight;
             SelectedName = name;
 
-            isFiltrated = (SelectedEduType.Length != 0 && (SelectedEduType.Length == 1 && SelectedEduType[0] != 0))|| (SelectedEduType.Length >1 ) || (SelectedMaritalStatus != null && SelectedMaritalStatus != 0) || (SelectedPreemptiveRight != null && SelectedPreemptiveRight != 0) || (!String.IsNullOrEmpty(SelectedName));
+            isFiltrated = (SelectedEduType.Length != 0 )|| (SelectedFirstSpecialities.Length !=0 ) 
+                || (SelectedCurrentSpecialities.Length != 0)|| (SelectedGroups.Length != 0) 
+                || (SelectedMaritalStatus != null && SelectedMaritalStatus != 0) 
+                || (SelectedPreemptiveRight != null && SelectedPreemptiveRight != 0) || (!String.IsNullOrEmpty(SelectedName));
 
         }
         public MultiSelectList Groups { get; private set; } // список групп

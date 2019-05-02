@@ -118,16 +118,23 @@ namespace test.Controllers.EnrolleeControl
         /// <param name="sortOrder"> Способ и столбец по которому сортируем</param>
         /// <returns>Возвращает список абитуриентов с учетом фильтров и постраничной навигации</returns>
         [Authorize(Roles = "Admin,ListAbitur")]
-        public async Task<IActionResult> Index(int[] groups, int[] fSpec, int[] cSpec, int[] eduType, int? maritalStatus, int? preemptiveRight, string name, int page = 1, SortState sortOrder = SortState.SurnameAsc)
+        public async Task<IActionResult> Index(int[] groups, int[] fSpec, int[] cSpec, int[] eduType, int? maritalStatus, int? preemptiveRight, string name, int page = 1, SortState sortOrder = SortState.SurnameAsc, int PageViewModel_PageSize = 20)
         {
+            List<EnumType> PageSize = new List<EnumType>();
+            PageSize.Add(new EnumType { Id = 10, Name = "10" });
+            PageSize.Add(new EnumType { Id = 20, Name = "20" });
+            PageSize.Add(new EnumType { Id = 30, Name = "30" });
+            PageSize.Add(new EnumType { Id = 40, Name = "40" });
+            PageSize.Add(new EnumType { Id = 50, Name = "50" });
+            ViewData["PageSize"] = new SelectList(PageSize, "Id", "Name");
+
             #region SortedAndFiltratedAbitur
             ViewData["NameSort"] = sortOrder == SortState.NameAsc ? SortState.NameDesc : SortState.NameAsc;
             ViewData["SurnameSort"] = sortOrder == SortState.SurnameAsc ? SortState.SurnameDesc : SortState.SurnameAsc;
             //ViewData["GroupSort"] = sortOrder == SortState.GroupAsc ? SortState.GroupDesc : SortState.GroupAsc;
             ViewData["ProfNumSort"] = sortOrder == SortState.ProfNumAsc ? SortState.ProfNumDesc : SortState.ProfNumAsc;
 
-            int pageSize = 15;   // количество элементов на странице
-
+            
             IQueryable<Enrollee> source = _context.Enrollee;
 
             //фильтрация 
@@ -191,8 +198,8 @@ namespace test.Controllers.EnrolleeControl
             }
             #endregion
             var count = await source.CountAsync();
-            var items = await source.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
-            PageViewModel pageViewModel = new PageViewModel(count, page, pageSize);
+            var items = await source.Skip((page - 1) * PageViewModel_PageSize).Take(PageViewModel_PageSize).ToListAsync();
+            PageViewModel pageViewModel = new PageViewModel(count, page, PageViewModel_PageSize);
             IndexViewModel viewModel = new IndexViewModel
             {
                 PageViewModel = pageViewModel,

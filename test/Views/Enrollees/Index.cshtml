@@ -26,19 +26,33 @@
     <div class="panel-heading">
         <h4 class="panel-title">
             <form class="form-horizontal" asp-action="Index">
-                <div class="form-inline">
-                    <label>ФИО: </label>
-                    @Html.TextBox("name", Model.FilterViewModel.SelectedName, htmlAttributes: new { @class = "form-control" })
-                    <input type="submit" value="Найти" class="btn btn-default" />
-                    <a class="btn btn-default" data-toggle="collapse" href="#collapseOne">
-                        Фильтры
-                    </a>
-                    @if (Model.FilterViewModel.isFiltrated)
-                    {
-                        <label class="control-label">
-                            <img src="~/images/isFilter.png" width="30" height="30" title="Применены фильтры" style="vertical-align:central" class="img-responsive" />
-                        </label>
-                    }
+                <div class="row">
+                    <div class="col-md-1 col-lg-1 col-xl-1 text-right">
+                        <label class="control-label">ФИО: </label>
+                    </div>
+                    <div class="col-md-3 col-lg-3 col-xl-3 ">
+                        @Html.TextBox("name", Model.FilterViewModel.SelectedName, htmlAttributes: new { @class = "form-control" })
+                    </div>
+                    <div class="col-md-1 col-lg-1 col-xl-1 text-right">
+                        <input type="submit" value="Найти" class="btn btn-default" />
+                    </div>
+                    <div class="col-md-1 col-lg-1 col-xl-1 text-right">
+                        <a class="btn btn-default" data-toggle="collapse" href="#collapseOne">
+                            Фильтры
+                        </a>
+                    </div>
+                    <div class="col-md-1 col-lg-1 col-xl-1 text-right">
+                        @if (Model.FilterViewModel.isFiltrated)
+                        {
+                            <label class="control-label">
+                                <img src="~/images/isFilter.png" width="30" height="30" title="Применены фильтры" style="vertical-align:central" class="img-responsive" />
+                            </label>
+                        }
+                    </div>
+                    <div class="col-md-4 col-lg-4 col-xl-4 text-right">
+                        @Html.DropDownList("PageViewModel.PageSize", ViewBag.PageSize as SelectList)
+                    </div>
+
                 </div>
             </form>
 
@@ -48,33 +62,49 @@
         <div class="panel-body">
             <!--Форма фильтров-->
             <form class="form-horizontal" asp-action="Index">
+                <div class="row">
+                    <div class="col-md-4 col-lg-4 col-xl-4 text-right">
+                        <label class="control-label">Первый приоритет: </label>
+                        @Html.ListBox("fSpec", Model.FilterViewModel.FirstSpecialities as MultiSelectList,
+                                htmlAttributes: new { @class = "form-control" })
+                    </div>
 
-                <div class="form-inline">
-                    <label class="control-label">Первый приоритет: </label>
-                    @Html.ListBox("fSpec", Model.FilterViewModel.FirstSpecialities as MultiSelectList,
-                            htmlAttributes: new { @class = "form-control" })
+                    <div class="col-md-4 col-lg-4 col-xl-4 text-right">
+                        <label class="control-label">Текущее направление: </label>
+                        @Html.ListBox("cSpec", Model.FilterViewModel.CurrentSpecialities as MultiSelectList,
+                                htmlAttributes: new { @class = "form-control" })
+                    </div>
 
-                    <label class="control-label">Текущее направление: </label>
-                    @Html.ListBox("cSpec", Model.FilterViewModel.CurrentSpecialities as MultiSelectList,
-                            htmlAttributes: new { @class = "form-control" })
+                    <div class="col-md-4 col-lg-4 col-xl-4 text-right">
+                        <label class="control-label">Группа: </label>
+                        @Html.ListBox("groups", Model.FilterViewModel.Groups as MultiSelectList,
+                                htmlAttributes: new { @class = "form-control" })
+                    </div>
 
-                    <label class="control-label">Группа: </label>
-                    @Html.ListBox("groups", Model.FilterViewModel.Groups as MultiSelectList,
-                            htmlAttributes: new { @class = "form-control" })
+                    <div class="col-md-4 col-lg-4 col-xl-4 text-right">
+                        <label class="control-label">Тип образования: </label>
+                        @Html.ListBox("eduType", Model.FilterViewModel.EduTypes as MultiSelectList,
+                                htmlAttributes: new { @class = "form-control" })
+                    </div>
 
-                    <label class="control-label">Тип образования: </label>
-                    @Html.ListBox("eduType", Model.FilterViewModel.EduTypes as MultiSelectList,
-                            htmlAttributes: new { @class = "form-control" })
+                    <div class="col-md-4 col-lg-4 col-xl-4 text-right">
+                        <label class="control-label">Семейное положение: </label>
+                        @Html.DropDownList("maritalStatus", Model.FilterViewModel.MaritalStatuses as MultiSelectList,
+                                htmlAttributes: new { @class = "form-control" })
+                    </div>
 
-                    <label class="control-label">Семейное положение: </label>
-                    @Html.DropDownList("maritalStatus", Model.FilterViewModel.MaritalStatuses as SelectList,
-                            htmlAttributes: new { @class = "form-control" })
+                    <div class="col-md-4 col-lg-4 col-xl-4 text-right">
+                        <label class="control-label">Преимущественное право: </label>
+                        @Html.DropDownList("preemptiveRight", Model.FilterViewModel.PreemptiveRights as MultiSelectList,
+                                htmlAttributes: new { @class = "form-control" })
+                    </div>
+                    <div class="col-md-12 col-lg-12 col-xl-12 text-right">
+                        <br />
+                    </div>
 
-                    <label class="control-label">Преимущественное право: </label>
-                    @Html.DropDownList("preemptiveRight", Model.FilterViewModel.PreemptiveRights as SelectList,
-                            htmlAttributes: new { @class = "form-control" })
-
-                    <input type="submit" value="Применить" class="btn btn-default" />
+                    <div class="col-md-12 col-lg-12 col-xl-12 text-right">
+                        <input type="submit" value="Применить" class="btn btn-default" />
+                    </div>
                 </div>
             </form>
         </div>
@@ -278,7 +308,7 @@
             $('#eduType').multiselect({
                 enableFiltering: true,
                 includeResetOption: true,
-                includeSelectAllOption: true,
+                includeSelectAllOption: false,
                 maxHeight: 200
             });
         });
@@ -288,7 +318,7 @@
             $('#fSpec').multiselect({
                 enableFiltering: true,
                 includeResetOption: true,
-                includeSelectAllOption: true,
+                includeSelectAllOption: false,
                 maxHeight: 200
             });
         });
@@ -298,7 +328,7 @@
             $('#cSpec').multiselect({
                 enableFiltering: true,
                 includeResetOption: true,
-                includeSelectAllOption: true,
+                includeSelectAllOption: false,
                 maxHeight: 200
             });
         });
@@ -308,9 +338,47 @@
             $('#groups').multiselect({
                 enableFiltering: true,
                 includeResetOption: true,
-                includeSelectAllOption: true,
+                includeSelectAllOption: false,
                 maxHeight: 200
             });
         });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('#maritalStatus').multiselect({
+                enableFiltering: false,
+                includeResetOption: false,
+                includeSelectAllOption: false,
+                maxHeight: 200
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('#preemptiveRight').multiselect({
+                enableFiltering: false,
+                includeResetOption: false,
+                includeSelectAllOption: false,
+                maxHeight: 200
+            });
+        });
+    </script>
+    <script type="text/javascript">
+    $(function () {
+
+        $('#PageViewModel_PageSize').change(function()
+        {
+            // получаем выбранный id
+            var id = $(this).val();
+            $.ajax({
+                type: 'GET',
+                url: '@Url.Action("Index")',
+                data: { PageViewModel_PageSize: id },
+                success: function (d) {
+                    alert("OK");
+                }
+            });
+        });
+    })
     </script>
 }

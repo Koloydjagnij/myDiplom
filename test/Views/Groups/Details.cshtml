@@ -1,0 +1,28 @@
+﻿@model test.Models.Group
+
+@{
+    ViewData["Title"] = "Информация о группе";
+}
+
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.GroupName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.GroupName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CountEnrolleeInGroup)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CountEnrolleeInGroup)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.IdGroup">Изменить</a> |
+    <a asp-action="Index">Назад к списку групп</a>
+</div>
