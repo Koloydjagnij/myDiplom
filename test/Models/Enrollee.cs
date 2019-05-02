@@ -81,7 +81,7 @@ namespace test
         public DateTime? ArrivalDate { get; set; }
 
         [Display(Name = "Проживание в лагере")]
-         public bool? LiveInCamp { get; set; }
+        public bool? LiveInCamp { get; set; }
 
         [Display(Name = "Дата отчисления")]
         [DataType(DataType.Date)]
@@ -126,7 +126,7 @@ namespace test
         virtual public int IdRegion { get; set; }
         [Required]
         [Display(Name = "Район")]
-        public int IdArea{ get;  set; }
+        public int IdArea { get; set; }
 
         [Display(Name = "Факт привлечения к ответсвенности")]
         public int IdFactOfProsecution { get; set; }
@@ -134,10 +134,32 @@ namespace test
         [Display(Name = "Учебное заведение")]
         public int IdEducationalInstitution { get; set; }
 
+        [Display(Name = "Ср балл ат.")]
+        public float GradePointAVG { get; set; }
+
         [Display(Name = "Тип образования")]
         public int IdEducationType { get; set; }
 
-        
+        [Display(Name = "Первый приоритет")]
+        public int IdFirstSpec { get; set; }
+
+        [Display(Name = "Второй приоритет")]
+        public int IdSecondSpec { get; set; }
+
+        [Display(Name = "Третий приоритет")]
+        public int IdThirdSpec { get; set; }
+
+        [Display(Name = "Резервный приоритет")]
+        public int IdReserveSpec { get; set; }
+
+        [Display(Name = "Специальность")]
+        public int IdCurrentSpec { get; set; }
+
+        [Display(Name = "Группа")]
+        public int IdGroup { get; set; }
+
+
+
         [Display(Name = "Год выпуска")]
         [DisplayFormat(DataFormatString = "{0:yyyy}", ApplyFormatInEditMode = false)]
         // [Range(1970, 9999, ErrorMessage = "Год окончания учебного заведния допустим в диапазоне от 1970 до текущего года включительно")]
@@ -169,7 +191,7 @@ namespace test
         public MaritalStatus IdMaritalStatusNavigation { get; set; }
         //public MilitaryOffice IdMilitaryOfficeNavigation { get; set; }
         public MilitaryRank IdMilitaryRankNavigation { get; set; }
-       // public MilitaryUnit IdMilitaryUnitNavigation { get; set; }
+        // public MilitaryUnit IdMilitaryUnitNavigation { get; set; }
         public Nationality IdNationalityNavigation { get; set; }
         public PreemptiveRight IdPreemptiveRightNavigation { get; set; }
         public ReasonForDeduction IdReasonForDeductionNavigation { get; set; }
@@ -185,5 +207,12 @@ namespace test
         public ICollection<SubjectMark> SubjectMark { get; set; }
         public ICollection<DocumentFile> DocumentFile { get; set; }
         public IList<ChangeHistory> ChangeHistory { get; set; }
+        public Speciality IdFirstSpecNavigation { get; set; }
+        public Speciality IdSecondSpecNavigation { get; set; }
+        public Speciality IdThirdSpecNavigation { get; set; }
+        public Speciality IdReserveSpecNavigation { get; set; }
+        public Speciality IdCurrentSpecNavigation { get; set; }
+        public Group IdGroupNavigation { get; set; }
+
     }
 }

@@ -16,6 +16,11 @@ using Microsoft.AspNetCore.Http;
 
 namespace test.Controllers.EnrolleeControl
 {
+    public class EnumType
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+    }
     [Authorize(Roles = "Admin,ListAbitur")]
     public class EnrolleesController : Controller
     {
@@ -42,6 +47,46 @@ namespace test.Controllers.EnrolleeControl
         {
             return PartialView(_context.City.Where(c => c.IdArea == id|| c.NameCity=="Не выбрано").ToList());
         }
+
+        //получаем списки для выпадающих полей
+        private void GetEnumList(Enrollee enrollee)
+        {
+            List<EnumType> cardPPO = new List<EnumType>();
+            cardPPO.Add(new EnumType { Id = 0, Name = "Не выбрано" });
+            cardPPO.Add(new EnumType { Id = 1, Name = "I группа" });
+            cardPPO.Add(new EnumType { Id = 2, Name = "II группа" });
+            cardPPO.Add(new EnumType { Id = 3, Name = "III группа" });
+            cardPPO.Add(new EnumType { Id = 4, Name = "IV группа" });
+            ViewData["cardPPOType"] = new SelectList(cardPPO, "Id", "Name");
+
+            List<EnumType> AdmitSsgt = new List<EnumType>();
+            AdmitSsgt.Add(new EnumType { Id = 0, Name = "Не выбрано" });
+            AdmitSsgt.Add(new EnumType { Id = 1, Name = "1 форма" });
+            AdmitSsgt.Add(new EnumType { Id = 2, Name = "2 форма" });
+            AdmitSsgt.Add(new EnumType { Id = 3, Name = "3 форма" });
+            ViewData["AdmitSsgtType"] = new SelectList(AdmitSsgt, "Id", "Name");
+
+            ViewData["IdCategoryMs"] = new SelectList(_context.MilitaryServiceCategory, "IdCategoryMs", "NameCategoryMs", enrollee.IdCategoryMs);
+            ViewData["IdEducationType"] = new SelectList(_context.EducationType, "IdEducationType", "NameEducationType", enrollee.IdEducationType);
+            ViewData["IdEducationalInstitution"] = new SelectList(_context.EducationalInstitution, "IdEducationalInstitution", "NameEducationalInstitution", enrollee.IdEducationalInstitution);
+            ViewData["IdFactOfProsecution"] = new SelectList(_context.FactOfProsecution, "IdFactOfProsecution", "NameFactOfProsecution", enrollee.IdFactOfProsecution);
+            ViewData["IdMaritalStatus"] = new SelectList(_context.MaritalStatus, "IdMaritalStatus", "NameMaritalStatus", enrollee.IdMaritalStatus);
+            ViewData["IdMilitaryOffice"] = new SelectList(_context.MilitaryOffice, "IdMilitaryOffice", "NameMilitaryOffice", enrollee.IdMilitaryOffice);
+            ViewData["IdMilitaryRank"] = new SelectList(_context.MilitaryRank, "IdMilitaryRank", "NameMilitaryRank", enrollee.IdMilitaryRank);
+            ViewData["IdMilitaryUnit"] = new SelectList(_context.MilitaryUnit, "IdMilitaryUnit", "NameMilitaryUnit", enrollee.IdMilitaryUnit);
+            ViewData["IdNationality"] = new SelectList(_context.Nationality, "IdNationality", "NameNationality", enrollee.IdNationality);
+            ViewData["IdPreemptiveRight"] = new SelectList(_context.PreemptiveRight, "IdPreemptiveRight", "NamePreemptiveRight", enrollee.IdPreemptiveRight);
+            ViewData["IdReasonForDeduction"] = new SelectList(_context.ReasonForDeduction, "IdReasonForDeduction", "NameReasonForDeduction", enrollee.IdReasonForDeduction);
+            ViewData["IdSex"] = new SelectList(_context.Sex, "IdSex", "NameSex", enrollee.IdSex);
+            ViewData["IdSocialBackground"] = new SelectList(_context.SocialBackground, "IdSocialBackground", "NameSocialBackground", enrollee.IdSocialBackground);
+            ViewData["IdTown"] = new SelectList(_context.City.Where(c => (c.IdArea == enrollee.IdArea || c.NameCity == "Не выбрано")).OrderBy(c => c.NameCity), "IdTown", "NameCity", enrollee.IdTown);
+            ViewData["IdSocialStatus"] = new SelectList(_context.SocialStatus, "IdSocialStatus", "NameSocialStatus");
+            ViewData["IdFamilyType"] = new SelectList(_context.FamilyType, "IdFamilyType", "NameFamilyType");
+            ViewData["IdParentType"] = new SelectList(_context.ParentType, "IdParentType", "NameParentType");
+            ViewData["IdRegion"] = new SelectList(_context.Region.OrderBy(r => r.NameRegion), "IdRegion", "NameRegion");
+            ViewData["IdArea"] = new SelectList(_context.Area.Where(a => a.IdRegion == enrollee.IdRegion || a.NameArea == "Не выбрано").OrderBy(a => a.NameArea), "IdArea", "NameArea");
+        }
+
         //виды сортировки
         public enum SortState
         {
@@ -266,26 +311,7 @@ namespace test.Controllers.EnrolleeControl
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             #region LoadViewData
-            ViewData["IdCategoryMs"] = new SelectList(_context.MilitaryServiceCategory, "IdCategoryMs", "NameCategoryMs", enrollee.IdCategoryMs);
-            ViewData["IdEducationType"] = new SelectList(_context.EducationType, "IdEducationType", "NameEducationType", enrollee.IdEducationType);
-            ViewData["IdEducationalInstitution"] = new SelectList(_context.EducationalInstitution, "IdEducationalInstitution", "NameEducationalInstitution", enrollee.IdEducationalInstitution);
-            ViewData["IdFactOfProsecution"] = new SelectList(_context.FactOfProsecution, "IdFactOfProsecution", "NameFactOfProsecution", enrollee.IdFactOfProsecution);
-            ViewData["IdMaritalStatus"] = new SelectList(_context.MaritalStatus, "IdMaritalStatus", "NameMaritalStatus", enrollee.IdMaritalStatus);
-            ViewData["IdMilitaryOffice"] = new SelectList(_context.MilitaryOffice, "IdMilitaryOffice", "NameMilitaryOffice", enrollee.IdMilitaryOffice);
-            ViewData["IdMilitaryRank"] = new SelectList(_context.MilitaryRank, "IdMilitaryRank", "NameMilitaryRank", enrollee.IdMilitaryRank);
-            ViewData["IdMilitaryUnit"] = new SelectList(_context.MilitaryUnit, "IdMilitaryUnit", "NameMilitaryUnit", enrollee.IdMilitaryUnit);
-            ViewData["IdNationality"] = new SelectList(_context.Nationality, "IdNationality", "NameNationality", enrollee.IdNationality);
-            ViewData["IdPreemptiveRight"] = new SelectList(_context.PreemptiveRight, "IdPreemptiveRight", "NamePreemptiveRight", enrollee.IdPreemptiveRight);
-            ViewData["IdReasonForDeduction"] = new SelectList(_context.ReasonForDeduction, "IdReasonForDeduction", "NameReasonForDeduction", enrollee.IdReasonForDeduction);
-            ViewData["IdSex"] = new SelectList(_context.Sex, "IdSex", "NameSex", enrollee.IdSex);
-            ViewData["IdSocialBackground"] = new SelectList(_context.SocialBackground, "IdSocialBackground", "NameSocialBackground", enrollee.IdSocialBackground);
-            ViewData["IdTown"] = new SelectList(_context.City.Where(c=>c.IdArea==enrollee.IdArea||c.NameCity=="Не выбрано").OrderBy(c=>c.NameCity), "IdTown", "NameCity", enrollee.IdTown);
-            ViewData["IdSocialStatus"] = new SelectList(_context.SocialStatus, "IdSocialStatus", "NameSocialStatus");
-            ViewData["IdFamilyType"] = new SelectList(_context.FamilyType, "IdFamilyType", "NameFamilyType");
-            ViewData["IdParentType"] = new SelectList(_context.ParentType, "IdParentType", "NameParentType");
-            ViewData["IdRegion"] = new SelectList(_context.Region.OrderBy(r=>r.NameRegion), "IdRegion", "NameRegion");
-            ViewData["IdArea"] = new SelectList(_context.Area.Where(a=>a.IdRegion==enrollee.IdRegion|| a.NameArea=="Не выбрано").OrderBy(a=>a.NameArea), "IdArea", "NameArea");
-
+            GetEnumList(enrollee);
             #endregion
             return View(createViewModel);
         }
@@ -361,27 +387,10 @@ namespace test.Controllers.EnrolleeControl
             EnrolleeView.CityList = _context.City;
             EnrolleeView.FactOfProsecutionList = _context.FactOfProsecution;
 
-            #region LoadViewData
-            ViewData["IdCategoryMs"] = new SelectList(_context.MilitaryServiceCategory, "IdCategoryMs", "NameCategoryMs", enrollee.IdCategoryMs);
-            ViewData["IdEducationType"] = new SelectList(_context.EducationType, "IdEducationType", "NameEducationType", enrollee.IdEducationType);
-            ViewData["IdEducationalInstitution"] = new SelectList(_context.EducationalInstitution, "IdEducationalInstitution", "NameEducationalInstitution", enrollee.IdEducationalInstitution);
-            ViewData["IdFactOfProsecution"] = new SelectList(_context.FactOfProsecution, "IdFactOfProsecution", "NameFactOfProsecution", enrollee.IdFactOfProsecution);
-            ViewData["IdMaritalStatus"] = new SelectList(_context.MaritalStatus, "IdMaritalStatus", "NameMaritalStatus", enrollee.IdMaritalStatus);
-            ViewData["IdMilitaryOffice"] = new SelectList(_context.MilitaryOffice, "IdMilitaryOffice", "NameMilitaryOffice", enrollee.IdMilitaryOffice);
-            ViewData["IdMilitaryRank"] = new SelectList(_context.MilitaryRank, "IdMilitaryRank", "NameMilitaryRank", enrollee.IdMilitaryRank);
-            ViewData["IdMilitaryUnit"] = new SelectList(_context.MilitaryUnit, "IdMilitaryUnit", "NameMilitaryUnit", enrollee.IdMilitaryUnit);
-            ViewData["IdNationality"] = new SelectList(_context.Nationality, "IdNationality", "NameNationality", enrollee.IdNationality);
-            ViewData["IdPreemptiveRight"] = new SelectList(_context.PreemptiveRight, "IdPreemptiveRight", "NamePreemptiveRight", enrollee.IdPreemptiveRight);
-            ViewData["IdReasonForDeduction"] = new SelectList(_context.ReasonForDeduction, "IdReasonForDeduction", "NameReasonForDeduction", enrollee.IdReasonForDeduction);
-            ViewData["IdSex"] = new SelectList(_context.Sex, "IdSex", "NameSex");
-            ViewData["IdSocialBackground"] = new SelectList(_context.SocialBackground, "IdSocialBackground", "NameSocialBackground", enrollee.IdSocialBackground);
-            ViewData["IdTown"] = new SelectList(_context.City.Where(c=>c.IdArea==enrollee.IdArea||c.NameCity=="Не выбрано").OrderBy(c=>c.NameCity), "IdTown", "NameCity", enrollee.IdTown);
-            ViewData["IdSocialStatus"] = new SelectList(_context.SocialStatus, "IdSocialStatus", "NameSocialStatus");
-            ViewData["IdFamilyType"] = new SelectList(_context.FamilyType, "IdFamilyType", "NameFamilyType");
-            ViewData["IdParentType"] = new SelectList(_context.ParentType, "IdParentType", "NameParentType");
-            ViewData["IdRegion"] = new SelectList(_context.Region.OrderBy(r=>r.NameRegion), "IdRegion", "NameRegion");
-            ViewData["IdArea"] = new SelectList(_context.Area.Where(a=>a.IdRegion==enrollee.IdRegion|| a.NameArea=="Не выбрано").OrderBy(a=>a.NameArea), "IdArea", "NameArea");
 
+
+            #region LoadViewData
+            GetEnumList(enrollee);
             #endregion
 
             return View(EnrolleeView);
@@ -506,25 +515,8 @@ namespace test.Controllers.EnrolleeControl
                 }
                 return RedirectToAction(nameof(Index));
             #region LoadViewData
-            ViewData["IdCategoryMs"] = new SelectList(_context.MilitaryServiceCategory, "IdCategoryMs", "NameCategoryMs", enrollee.IdCategoryMs);
-            ViewData["IdEducationType"] = new SelectList(_context.EducationType, "IdEducationType", "NameEducationType", enrollee.IdEducationType);
-            ViewData["IdEducationalInstitution"] = new SelectList(_context.EducationalInstitution, "IdEducationalInstitution", "NameEducationalInstitution", enrollee.IdEducationalInstitution);
-            ViewData["IdFactOfProsecution"] = new SelectList(_context.FactOfProsecution, "IdFactOfProsecution", "NameFactOfProsecution", enrollee.IdFactOfProsecution);
-            ViewData["IdMaritalStatus"] = new SelectList(_context.MaritalStatus, "IdMaritalStatus", "NameMaritalStatus", enrollee.IdMaritalStatus);
-            ViewData["IdMilitaryOffice"] = new SelectList(_context.MilitaryOffice, "IdMilitaryOffice", "NameMilitaryOffice", enrollee.IdMilitaryOffice);
-            ViewData["IdMilitaryRank"] = new SelectList(_context.MilitaryRank, "IdMilitaryRank", "NameMilitaryRank", enrollee.IdMilitaryRank);
-            ViewData["IdMilitaryUnit"] = new SelectList(_context.MilitaryUnit, "IdMilitaryUnit", "NameMilitaryUnit", enrollee.IdMilitaryUnit);
-            ViewData["IdNationality"] = new SelectList(_context.Nationality, "IdNationality", "NameNationality", enrollee.IdNationality);
-            ViewData["IdPreemptiveRight"] = new SelectList(_context.PreemptiveRight, "IdPreemptiveRight", "NamePreemptiveRight", enrollee.IdPreemptiveRight);
-            ViewData["IdReasonForDeduction"] = new SelectList(_context.ReasonForDeduction, "IdReasonForDeduction", "NameReasonForDeduction", enrollee.IdReasonForDeduction);
-            ViewData["IdSex"] = new SelectList(_context.Sex, "IdSex", "NameSex", enrollee.IdSex);
-            ViewData["IdSocialBackground"] = new SelectList(_context.SocialBackground, "IdSocialBackground", "NameSocialBackground", enrollee.IdSocialBackground);
-            ViewData["IdTown"] = new SelectList(_context.City.Where(c=>(c.IdArea==enrollee.IdArea||c.NameCity=="Не выбрано")).OrderBy(c=>c.NameCity), "IdTown", "NameCity", enrollee.IdTown);
-            ViewData["IdSocialStatus"] = new SelectList(_context.SocialStatus, "IdSocialStatus", "NameSocialStatus");
-            ViewData["IdFamilyType"] = new SelectList(_context.FamilyType, "IdFamilyType", "NameFamilyType");
-            ViewData["IdParentType"] = new SelectList(_context.ParentType, "IdParentType", "NameParentType");
-            ViewData["IdRegion"] = new SelectList(_context.Region.OrderBy(r=>r.NameRegion), "IdRegion", "NameRegion");
-            ViewData["IdArea"] = new SelectList(_context.Area.Where(a=>a.IdRegion==enrollee.IdRegion||a.NameArea=="Не выбрано").OrderBy(a=>a.NameArea), "IdArea", "NameArea");
+            GetEnumList(enrollee);
+            
 
             #endregion
             return View(createViewModel);

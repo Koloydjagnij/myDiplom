@@ -286,7 +286,10 @@
                             @Html.LabelFor(model => model.Enrollees.CardPpo)
                         </div>
                         <div class="col-md-2 col-lg-2 col-xl-2">
-                            @Html.EditorFor(model => model.Enrollees.CardPpo)
+                            
+                            
+                            @Html.DropDownList("Enrollees.CardPpo", ViewBag.cardPPOType as SelectList)
+
                             @Html.ValidationMessageFor(model => model.Enrollees.CardPpo)
                         </div>
                     </div>
@@ -300,7 +303,7 @@
                             @Html.LabelFor(model => model.Enrollees.AdmitSsgt)
                         </div>
                         <div class="col-md-2 col-lg-2 col-xl-2">
-                            @Html.EditorFor(model => model.Enrollees.AdmitSsgt)
+                            @Html.DropDownList("Enrollees.AdmitSsgt", ViewBag.AdmitSsgtType as SelectList)
                             @Html.ValidationMessageFor(model => model.Enrollees.AdmitSsgt)
                         </div>
                     </div>

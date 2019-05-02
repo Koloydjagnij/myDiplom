@@ -52,10 +52,24 @@ namespace test.Data
         public virtual DbSet<Pochta> Pochta { get; set; }
         public virtual DbSet<DocumentFile> DocumentFile { get; set; }
         public virtual DbSet<ChangeHistory> ChangeHistory { get; set; }
+        public virtual DbSet<Group> Groups { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //создаем роли
+            modelBuilder.Entity<Group>(entity =>
+            {
+                entity.HasKey(e => e.IdGroup);
+
+                entity.ToTable("Groups");
+
+                entity.Property(e => e.IdGroup)
+                    .HasColumnName("id_group")
+                    .ValueGeneratedOnAdd();
+
+                entity.Property(e => e.GroupName).HasColumnName("group_name");
+                entity.Property(e => e.CountEnrolleeInGroup).HasColumnName("CountEnrolleeInGroup");
+            });
+
             modelBuilder.Entity<ChangeHistory>(entity =>
             {
                 entity.HasKey(e => e.ChangeHistoryId);
@@ -267,6 +281,51 @@ namespace test.Data
                 entity.Property(e => e.IdEnrollee)
                     .HasColumnName("id_enrollee")
                     .ValueGeneratedOnAdd();
+
+                entity.Property(e => e.IdGroup).HasColumnName("id_group");
+
+                entity.HasOne(d => d.IdGroupNavigation)
+                    .WithMany(p => p.Enrollees)
+                    .HasForeignKey(d => d.IdGroup)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("enrolleesGroup");
+
+                entity.Property(e => e.IdFirstSpec).HasColumnName("id_first_spec");
+
+                entity.HasOne(d => d.IdFirstSpecNavigation)
+                    .WithMany(p => p.EnrolleesFirst)
+                    .HasForeignKey(d => d.IdFirstSpec)
+                    .OnDelete(DeleteBehavior.ClientSetNull);
+
+                entity.Property(e => e.IdSecondSpec).HasColumnName("id_second_spec");
+
+                entity.HasOne(d => d.IdSecondSpecNavigation)
+                    .WithMany(p => p.EnrolleesSecond)
+                    .HasForeignKey(d => d.IdSecondSpec)
+                    .OnDelete(DeleteBehavior.ClientSetNull);
+
+                entity.Property(e => e.IdThirdSpec).HasColumnName("id_third_spec");
+
+                entity.HasOne(d => d.IdThirdSpecNavigation)
+                    .WithMany(p => p.EnrolleesThird)
+                    .HasForeignKey(d => d.IdThirdSpec)
+                    .OnDelete(DeleteBehavior.ClientSetNull);
+
+                entity.Property(e => e.IdReserveSpec).HasColumnName("id_reserve_spec");
+
+                entity.HasOne(d => d.IdReserveSpecNavigation)
+                    .WithMany(p => p.EnrolleesReserve)
+                    .HasForeignKey(d => d.IdReserveSpec)
+                    .OnDelete(DeleteBehavior.ClientSetNull);
+
+                entity.Property(e => e.IdCurrentSpec).HasColumnName("id_current_spec");
+
+                entity.HasOne(d => d.IdCurrentSpecNavigation)
+                    .WithMany(p => p.EnrolleesCurrent)
+                    .HasForeignKey(d => d.IdCurrentSpec)
+                    .OnDelete(DeleteBehavior.ClientSetNull);
+
+                entity.Property(e => e.GradePointAVG).HasColumnName("grade_point_AVG");
 
                 entity.Property(e => e.AdmitSsgt).HasColumnName("admit_ssgt");
 

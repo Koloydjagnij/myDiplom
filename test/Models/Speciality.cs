@@ -20,5 +20,10 @@ namespace test
         public int CountAbiturToSpeciality { get; set; }
 
         public ICollection<ExamForSpeciality> ExamForSpeciality { get; set; }
+        public ICollection<Enrollee> EnrolleesFirst { get; set; }
+        public ICollection<Enrollee> EnrolleesSecond { get; set; }
+        public ICollection<Enrollee> EnrolleesThird { get; set; }
+        public ICollection<Enrollee> EnrolleesCurrent { get; set; }
+        public ICollection<Enrollee> EnrolleesReserve { get; set; }
     }
 }
