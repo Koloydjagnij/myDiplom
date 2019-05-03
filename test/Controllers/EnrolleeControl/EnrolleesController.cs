@@ -207,6 +207,7 @@ namespace test.Controllers.EnrolleeControl
                 SortViewModel = new SortViewModel(sortOrder),
                 Enrollees = items
             };
+
             return View(viewModel);
 
         }
