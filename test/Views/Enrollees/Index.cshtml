@@ -381,11 +381,11 @@
             values: [000, 500],
             slide: function (event, ui) {
                 $("#amount").val(ui.values[0] / 100 + "–" + ui.values[1] / 100);
-                $("#minGradePoint").val(ui.values[0]/100);
-                $("#maxGradePoint").val(ui.values[1]/100);
+                $("#minGradePoint").val(ui.values[0] / 100);
+                $("#maxGradePoint").val(ui.values[1] / 100);
             }
         });
-        $("#amount").val($("#slider-range").slider("values", 0)/100 +"–"+ $("#slider-range").slider("values", 1)/100);
+        $("#amount").val($("#slider-range").slider("values", 0) / 100 + "–" + $("#slider-range").slider("values", 1) / 100);
 
     </script>
     <script>

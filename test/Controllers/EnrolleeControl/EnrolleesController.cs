@@ -118,7 +118,7 @@ namespace test.Controllers.EnrolleeControl
         /// <param name="sortOrder"> Способ и столбец по которому сортируем</param>
         /// <returns>Возвращает список абитуриентов с учетом фильтров и постраничной навигации</returns>
         [Authorize(Roles = "Admin,ListAbitur")]
-        public async Task<IActionResult> Index(int[] groups, int[] fSpec, int[] cSpec, int[] eduType, int? maritalStatus, int? preemptiveRight, string name, int page = 1, SortState sortOrder = SortState.SurnameAsc, int PageViewModel_PageSize = 20)
+        public async Task<IActionResult> Index(int[] groups, int[] fSpec, int[] cSpec, int[] eduType, int? maritalStatus, int? preemptiveRight, string name, string maxYear, string minGradePoint = "0", string maxGradePoint = "5", string minYear ="1970",  int page = 1, SortState sortOrder = SortState.SurnameAsc, int PageViewModel_PageSize = 20)
         {
             List<EnumType> PageSize = new List<EnumType>();
             PageSize.Add(new EnumType { Id = 10, Name = "10" });
@@ -138,6 +138,9 @@ namespace test.Controllers.EnrolleeControl
             IQueryable<Enrollee> source = _context.Enrollee;
 
             //фильтрация 
+            //по среднему баллу
+            float minPoint = float.Parse(minGradePoint, System.Globalization.CultureInfo.InvariantCulture);
+            float maxPoint = float.Parse(maxGradePoint, System.Globalization.CultureInfo.InvariantCulture);
             //по группе
             if ((groups.Length != 0 && (groups.Length == 1 && groups[0] != 0)) || (groups.Length > 1))
             {
