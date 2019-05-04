@@ -28,7 +28,7 @@
             <h4 class="panel-title">
                 <div class="row">
                     <div class="col-md-1 col-lg-1 col-xl-1 text-right">
-                        <label class="control-label">ФИО: </label>
+                        <h4>ФИО:</h4>
                     </div>
                     <div class="col-md-3 col-lg-3 col-xl-3 ">
                         @Html.TextBox("name", Model.FilterViewModel.SelectedName, htmlAttributes: new { @class = "form-control" })
@@ -44,6 +44,7 @@
                     <div class="col-md-1 col-lg-1 col-xl-1 text-right">
                         @if (Model.FilterViewModel.isFiltrated)
                         {
+
                             <label class="control-label">
                                 <img src="~/images/isFilter.png" width="30" height="30" title="Применены фильтры" style="vertical-align:central" class="img-responsive" />
                             </label>
@@ -62,7 +63,7 @@
                             else
                             {
                                 <label class="btn btn-default">
-                                    <input name="PageViewModel_PageSize" type="radio" value="5"> 5
+                                    <input name="PageViewModel_PageSize" type="radio" onchange="this.form.submit();" value="5"> 5
                                 </label>
                             }
 
@@ -75,7 +76,7 @@
                             else
                             {
                                 <label class="btn btn-default">
-                                    <input name="PageViewModel_PageSize" type="radio" value="10"> 10
+                                    <input name="PageViewModel_PageSize" type="radio" onchange="this.form.submit();" value="10"> 10
                                 </label>
                             }
 
@@ -88,7 +89,7 @@
                             else
                             {
                                 <label class="btn btn-default">
-                                    <input name="PageViewModel_PageSize" type="radio" value="20"> 20
+                                    <input name="PageViewModel_PageSize" type="radio" onchange="this.form.submit();" value="20"> 20
                                 </label>
                             }
 
@@ -101,11 +102,11 @@
                             else
                             {
                                 <label class="btn btn-default">
-                                    <input name="PageViewModel_PageSize" type="radio" value="30"> 30
+                                    <input name="PageViewModel_PageSize" type="radio" onchange="this.form.submit();" value="30"> 30
                                 </label>
                             }
                         </div>
-                        
+
                     </div>
                 </div>
             </h4>
@@ -152,12 +153,29 @@
                     @Html.DropDownList("preemptiveRight", Model.FilterViewModel.PreemptiveRights as MultiSelectList,
                             htmlAttributes: new { @class = "form-control" })
                 </div>
+
+
+                <div class="col-md-4 col-lg-4 col-xl-4 text-right">
+                    <input id="minGradePoint" name="minGradePoint" type="hidden" value="0" />
+                    <input id="maxGradePoint" name="maxGradePoint" type="hidden" value="5" />
+                    <label class="control-label" for="slider-range">Средний балл: </label>
+                    <input type="text" id="amount" readonly style="border:0; color:#333; font-weight:bold;">
+                    <div id="slider-range"></div>
+                </div>
+                <div class="col-md-4 col-lg-4 col-xl-4 text-right">
+                    <input id="minYear" name="minYear" type="hidden" value="1970" />
+                    <input id="maxYear" name="maxYear" type="hidden" value="@(DateTime.Now.Year+5)" />
+                    <label class="control-label" for="slider-range-year-edu">Год выпуска: </label>
+                    <input type="text" id="amount-year-edu" readonly style="border:0; color:#333; font-weight:bold;">
+                    <div id="slider-range-year-edu"></div>
+                </div>
                 <div class="col-md-12 col-lg-12 col-xl-12 text-right">
                     <br />
                 </div>
 
                 <div class="col-md-12 col-lg-12 col-xl-12 text-right">
                     <input type="submit" value="Применить" class="btn btn-default" />
+                    <a asp-action="Index" asp-route-PageViewModel_PageSize="@Model.PageViewModel.PageSize"><div class="btn btn-default btn-group-lg">Сбросить фильтры</div></a>
                 </div>
             </div>
         </div>
@@ -355,6 +373,37 @@
     </a>
 }
 @section Scripts {
+    <script>
+        $("#slider-range").slider({
+            range: true,
+            min: 0,
+            max: 500,
+            values: [000, 500],
+            slide: function (event, ui) {
+                $("#amount").val(ui.values[0] / 100 + "–" + ui.values[1] / 100);
+                $("#minGradePoint").val(ui.values[0]/100);
+                $("#maxGradePoint").val(ui.values[1]/100);
+            }
+        });
+        $("#amount").val($("#slider-range").slider("values", 0)/100 +"–"+ $("#slider-range").slider("values", 1)/100);
+
+    </script>
+    <script>
+        $("#slider-range-year-edu").slider({
+            range: true,
+            min: 1970,
+            max: @DateTime.Now.Year+5,
+            values: [1970, @DateTime.Now.Year+5],
+            slide: function (event, ui) {
+                $("#amount-year-edu").val(ui.values[0] + "–" + ui.values[1]);
+                $("#minYear").val(ui.values[0]);
+                $("#maxYear").val(ui.values[1]);
+
+            }
+        });
+        $("#amount-year-edu").val($("#slider-range-year-edu").slider("values", 0) +"–"+ $("#slider-range-year-edu").slider("values", 1));
+
+    </script>
 
     <script>
         $(document).ready(function () {

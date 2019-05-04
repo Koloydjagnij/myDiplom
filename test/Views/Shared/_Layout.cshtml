@@ -9,6 +9,15 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] Приемная кампания</title>
+   
+    <environment include="Development">
+        <script src="~/lib/jquery/dist/jquery.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+        <script type="text/javascript" src="~/lib/jquery-ui-1.11.4.custom/jquery-ui.js"></script>
+        <link rel="stylesheet" href="~/lib/jquery-ui-1.11.4.custom/jquery-ui.min.css" type="text/css" />
+
+        <script src="~/js/site.js" asp-append-version="true"></script>
+    </environment>
 
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
@@ -27,7 +36,7 @@
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                     <span class="sr-only">Toggle navigation</span>
-                    
+
                 </button>
                 <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand" style="padding-top: 6px"><img src="~/images/logo.png" width="40" height="40" align="top" alt="ASP.NET" class="img-responsive" /></a>
             </div>
@@ -37,14 +46,14 @@
                     {
                         <li><a asp-area="" asp-controller="AdminUnit" asp-action="Index">Администрирование приложения</a></li>
                     }
-                    @if (SignInManager.IsSignedIn(User) && (User.IsInRole("Admin")||User.IsInRole("Secretary")|| User.IsInRole("ChiefSecretary") || User.IsInRole("ListAbitur")))
+                    @if (SignInManager.IsSignedIn(User) && (User.IsInRole("Admin") || User.IsInRole("Secretary") || User.IsInRole("ChiefSecretary") || User.IsInRole("ListAbitur")))
                     {
-                        <li><a asp-area="" asp-controller="Enrollees" asp-action="Index" >Абитуриенты</a></li>
+                        <li><a asp-area="" asp-controller="Enrollees" asp-action="Index">Абитуриенты</a></li>
                     }
-                        <li><a asp-area="" asp-controller="Home" asp-action="About">О разработчиках</a></li>
-                        <li><a asp-area="" asp-controller="Home" asp-action="Contact">Поддержка</a></li>
+                    <li><a asp-area="" asp-controller="Home" asp-action="About">О разработчиках</a></li>
+                    <li><a asp-area="" asp-controller="Home" asp-action="Contact">Поддержка</a></li>
 
-                    </ul>
+                </ul>
                 @await Html.PartialAsync("_LoginPartial")
             </div>
         </div>
@@ -56,6 +65,14 @@
             <p>&copy; 2019 – test</p>
         </footer>
     </div>
+
+    <environment include="Development">
+        <script src="~/lib/jquery-ui-1.11.4.custom/external/jquery/jquery.js"></script>
+        <script type="text/javascript" src="~/lib/jquery-ui-1.11.4.custom/jquery-ui.min.js"></script>
+        <link rel="stylesheet" href="~/lib/jquery-ui-1.11.4.custom/jquery-ui.min.css" type="text/css" />
+
+        <script src="~/js/site.js" asp-append-version="true"></script>
+    </environment>
 
     <environment include="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>
