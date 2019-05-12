@@ -91,7 +91,7 @@
                         </div>
                     </div>
                     <!--Отчислние и системная информация-->
-                    <div class="container table-bordered col-md-5 col-lg5 col-xl-5">
+                    <div class="container table-bordered col-md-7 col-lg7 col-xl-7 text-right">
                         <div class="form-group">
                             <div class="col-md-5 col-lg-5 col-xl-5 text-right">
                                 @Html.LabelFor(model => model.Enrollees.CreatedTo)
@@ -434,329 +434,350 @@
                     </div>
                 </div>
             </div>
-
-        </div>
-        <div id="panel3" class="tab-pane fade">
-            <!--Семья -->
-            <div class="row">
-                <div class="form-group">
-                    <div class="col-md-3 col-lg-3 col-xl-3 text-right">
-                        @Html.LabelFor(model => model.Enrollees.IdPreemptiveRight)
-                    </div>
-                    <div class="col-md-2 col-lg-2 col-xl-2">
-                        @Html.DropDownList("Enrollees.IdPreemptiveRight", ViewBag.IdPreemptiveRight as SelectList)
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="form-group">
-                    <div class="col-md-3 col-lg-3 col-xl-3 text-right">
-                        @Html.LabelFor(model => model.Enrollees.IdMaritalStatus)
-                    </div>
-                    <div class="col-md-2 col-lg-2 col-xl-2">
-                        @Html.DropDownList("Enrollees.IdMaritalStatus", ViewBag.IdMaritalStatus as SelectList)
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="form-group">
-                    <div class="col-md-3 col-lg-3 col-xl-3 text-right">
-                        @Html.LabelFor(model => model.Enrollees.IdSocialBackground)
-                    </div>
-                    <div class="col-md-2 col-lg-2 col-xl-2">
-                        @Html.DropDownList("Enrollees.IdSocialBackground", ViewBag.IdSocialBackground as SelectList)
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="form-group">
-                    <div class="col-md-3 col-lg-3 col-xl-3 text-right">
-                        @Html.LabelFor(model => model.Enrollees.Children)
-                    </div>
-                    <div class="col-md-2 col-lg-2 col-xl-2">
-                        @Html.EditorFor(model => model.Enrollees.Children)
-                        @Html.ValidationMessageFor(model => model.Enrollees.Children)
-                    </div>
-                </div>
-            </div>
-
-
-            <h3>Члены семьи</h3>
-            <a asp-action="AddFamily" asp-route-id="@Model.Enrollees.IdEnrollee">Добавить члена семьи</a>
-
-
-            <div id="ArrayFamilys">
-
-                @foreach (var family in Model.Enrollees.Family)
-                {
-
-                    <div id="Family" name="Family" class="list-group-item">
-                        <div class="row">
-                            <div class="col-md-5 col-lg-5 col-xl-5">
-                                <div class="form-group">
-                                    @Html.HiddenFor(modelItem => family.IdFamily)
-                                    @Html.HiddenFor(modelItem => family.IdParent)
-                                    <div class="col-md-2 col-lg-2 col-xl-2 text-right">
-                                        @Html.LabelFor(modelItem => family.IdParentNavigation.Surname)
-                                    </div>
-                                    <div class="col-md-2 col-lg-2 col-xl-2">
-                                        @Html.EditorFor(modelItem => family.IdParentNavigation.Surname, new { @id = "family_IdParentNavigation_Surname_" + family.IdFamily })
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="col-md-2 col-lg-2 col-xl-2 text-right">
-                                        @Html.LabelFor(modelItem => family.IdParentNavigation.Name)
-                                    </div>
-                                    <div class="col-md-2 col-lg-2 col-xl-2">
-                                        @Html.EditorFor(modelItem => family.IdParentNavigation.Name)
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="col-md-2 col-lg-2 col-xl-2 text-right">
-                                        @Html.LabelFor(modelItem => family.IdParentNavigation.Patronymic)
-                                    </div>
-                                    <div class="col-md-2 col-lg-2 col-xl-2">
-                                        @Html.EditorFor(modelItem => family.IdParentNavigation.Patronymic)
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="col-md-2 col-lg-2 col-xl-2 text-right">
-                                        @Html.LabelFor(modelItem => family.IdParentNavigation.IdSex)
-                                    </div>
-                                    <div class="col-md-2 col-lg-2 col-xl-2">
-                                        @Html.DropDownList("family.IdParentNavigation.IdSex", new SelectList(Model.SexList, "IdSex", "NameSex", family.IdParentNavigation.IdSex))
-                                    </div>
-                                </div>
+            <h3>Оценки в аттестате\дипломе</h3>
+            <div class="container table-bordered">
+                <div class="row">
+                    <br/>
+                    @foreach (var Enrollees_SubjectMark in Model.SubjectMarks)
+                    {
+                    <div class="col-md-4 col-lg-4 col-xl-4">
+                        <div class="form-group">
+                            <div class="col-md-6 col-lg-6 col-xl-6 text-right">
+                                @Html.DisplayFor(model => Enrollees_SubjectMark.IdSubjectNavigation.NameSubject)
+                                <input data-val="true" data-val-required="The IdSubject field is required." id="Enrollees_SubjectMark_IdSubject" name="Enrollees_SubjectMark_IdSubject" type="hidden" value="@Enrollees_SubjectMark.IdSubject">
                             </div>
-                            <div class="col-md-5 col-lg-5 col-xl-5">
-                                <div class="form-group">
-                                    <div class="col-md-3 col-lg-3 col-xl-3 text-right">
-                                        @Html.LabelFor(modelItem => family.IdFamilyType)
-                                    </div>
-                                    <div class="col-md-2 col-lg-2 col-xl-2">
-                                        @Html.DropDownList("family.IdFamilyType", new SelectList(Model.FamilyTypeList, "IdFamilyType", "NameFamilyType", family.IdFamilyType))
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="col-md-3 col-lg-3 col-xl-3 text-right">
-                                        @Html.LabelFor(modelItem => family.IdParentNavigation.IdParentType)
-                                    </div>
-                                    <div class="col-md-2 col-lg-2 col-xl-2">
-                                        @Html.DropDownList("family.IdParentNavigation.IdParentType", new SelectList(Model.ParentTypeList, "IdParentType", "NameParentType", family.IdParentNavigation.IdParentType))
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="col-md-3 col-lg-3 col-xl-3 text-right">
-                                        @Html.LabelFor(modelItem => family.IdParentNavigation.IdFactOfProsecution)
-                                    </div>
-                                    <div class="col-md-2 col-lg-2 col-xl-2">
-                                        @Html.DropDownList("family.IdParentNavigation.IdFactOfProsecution", new SelectList(Model.FactOfProsecutionList, "IdFactOfProsecution", "NameFactOfProsecution", family.IdParentNavigation.IdFactOfProsecution))
-                                    </div>
-                                </div>
+                            <div class="col-md-1 col-lg-1 col-xl-1">
+                                <input class="text-box single-line valid" id="Enrollees_SubjectMark_Mark" name="Enrollees_SubjectMark_Mark" type="number" value="@Enrollees_SubjectMark.Mark" aria-invalid="false" aria-describedby="Enrollees.SubjectMark_Mark-error">
                             </div>
-                            <div class="col-md-5 col-lg-5 col-xl-5">
-                                <div class="form-group">
-                                    <div class="col-md-3 col-lg-3 col-xl-3 text-right">
-                                        @Html.LabelFor(modelItem => family.IdParentNavigation.IdSocialStatus)
+                        </div>
+                    </div>
+                    }
+                </div>
+                </div>
+            </div>
+            <div id="panel3" class="tab-pane fade">
+                <!--Семья -->
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-md-3 col-lg-3 col-xl-3 text-right">
+                            @Html.LabelFor(model => model.Enrollees.IdPreemptiveRight)
+                        </div>
+                        <div class="col-md-2 col-lg-2 col-xl-2">
+                            @Html.DropDownList("Enrollees.IdPreemptiveRight", ViewBag.IdPreemptiveRight as SelectList)
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-md-3 col-lg-3 col-xl-3 text-right">
+                            @Html.LabelFor(model => model.Enrollees.IdMaritalStatus)
+                        </div>
+                        <div class="col-md-2 col-lg-2 col-xl-2">
+                            @Html.DropDownList("Enrollees.IdMaritalStatus", ViewBag.IdMaritalStatus as SelectList)
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-md-3 col-lg-3 col-xl-3 text-right">
+                            @Html.LabelFor(model => model.Enrollees.IdSocialBackground)
+                        </div>
+                        <div class="col-md-2 col-lg-2 col-xl-2">
+                            @Html.DropDownList("Enrollees.IdSocialBackground", ViewBag.IdSocialBackground as SelectList)
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-md-3 col-lg-3 col-xl-3 text-right">
+                            @Html.LabelFor(model => model.Enrollees.Children)
+                        </div>
+                        <div class="col-md-2 col-lg-2 col-xl-2">
+                            @Html.EditorFor(model => model.Enrollees.Children)
+                            @Html.ValidationMessageFor(model => model.Enrollees.Children)
+                        </div>
+                    </div>
+                </div>
+
+
+                <h3>Члены семьи</h3>
+                <a asp-action="AddFamily" asp-route-id="@Model.Enrollees.IdEnrollee">Добавить члена семьи</a>
+
+
+                <div id="ArrayFamilys">
+
+                    @foreach (var family in Model.Enrollees.Family)
+                    {
+
+                        <div id="Family" name="Family" class="list-group-item">
+                            <div class="row">
+                                <div class="col-md-5 col-lg-5 col-xl-5">
+                                    <div class="form-group">
+                                        @Html.HiddenFor(modelItem => family.IdFamily)
+                                        @Html.HiddenFor(modelItem => family.IdParent)
+                                        <div class="col-md-2 col-lg-2 col-xl-2 text-right">
+                                            @Html.LabelFor(modelItem => family.IdParentNavigation.Surname)
+                                        </div>
+                                        <div class="col-md-2 col-lg-2 col-xl-2">
+                                            @Html.EditorFor(modelItem => family.IdParentNavigation.Surname, new { @id = "family_IdParentNavigation_Surname_" + family.IdFamily })
+                                        </div>
                                     </div>
-                                    <div class="col-md-2 col-lg-2 col-xl-2">
-                                        @Html.DropDownList("family.IdParentNavigation.IdSocialStatus", new SelectList(Model.SocialStatusList, "IdSocialStatus", "NameSocialStatus", family.IdParentNavigation.IdSocialStatus))
+                                    <div class="form-group">
+                                        <div class="col-md-2 col-lg-2 col-xl-2 text-right">
+                                            @Html.LabelFor(modelItem => family.IdParentNavigation.Name)
+                                        </div>
+                                        <div class="col-md-2 col-lg-2 col-xl-2">
+                                            @Html.EditorFor(modelItem => family.IdParentNavigation.Name)
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-md-2 col-lg-2 col-xl-2 text-right">
+                                            @Html.LabelFor(modelItem => family.IdParentNavigation.Patronymic)
+                                        </div>
+                                        <div class="col-md-2 col-lg-2 col-xl-2">
+                                            @Html.EditorFor(modelItem => family.IdParentNavigation.Patronymic)
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-md-2 col-lg-2 col-xl-2 text-right">
+                                            @Html.LabelFor(modelItem => family.IdParentNavigation.IdSex)
+                                        </div>
+                                        <div class="col-md-2 col-lg-2 col-xl-2">
+                                            @Html.DropDownList("family.IdParentNavigation.IdSex", new SelectList(Model.SexList, "IdSex", "NameSex", family.IdParentNavigation.IdSex))
+                                        </div>
                                     </div>
                                 </div>
-
-                                <div class="form-group">
-                                    <div class="col-md-2 col-lg-2 col-xl-2 text-right">
-                                        @Html.LabelFor(modelItem => family.IdParentNavigation.IdCity)
+                                <div class="col-md-5 col-lg-5 col-xl-5">
+                                    <div class="form-group">
+                                        <div class="col-md-3 col-lg-3 col-xl-3 text-right">
+                                            @Html.LabelFor(modelItem => family.IdFamilyType)
+                                        </div>
+                                        <div class="col-md-2 col-lg-2 col-xl-2">
+                                            @Html.DropDownList("family.IdFamilyType", new SelectList(Model.FamilyTypeList, "IdFamilyType", "NameFamilyType", family.IdFamilyType))
+                                        </div>
                                     </div>
-                                    <div class="col-md-2 col-lg-2 col-xl-2">
-                                        @Html.DropDownList("family.IdParentNavigation.IdCity", new SelectList(Model.CityList, "IdTown", "NameCity", family.IdParentNavigation.IdCity))
+                                    <div class="form-group">
+                                        <div class="col-md-3 col-lg-3 col-xl-3 text-right">
+                                            @Html.LabelFor(modelItem => family.IdParentNavigation.IdParentType)
+                                        </div>
+                                        <div class="col-md-2 col-lg-2 col-xl-2">
+                                            @Html.DropDownList("family.IdParentNavigation.IdParentType", new SelectList(Model.ParentTypeList, "IdParentType", "NameParentType", family.IdParentNavigation.IdParentType))
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-md-3 col-lg-3 col-xl-3 text-right">
+                                            @Html.LabelFor(modelItem => family.IdParentNavigation.IdFactOfProsecution)
+                                        </div>
+                                        <div class="col-md-2 col-lg-2 col-xl-2">
+                                            @Html.DropDownList("family.IdParentNavigation.IdFactOfProsecution", new SelectList(Model.FactOfProsecutionList, "IdFactOfProsecution", "NameFactOfProsecution", family.IdParentNavigation.IdFactOfProsecution))
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-5 col-lg-5 col-xl-5">
+                                    <div class="form-group">
+                                        <div class="col-md-3 col-lg-3 col-xl-3 text-right">
+                                            @Html.LabelFor(modelItem => family.IdParentNavigation.IdSocialStatus)
+                                        </div>
+                                        <div class="col-md-2 col-lg-2 col-xl-2">
+                                            @Html.DropDownList("family.IdParentNavigation.IdSocialStatus", new SelectList(Model.SocialStatusList, "IdSocialStatus", "NameSocialStatus", family.IdParentNavigation.IdSocialStatus))
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="col-md-2 col-lg-2 col-xl-2 text-right">
+                                            @Html.LabelFor(modelItem => family.IdParentNavigation.IdCity)
+                                        </div>
+                                        <div class="col-md-2 col-lg-2 col-xl-2">
+                                            @Html.DropDownList("family.IdParentNavigation.IdCity", new SelectList(Model.CityList, "IdTown", "NameCity", family.IdParentNavigation.IdCity))
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="row"><br /></div>
+                        <div class="row"><br /></div>
 
 
-                }
-            </div>
-
-        </div>
-        <div id="panel4" class="tab-pane fade">
-            <!--Военкомат и военная служба-->
-            <div class="row">
-                <div class="form-group">
-                    <div class="col-md-2 col-lg-2 col-xl-2 text-right">
-                        @Html.LabelFor(model => model.Enrollees.IdMilitaryOffice)
-                    </div>
-                    <div class="col-md-2 col-lg-2 col-xl-2">
-                        @Html.TextAreaFor(model => model.Enrollees.IdMilitaryOffice, new { rows = "5", cols = "70" })
-
-                    </div>
+                    }
                 </div>
-            </div>
 
-            <div class="row">
-                <div class="form-group">
-                    <div class="col-md-2 col-lg-2 col-xl-2 text-right">
-                        @Html.LabelFor(model => model.Enrollees.IdMilitaryUnit)
-                    </div>
-                    <div class="col-md-2 col-lg-2 col-xl-2">
-                        @Html.TextAreaFor(model => model.Enrollees.IdMilitaryUnit, new { rows = "5", cols = "70" })
-                    </div>
-                </div>
             </div>
-
-            <div class="row">
-                <div class="form-group">
-                    <div class="col-md-2 col-lg-2 col-xl-2 text-right">
-                        @Html.LabelFor(model => model.Enrollees.IdMilitaryRank)
-                    </div>
-                    <div class="col-md-2 col-lg-2 col-xl-2">
-                        @Html.DropDownList("Enrollees.IdMilitaryRank", ViewBag.IdMilitaryRank as SelectList)
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="form-group">
-                    <div class="col-md-2 col-lg-2 col-xl-2 text-right">
-                        @Html.LabelFor(model => model.Enrollees.IdCategoryMs)
-                    </div>
-                    <div class="col-md-2 col-lg-2 col-xl-2">
-                        @Html.DropDownList("Enrollees.IdCategoryMs", ViewBag.IdCategoryMs as SelectList)
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="form-group">
-                    <div class="col-md-2 col-lg-2 col-xl-2 text-right">
-                        @Html.LabelFor(model => model.Enrollees.PersonalNumberMs)
-                    </div>
-                    <div class="col-md-2 col-lg-2 col-xl-2">
-                        @Html.EditorFor(model => model.Enrollees.PersonalNumberMs)
-                        @Html.ValidationMessageFor(model => model.Enrollees.PersonalNumberMs)
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="form-group">
-                    <div class="col-md-2 col-lg-2 col-xl-2 text-right">
-                        @Html.LabelFor(model => model.Enrollees.StockPositionMs)
-                    </div>
-                    <div class="col-md-2 col-lg-2 col-xl-2">
-                        @Html.EditorFor(model => model.Enrollees.StockPositionMs)
-                        @Html.ValidationMessageFor(model => model.Enrollees.StockPositionMs)
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div id="panel5" class="tab-pane fade">
-            <!--Дополнительно-->
-            <div class="row">
-                <div class="form-group">
-                    <div class="col-md-2 col-lg-2 col-xl-2 text-right">
-                        @Html.LabelFor(model => model.Enrollees.OtherNotes)
-                    </div>
-                    <div class="col-md-2 col-lg-2 col-xl-2">
-                        @Html.TextAreaFor(model => model.Enrollees.OtherNotes, new { rows = "5", cols = "70" })
-                        @Html.ValidationMessageFor(model => model.Enrollees.OtherNotes)
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div id="panel6" class="tab-pane fade">
-            <!--Внутренние экзамены-->
-        </div>
-        <div id="panel7" class="tab-pane fade">
-            <!--Документы и файлы-->
-
-            <div class="row">
-                <div class="form-group">
-                    <div class="col-md-2 col-lg-2 col-xl-2 text-right">
-                        @Html.LabelFor(model => model.Enrollees.ArrivalDate)
-                    </div>
-                    <div class="col-md-2 col-lg-2 col-xl-2">
-                        @Html.EditorFor(model => model.Enrollees.ArrivalDate)
-                        @Html.ValidationMessageFor(model => model.Enrollees.ArrivalDate)
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="form-group">
-                    <div class="col-md-2 col-lg-2 col-xl-2 text-right">
-                        @Html.LabelFor(model => model.Enrollees.LiveInCamp)
-                    </div>
-                    <div class="col-md-2 col-lg-2 col-xl-2">
-                        @Html.CheckBox("Enrollees.LiveInCamp", Model.Enrollees.LiveInCamp)
-                        @Html.ValidationMessageFor(model => model.Enrollees.LiveInCamp)
-                    </div>
-                </div>
-            </div>
-
-            <h3>Необходимые документы</h3>
-            <div class="container table-bordered">
+            <div id="panel4" class="tab-pane fade">
+                <!--Военкомат и военная служба-->
                 <div class="row">
-                    <br />
-                    @{
-                        List<test.Views.Enrollees.AssignedDocumentData> documents = ViewBag.Documents;
-                        @if (documents == null)
-                        {
-                            foreach (var doc in documents)
+                    <div class="form-group">
+                        <div class="col-md-2 col-lg-2 col-xl-2 text-right">
+                            @Html.LabelFor(model => model.Enrollees.IdMilitaryOffice)
+                        </div>
+                        <div class="col-md-2 col-lg-2 col-xl-2">
+                            @Html.TextAreaFor(model => model.Enrollees.IdMilitaryOffice, new { rows = "5", cols = "70" })
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-md-2 col-lg-2 col-xl-2 text-right">
+                            @Html.LabelFor(model => model.Enrollees.IdMilitaryUnit)
+                        </div>
+                        <div class="col-md-2 col-lg-2 col-xl-2">
+                            @Html.TextAreaFor(model => model.Enrollees.IdMilitaryUnit, new { rows = "5", cols = "70" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-md-2 col-lg-2 col-xl-2 text-right">
+                            @Html.LabelFor(model => model.Enrollees.IdMilitaryRank)
+                        </div>
+                        <div class="col-md-2 col-lg-2 col-xl-2">
+                            @Html.DropDownList("Enrollees.IdMilitaryRank", ViewBag.IdMilitaryRank as SelectList)
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-md-2 col-lg-2 col-xl-2 text-right">
+                            @Html.LabelFor(model => model.Enrollees.IdCategoryMs)
+                        </div>
+                        <div class="col-md-2 col-lg-2 col-xl-2">
+                            @Html.DropDownList("Enrollees.IdCategoryMs", ViewBag.IdCategoryMs as SelectList)
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-md-2 col-lg-2 col-xl-2 text-right">
+                            @Html.LabelFor(model => model.Enrollees.PersonalNumberMs)
+                        </div>
+                        <div class="col-md-2 col-lg-2 col-xl-2">
+                            @Html.EditorFor(model => model.Enrollees.PersonalNumberMs)
+                            @Html.ValidationMessageFor(model => model.Enrollees.PersonalNumberMs)
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-md-2 col-lg-2 col-xl-2 text-right">
+                            @Html.LabelFor(model => model.Enrollees.StockPositionMs)
+                        </div>
+                        <div class="col-md-2 col-lg-2 col-xl-2">
+                            @Html.EditorFor(model => model.Enrollees.StockPositionMs)
+                            @Html.ValidationMessageFor(model => model.Enrollees.StockPositionMs)
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="panel5" class="tab-pane fade">
+                <!--Дополнительно-->
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-md-2 col-lg-2 col-xl-2 text-right">
+                            @Html.LabelFor(model => model.Enrollees.OtherNotes)
+                        </div>
+                        <div class="col-md-2 col-lg-2 col-xl-2">
+                            @Html.TextAreaFor(model => model.Enrollees.OtherNotes, new { rows = "5", cols = "70" })
+                            @Html.ValidationMessageFor(model => model.Enrollees.OtherNotes)
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="panel6" class="tab-pane fade">
+                <!--Внутренние экзамены-->
+            </div>
+            <div id="panel7" class="tab-pane fade">
+                <!--Документы и файлы-->
+
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-md-2 col-lg-2 col-xl-2 text-right">
+                            @Html.LabelFor(model => model.Enrollees.ArrivalDate)
+                        </div>
+                        <div class="col-md-2 col-lg-2 col-xl-2">
+                            @Html.EditorFor(model => model.Enrollees.ArrivalDate)
+                            @Html.ValidationMessageFor(model => model.Enrollees.ArrivalDate)
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-md-2 col-lg-2 col-xl-2 text-right">
+                            @Html.LabelFor(model => model.Enrollees.LiveInCamp)
+                        </div>
+                        <div class="col-md-2 col-lg-2 col-xl-2">
+                            @Html.CheckBox("Enrollees.LiveInCamp", Model.Enrollees.LiveInCamp)
+                            @Html.ValidationMessageFor(model => model.Enrollees.LiveInCamp)
+                        </div>
+                    </div>
+                </div>
+
+                <h3>Необходимые документы</h3>
+                <div class="container table-bordered">
+                    <div class="row">
+                        <br />
+                        @{
+                            List<test.Views.Enrollees.AssignedDocumentData> documents = ViewBag.Documents;
+                            @if (documents == null)
                             {
+                                foreach (var doc in documents)
+                                {
 
-                                <div class="col-md-4 col-lg-4 col-xl-4">
-                                    <input type="checkbox"
-                                           name="selectedDocuments"
-                                           value="@doc.DocumentId"
-                                           @(Html.Raw(doc.Assigned ? "checked=\"checked\"" : "")) />
-                                    @doc.Title
-                                </div>
+                                    <div class="col-md-4 col-lg-4 col-xl-4">
+                                        <input type="checkbox"
+                                               name="selectedDocuments"
+                                               value="@doc.DocumentId"
+                                               @(Html.Raw(doc.Assigned ? "checked=\"checked\"" : "")) />
+                                        @doc.Title
+                                    </div>
 
+                                }
+                            }
+                            else
+                            { <div> Не заполнен справочник необходимых документов, обратитесь к администратору</div>}
+                        }
+
+                    </div>
+                </div>
+
+                <h3>Прикрепленные файлы</h3>
+
+                <div class="container table-bordered">
+                    <br />
+                    <div class="row">
+                        @foreach (var file in Model.Enrollees.DocumentFile)
+                        {
+                            @if (file.File != null)
+                            {
+                                <figure class="col-md-2 col-lg-2 col-xl-2">
+                                    <img style='width:120px; height:100px;' src="data:@file.TypeFile;base64,@(Convert.ToBase64String(file.File))" />
+                                    <a asp-action="GetFile" asp-route-id="@file.Id"><figcaption>Скачать "@file.NameFile"</figcaption></a>
+                                </figure>
                             }
                         }
-                        else { <div> Не заполнен справочник необходимых документов, обратитесь к администратору</div>}
-                        }
 
+                        <figure class="col-md-2 col-lg-2 col-xl-2">
+                            <img src="~/images/add.png" style='width:100px; height:100px;' />
+                            <figcaption><input id="Files" class="text-box single-line" type="file" name="Files" multiple></figcaption>
+                        </figure>
+                    </div>
                 </div>
             </div>
 
-            <h3>Прикрепленные файлы</h3>
-
-            <div class="container table-bordered">
-                <br />
-                <div class="row">
-                    @foreach (var file in Model.Enrollees.DocumentFile)
-                    {
-                        @if (file.File != null)
-                        {
-                            <figure class="col-md-2 col-lg-2 col-xl-2">
-                                <img style='width:120px; height:100px;' src="data:@file.TypeFile;base64,@(Convert.ToBase64String(file.File))" />
-                                <a asp-action="GetFile" asp-route-id="@file.Id"><figcaption>Скачать "@file.NameFile"</figcaption></a>
-                            </figure>
-                        }
-                    }
-
-                    <figure class="col-md-2 col-lg-2 col-xl-2">
-                        <img src="~/images/add.png" style='width:100px; height:100px;' />
-                        <figcaption><input id="Files" class="text-box single-line" type="file" name="Files" multiple></figcaption>
-                    </figure>
-                </div>
-            </div>
-        </div>
-
-        @if (User.IsInRole("Admin"))
-        {
-            <div id="panel8" class="tab-pane fade">
-                <!--История изменений-->
-                <h3>История изменений</h3>
+            @if (User.IsInRole("Admin"))
+            {
+                <div id="panel8" class="tab-pane fade">
+                    <!--История изменений-->
+                    <h3>История изменений</h3>
 
                     @foreach (var change in Model.Enrollees.ChangeHistory)
                     {
                         <tr>
-                            <td>@change.FieldName:<td>
+                            <td>@change.FieldName:
+                            <td>
                             <td>@change.OldValue</td>
                             <td>@change.NewValue</td>
                             <td>@change.DateTime</td>
@@ -764,9 +785,9 @@
                         </tr>
                     }
 
-            </div>
-        }
-    </div>
+                </div>
+            }
+        </div>
 
         <br />
         <div class="container">

@@ -14,7 +14,7 @@ namespace test
             EnrolleeAchievement = new HashSet<EnrolleeAchievement>();
             EnrolleeDocuments = new HashSet<EnrolleeDocuments>();
             Family = new List<Family>();
-            SubjectMark = new HashSet<SubjectMark>();
+            SubjectMark = new List<SubjectMark>();
             DocumentFile = new List<DocumentFile>();
             ChangeHistory = new List<ChangeHistory>();
         }
@@ -133,7 +133,7 @@ namespace test
 
         [Display(Name = "Учебное заведение")]
         public int IdEducationalInstitution { get; set; }
-
+        [DisplayFormat(DataFormatString = "{0:0.00}", ApplyFormatInEditMode = false)]
         [Display(Name = "Ср балл ат.")]
         public float GradePointAVG { get; set; }
 

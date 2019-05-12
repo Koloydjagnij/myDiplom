@@ -9,6 +9,7 @@ namespace test.Views.Enrollees
     public class CreateViewModel
     {
         public Enrollee Enrollees { get; set; }
+        public List<SubjectMark> SubjectMarks { get; set; }
 
         //справочники
         public IEnumerable<Sex> SexList { get; set; }

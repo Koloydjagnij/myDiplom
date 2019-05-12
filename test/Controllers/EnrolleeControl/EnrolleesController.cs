@@ -13,6 +13,8 @@ using Microsoft.AspNetCore.Authorization;
 using System.IO;
 using test.Models;
 using Microsoft.AspNetCore.Http;
+using System.Collections.ObjectModel;
+using System.Globalization;
 
 namespace test.Controllers.EnrolleeControl
 {
@@ -118,15 +120,14 @@ namespace test.Controllers.EnrolleeControl
         /// <param name="sortOrder"> Способ и столбец по которому сортируем</param>
         /// <returns>Возвращает список абитуриентов с учетом фильтров и постраничной навигации</returns>
         [Authorize(Roles = "Admin,ListAbitur")]
-        public async Task<IActionResult> Index(int[] groups, int[] fSpec, int[] cSpec, int[] eduType, int? maritalStatus, int? preemptiveRight, string name, string maxYear, string minGradePoint = "0", string maxGradePoint = "5", string minYear ="1970",  int page = 1, SortState sortOrder = SortState.SurnameAsc, int PageViewModel_PageSize = 20)
+        public async Task<IActionResult> Index(int[] groups, int[] fSpec, int[] cSpec, int[] eduType, 
+            int? maritalStatus, int? preemptiveRight, string name, string NumFile,  string maxYear,DateTime? DateOfDeducMin,
+            DateTime? DateOfDeducMax, DateTime? DateOfBirthMin, DateTime? DateOfBirthMax, 
+            DateTime? DateOfArrivedMin, DateTime? DateOfArrivedMax,
+            string minGradePoint = "0", string maxGradePoint = "500", string minYear ="1970",  int page = 1,
+            SortState sortOrder = SortState.SurnameAsc, int PageViewModel_PageSize = 20)
         {
-            List<EnumType> PageSize = new List<EnumType>();
-            PageSize.Add(new EnumType { Id = 10, Name = "10" });
-            PageSize.Add(new EnumType { Id = 20, Name = "20" });
-            PageSize.Add(new EnumType { Id = 30, Name = "30" });
-            PageSize.Add(new EnumType { Id = 40, Name = "40" });
-            PageSize.Add(new EnumType { Id = 50, Name = "50" });
-            ViewData["PageSize"] = new SelectList(PageSize, "Id", "Name");
+
 
             #region SortedAndFiltratedAbitur
             ViewData["NameSort"] = sortOrder == SortState.NameAsc ? SortState.NameDesc : SortState.NameAsc;
@@ -138,9 +139,7 @@ namespace test.Controllers.EnrolleeControl
             IQueryable<Enrollee> source = _context.Enrollee;
 
             //фильтрация 
-            //по среднему баллу
-            float minPoint = float.Parse(minGradePoint, System.Globalization.CultureInfo.InvariantCulture);
-            float maxPoint = float.Parse(maxGradePoint, System.Globalization.CultureInfo.InvariantCulture);
+            
             //по группе
             if ((groups.Length != 0 && (groups.Length == 1 && groups[0] != 0)) || (groups.Length > 1))
             {
@@ -176,9 +175,64 @@ namespace test.Controllers.EnrolleeControl
             {
                 source = source.Where(p => (p.Surname+" "+p.Name+" "+p.Patronymic).ToUpper().Contains(name.ToUpper()));
             }
+            //по личному делу
+            if (!String.IsNullOrEmpty(NumFile))
+            {
+                source = source.Where(p => p.NumOfPersonalFile.Contains(NumFile.ToUpper()));
+            }
+            //по среднему баллу
+            float minPoint = float.Parse(minGradePoint) / 100;
+            float maxPoint = float.Parse(maxGradePoint) / 100;
+            if (minPoint > 0 || maxPoint < 5)
+            {
+                source = source.Where(p => p.GradePointAVG >= minPoint && p.GradePointAVG <= maxPoint);
+            }
+            //по году выпуска
+            if (!string.IsNullOrEmpty(maxYear)&&( Int32.Parse(minYear) > 1970 || Int32.Parse(maxYear) < DateTime.Now.Year + 5))
+            {
+                source = source.Where(p => p.YearOfEndingEducation.Value.Year >= Int32.Parse(minYear) && p.YearOfEndingEducation.Value.Year <= Int32.Parse(maxYear));
+            }
+            //по дате рождения 
+            if (DateOfBirthMin != null && DateOfBirthMax != null)
+            {
+                source = source.Where(p => p.DateOfBirth>=DateOfBirthMin&& p.DateOfBirth<=DateOfBirthMax);
+            } else if (DateOfBirthMin != null && DateOfBirthMax == null)
+                    {
+                         source = source.Where(p => p.DateOfBirth >= DateOfBirthMin);
+                    } else if (DateOfBirthMin == null && DateOfBirthMax != null)
+                            {
+                                source = source.Where(p => p.DateOfBirth <= DateOfBirthMax);
+                            }
+            //по дате прибытия
+            if (DateOfArrivedMin != null && DateOfArrivedMax != null)
+            {
+                source = source.Where(p => p.ArrivalDate >= DateOfArrivedMin && p.ArrivalDate <= DateOfArrivedMax);
+            }
+            else if (DateOfArrivedMin != null && DateOfArrivedMax == null)
+            {
+                source = source.Where(p => p.ArrivalDate >= DateOfArrivedMin);
+            }
+            else if (DateOfArrivedMin == null && DateOfBirthMax != null)
+            {
+                source = source.Where(p => p.ArrivalDate <= DateOfArrivedMax);
+            }
+            //по дате отчисления
+            if (DateOfDeducMin != null && DateOfDeducMax != null)
+            {
+                source = source.Where(p => p.DateOfDeduction >= DateOfDeducMin && p.DateOfDeduction <= DateOfDeducMax);
+            }
+            else if (DateOfDeducMin != null && DateOfDeducMax == null)
+            {
+                source = source.Where(p => p.DateOfDeduction >= DateOfDeducMin);
+            }
+            else if (DateOfDeducMin == null && DateOfDeducMax != null)
+            {
+                source = source.Where(p => p.DateOfDeduction <= DateOfDeducMax);
+            }
 
-            //сортировка
-            switch (sortOrder)
+
+                //сортировка
+                switch (sortOrder)
             {
                 case SortState.NameDesc:
                     source = source.OrderByDescending(s => s.Name);
@@ -206,7 +260,13 @@ namespace test.Controllers.EnrolleeControl
             IndexViewModel viewModel = new IndexViewModel
             {
                 PageViewModel = pageViewModel,
-                FilterViewModel = new FilterViewModel(_context.Groups.ToList(), groups, _context.Speciality.ToList(), fSpec,cSpec, _context.EducationType.ToList(), eduType, _context.MaritalStatus.ToList(), maritalStatus, _context.PreemptiveRight.ToList(), preemptiveRight, name),
+                FilterViewModel = new FilterViewModel(_context.Groups.ToList(), groups, _context.Speciality.ToList(), 
+                                    fSpec, cSpec, _context.EducationType.ToList(), eduType, _context.MaritalStatus.ToList(),
+                                    maritalStatus, _context.PreemptiveRight.ToList(), preemptiveRight, name, NumFile, 
+                                    Int32.Parse(minGradePoint, CultureInfo.InvariantCulture), Int32.Parse(maxGradePoint,
+                                    CultureInfo.InvariantCulture), Int32.Parse(minYear), 
+                                    string.IsNullOrEmpty(maxYear) ?DateTime.Now.Year+5: Int32.Parse(maxYear), DateOfDeducMin,
+                                    DateOfDeducMax, DateOfBirthMin, DateOfBirthMax, DateOfArrivedMin, DateOfArrivedMax),
                 SortViewModel = new SortViewModel(sortOrder),
                 Enrollees = items
             };
@@ -349,6 +409,7 @@ namespace test.Controllers.EnrolleeControl
 
             #endregion
             var EnrolleeView = new CreateViewModel();
+            EnrolleeView.SubjectMarks = _context.SubjectMark.Include(m => m.IdSubjectNavigation).ToList();
             EnrolleeView.Enrollees = new Enrollee();
             EnrolleeView.Enrollees.Family = new List<Family>();
             PopulateAssignedDocumentData(EnrolleeView.Enrollees);
@@ -379,7 +440,41 @@ namespace test.Controllers.EnrolleeControl
 
             return View(createViewModel);
         }
+        private void UpdateSubjectMark(Enrollee enrollee, int[] Enrollees_SubjectMark_IdSubject, string[] Enrollees_SubjectMark_Mark)
+        {
+            List<SubjectMark> sm = new List<SubjectMark>();
+            var smE = _context.SubjectMark.Where(m => m.IdEnrollee == enrollee.IdEnrollee).ToList();
 
+            int countMarkNotNull = 0;
+            int sumMarkNotNull = 0;
+            for (int i = 0; i < Enrollees_SubjectMark_IdSubject.Length; i++)
+            {
+                if (!string.IsNullOrEmpty(Enrollees_SubjectMark_Mark[i]) && Int32.Parse(Enrollees_SubjectMark_Mark[i]) > 0 && Int32.Parse(Enrollees_SubjectMark_Mark[i]) <= 5)
+                {
+                    countMarkNotNull++;
+                    sumMarkNotNull += Int32.Parse(Enrollees_SubjectMark_Mark[i]);
+                }
+                if (smE.Exists(m => m.IdSubject == Enrollees_SubjectMark_IdSubject[i]))
+                {
+
+                    var item = smE.Where(m => m.IdSubject == Enrollees_SubjectMark_IdSubject[i]).FirstOrDefault();
+
+                    item.Mark = string.IsNullOrEmpty(Enrollees_SubjectMark_Mark[i]) ? 0 : Int32.Parse(Enrollees_SubjectMark_Mark[i]);
+                    //_context.SubjectMark.Update(item);
+                    sm.Add(item);
+
+                }
+                else
+                {
+                    //sm.Add(new SubjectMark { IdEnrollee = enrollee.IdEnrollee, IdSubject = Enrollees_SubjectMark_IdSubject[i], Mark = string.IsNullOrEmpty(Enrollees_SubjectMark_Mark[i]) ? 0 : Int32.Parse(Enrollees_SubjectMark_Mark[i]) });
+                    _context.SubjectMark.Add(new SubjectMark { IdEnrollee = enrollee.IdEnrollee, IdSubject = Enrollees_SubjectMark_IdSubject[i], Mark = string.IsNullOrEmpty(Enrollees_SubjectMark_Mark[i]) ? 0 : Int32.Parse(Enrollees_SubjectMark_Mark[i]) });
+                }
+            }
+
+            enrollee.SubjectMark = sm;
+            if (countMarkNotNull > 0) { enrollee.GradePointAVG = (float)sumMarkNotNull / (float)countMarkNotNull; }
+            
+        }
 
         [Authorize(Roles = "Admin,EditAbitur")]
         public async Task<IActionResult> Edit(int? id)
@@ -412,6 +507,8 @@ namespace test.Controllers.EnrolleeControl
                 .Include(e => e.IdSocialBackgroundNavigation)
                 .Include(e => e.EnrolleeDocuments)
                 .Include(e=> e.DocumentFile)
+                .Include(sm=>sm.SubjectMark)
+                    .ThenInclude(sm=>sm.IdSubjectNavigation)
                 .Include(e=>e.ChangeHistory)
                 .Include(e => e.IdTownNavigation)
                     .ThenInclude(m=>m.IdAreaNavigation)
@@ -443,8 +540,17 @@ namespace test.Controllers.EnrolleeControl
             {
                 return NotFound();
             } 
-          
+            
             var EnrolleeView = new CreateViewModel();
+            EnrolleeView.SubjectMarks = _context.SubjectMark.Include(m=>m.IdSubjectNavigation).Where(m => m.IdEnrollee == enrollee.IdEnrollee).ToList();
+            var fullSubject = _context.Subject.ToList();
+            foreach (var sub in fullSubject)
+            {
+                if (!EnrolleeView.SubjectMarks.Exists(s => s.IdSubject == sub.IdSubject)) {
+                    EnrolleeView.SubjectMarks.Add(new SubjectMark { IdSubject = sub.IdSubject, IdEnrollee = enrollee.IdEnrollee, Mark = 0 , IdSubjectNavigation=sub});
+                }
+            }
+
             EnrolleeView.Enrollees = enrollee;
             EnrolleeView.Families = EnrolleeView.Enrollees.Family.ToList();
             EnrolleeView.SexList = _context.Sex;
@@ -469,11 +575,13 @@ namespace test.Controllers.EnrolleeControl
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin,EditAbitur")]
-        public async Task<IActionResult> Edit(int id,  CreateViewModel createViewModel, string[] selectedDocuments)
+        public async Task<IActionResult> Edit(int id, CreateViewModel createViewModel, string[] selectedDocuments,
+            int[] Enrollees_SubjectMark_IdSubject, string[] Enrollees_SubjectMark_Mark)
         {
 
             var enrollee = createViewModel.Enrollees;
 
+            UpdateSubjectMark(enrollee, Enrollees_SubjectMark_IdSubject, Enrollees_SubjectMark_Mark);
             List<Family> FamiliesForm = new List<Family>();
             List<Parent> ParentsForm = new List<Parent>();
             UpdateEnrolleeDocuments(selectedDocuments, enrollee);
@@ -554,7 +662,6 @@ namespace test.Controllers.EnrolleeControl
             {
                 return NotFound();
             }
-
             
             try
                 {
@@ -567,8 +674,9 @@ namespace test.Controllers.EnrolleeControl
                 {
                     _context.Update(fam);
                 }
-                
-                    _context.Update(enrollee);
+
+
+                _context.Update(enrollee);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
