@@ -125,7 +125,7 @@ namespace test.Controllers.EnrolleeControl
             DateTime? DateOfDeducMax, DateTime? DateOfBirthMin, DateTime? DateOfBirthMax, 
             DateTime? DateOfArrivedMin, DateTime? DateOfArrivedMax,
             string minGradePoint = "0", string maxGradePoint = "500", string minYear ="1970",  int page = 1,
-            SortState sortOrder = SortState.SurnameAsc, int PageViewModel_PageSize = 20)
+            SortState sortOrder = SortState.SurnameAsc, int PageViewModel_PageSize = 10)
         {
 
 

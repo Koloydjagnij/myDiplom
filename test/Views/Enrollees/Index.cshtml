@@ -39,7 +39,7 @@
                             <h4>№:</h4>
                         </div>
                         <div class="col-md-9 col-lg-9 col-xl-9">
-                            <input class="form-control" id="NumFile" name="NumFile" type="text" value="">
+                            <input class="form-control" id="NumFile" name="NumFile" type="text" value="@Model.FilterViewModel.SelectedNumFile">
                         </div>
                     </div>
                     <div class="col-md-1 col-lg-1 col-xl-1 text-right">
@@ -146,323 +146,283 @@
                 <div class="col-md-4 col-lg-4 col-xl-4 text-right">
                     <div class="col-md-7 col-lg-7 col-xl-7 text-left">
                         <label class="control-label">Группа: </label>
-                        </div>
-                        @Html.ListBox("groups", Model.FilterViewModel.Groups as MultiSelectList,
-                                htmlAttributes: new { @class = "form-control" })
                     </div>
+                    @Html.ListBox("groups", Model.FilterViewModel.Groups as MultiSelectList,
+                            htmlAttributes: new { @class = "form-control" })
+                </div>
 
                 <div class="col-md-4 col-lg-4 col-xl-4 text-right">
                     <div class="col-md-7 col-lg-7 col-xl-7 text-left">
                         <label class="control-label">Тип образования: </label>
-                        </div>
-                        @Html.ListBox("eduType", Model.FilterViewModel.EduTypes as MultiSelectList,
-                                htmlAttributes: new { @class = "form-control" })
                     </div>
+                    @Html.ListBox("eduType", Model.FilterViewModel.EduTypes as MultiSelectList,
+                            htmlAttributes: new { @class = "form-control" })
+                </div>
 
                 <div class="col-md-4 col-lg-4 col-xl-4 text-right">
                     <div class="col-md-7 col-lg-7 col-xl-7 text-left">
                         <label class="control-label">Семейное положение: </label>
-                        </div>
-                        @Html.DropDownList("maritalStatus", Model.FilterViewModel.MaritalStatuses as MultiSelectList,
-                                htmlAttributes: new { @class = "form-control" })
                     </div>
+                    @Html.DropDownList("maritalStatus", Model.FilterViewModel.MaritalStatuses as MultiSelectList,
+                            htmlAttributes: new { @class = "form-control" })
+                </div>
 
                 <div class="col-md-4 col-lg-4 col-xl-4 text-right">
                     <div class="col-md-7 col-lg-7 col-xl-7 text-left">
                         <label class="control-label">Преимущественное право: </label>
-                        </div>
-                        @Html.DropDownList("preemptiveRight", Model.FilterViewModel.PreemptiveRights as MultiSelectList,
-                                htmlAttributes: new { @class = "form-control" })
                     </div>
+                    @Html.DropDownList("preemptiveRight", Model.FilterViewModel.PreemptiveRights as MultiSelectList,
+                            htmlAttributes: new { @class = "form-control" })
+                </div>
 
-                    <div class="col-md-4 col-lg-4 col-xl-4 text-right">
-                        <div class="col-md-4 col-lg-4 col-xl-4 text-left">
-                                <label class="control-label">Дата рождения: </label>
-                         </div>
-                         <div id="DateOfBirth">
-                             <input class="text-box single-line valid" data-val="true" id="DateOfBirth_Min" name="DateOfBirthMin" type="date" value="@(Model.FilterViewModel.SelectedDateOfBirthMin==null?"":Model.FilterViewModel.SelectedDateOfBirthMin.Value.Year.ToString()+"-"+String.Format("{0:00}",Model.FilterViewModel.SelectedDateOfBirthMin.Value.Month)+"-"+String.Format("{0:00}",Model.FilterViewModel.SelectedDateOfBirthMin.Value.Day))" aria-invalid="false">
-                            – <input class="text-box single-line valid" data-val="true" id="DateOfBirth_Max" name="DateOfBirthMax" type="date" value="@(Model.FilterViewModel.SelectedDateOfBirthMax==null?"":Model.FilterViewModel.SelectedDateOfBirthMax.Value.Year.ToString()+"-"+String.Format("{0:00}",Model.FilterViewModel.SelectedDateOfBirthMax.Value.Month)+"-"+String.Format("{0:00}",Model.FilterViewModel.SelectedDateOfBirthMax.Value.Day))"  aria-invalid="false">
-                         </div>
+                <div class="col-md-4 col-lg-4 col-xl-4 text-right">
+                    <div class="col-md-4 col-lg-4 col-xl-4 text-left">
+                        <label class="control-label">Дата рождения: </label>
                     </div>
-
-                    <div class="col-md-4 col-lg-4 col-xl-4 text-right">
-                        <div class="col-md-4 col-lg-4 col-xl-4 text-left">
-                            <label class="control-label">Дата прибытия: </label>
-                        </div>
-                        <div id="DateOfBirth">
-                            <input class="text-box valid" data-val="true" id="DateOfArrived_Min" name="DateOfArrivedMin" type="date" value="@(Model.FilterViewModel.SelectedDateArrivedMin==null?"":Model.FilterViewModel.SelectedDateArrivedMin.Value.Year.ToString()+"-"+String.Format("{0:00}",Model.FilterViewModel.SelectedDateArrivedMin.Value.Month)+"-"+String.Format("{0:00}",Model.FilterViewModel.SelectedDateArrivedMin.Value.Day))"  aria-invalid="false">
-                            – <input class="text-box single-line valid" data-val="true" id="DateOfArrived_Max" name="DateOfArrivedMax" type="date" value="@(Model.FilterViewModel.SelectedDateArrivedMax==null?"":Model.FilterViewModel.SelectedDateArrivedMax.Value.Year.ToString()+"-"+String.Format("{0:00}",Model.FilterViewModel.SelectedDateArrivedMax.Value.Month)+"-"+String.Format("{0:00}",Model.FilterViewModel.SelectedDateArrivedMax.Value.Day))"  aria-invalid="false">
-                        </div>
-                    </div>
-
-                    <div class="col-md-4 col-lg-4 col-xl-4 text-right">
-                        <div class="col-md-4 col-lg-4 col-xl-4 text-left">
-                            <label class="control-label">Дата отчисления: </label>
-                        </div>
-                        <div id="DateOfBirth">
-                            <input class="text-box valid" data-val="true" id="DateOfDeduc_Min" name="DateOfDeduchMin" type="date" value="@(Model.FilterViewModel.SelectedDateDeducMin==null?"":Model.FilterViewModel.SelectedDateDeducMin.Value.Year.ToString()+"-"+String.Format("{0:00}",Model.FilterViewModel.SelectedDateDeducMin.Value.Month)+"-"+String.Format("{0:00}",Model.FilterViewModel.SelectedDateDeducMin.Value.Day))"  aria-invalid="false">
-                            – <input class="text-box single-line valid" data-val="true" id="DateOfDeduc_Max" name="DateOfDeducMax"  type="date" value="@(Model.FilterViewModel.SelectedDateDeducMax==null?"":Model.FilterViewModel.SelectedDateDeducMax.Value.Year.ToString()+"-"+String.Format("{0:00}",Model.FilterViewModel.SelectedDateDeducMax.Value.Month)+"-"+String.Format("{0:00}",Model.FilterViewModel.SelectedDateDeducMax.Value.Day))"  aria-invalid="false">
-                        </div>
-                    </div>
-
-
-                    <div class="col-md-4 col-lg-4 col-xl-4 text-right">
-                        <input id="minGradePoint" name="minGradePoint" type="hidden" value="@Model.FilterViewModel.SelectedGradePointAVG_min.ToString()" />
-                        <input id="maxGradePoint" name="maxGradePoint" type="hidden" value="@Model.FilterViewModel.SelectedGradePointAVG_max.ToString() " />
-                        <label class="control-label" for="slider-range">Средний балл: </label>
-                        <input type="text" id="amount" readonly style="border:0; color:#333; font-weight:bold;">
-                        <div id="slider-range"></div>
-                    </div>
-                    <div class="col-md-4 col-lg-4 col-xl-4 text-right">
-                        <input id="minYear" name="minYear" type="hidden" value="@Model.FilterViewModel.SelectedYearEducMin" />
-                        <input id="maxYear" name="maxYear" type="hidden" value="@Model.FilterViewModel.SelectedYearEducMax" />
-                        <label class="control-label" for="slider-range-year-edu">Год выпуска: </label>
-                        <input type="text" id="amount-year-edu" readonly style="border:0; color:#333; font-weight:bold;">
-                        <div id="slider-range-year-edu"></div>
-                    </div>
-
-                    <div class="col-md-12 col-lg-12 col-xl-12 text-right">
-                        <br/>
-                    </div>
-
-                    <div class="col-md-12 col-lg-12 col-xl-12 text-right">
-                        <input type="submit" value="Применить" class="btn btn-default" />
-                        <a asp-action="Index" asp-route-PageViewModel_PageSize="@Model.PageViewModel.PageSize">
-                             <div class="btn btn-default btn-group-lg">Сбросить фильтры</div>
-                        </a>
-                    </div>
-
-                    <div class="col-md-12 col-lg-12 col-xl-12 text-right">
-                        <hr>
+                    <div id="DateOfBirth">
+                        <input class="text-box single-line valid" data-val="true" id="DateOfBirth_Min" name="DateOfBirthMin" type="date" value="@(Model.FilterViewModel.SelectedDateOfBirthMin==null?"":Model.FilterViewModel.SelectedDateOfBirthMin.Value.Year.ToString()+"-"+String.Format("{0:00}",Model.FilterViewModel.SelectedDateOfBirthMin.Value.Month)+"-"+String.Format("{0:00}",Model.FilterViewModel.SelectedDateOfBirthMin.Value.Day))" aria-invalid="false">
+                        – <input class="text-box single-line valid" data-val="true" id="DateOfBirth_Max" name="DateOfBirthMax" type="date" value="@(Model.FilterViewModel.SelectedDateOfBirthMax==null?"":Model.FilterViewModel.SelectedDateOfBirthMax.Value.Year.ToString()+"-"+String.Format("{0:00}",Model.FilterViewModel.SelectedDateOfBirthMax.Value.Month)+"-"+String.Format("{0:00}",Model.FilterViewModel.SelectedDateOfBirthMax.Value.Day))" aria-invalid="false">
                     </div>
                 </div>
+
+                <div class="col-md-4 col-lg-4 col-xl-4 text-right">
+                    <div class="col-md-4 col-lg-4 col-xl-4 text-left">
+                        <label class="control-label">Дата прибытия: </label>
+                    </div>
+                    <div id="DateOfBirth">
+                        <input class="text-box valid" data-val="true" id="DateOfArrived_Min" name="DateOfArrivedMin" type="date" value="@(Model.FilterViewModel.SelectedDateArrivedMin==null?"":Model.FilterViewModel.SelectedDateArrivedMin.Value.Year.ToString()+"-"+String.Format("{0:00}",Model.FilterViewModel.SelectedDateArrivedMin.Value.Month)+"-"+String.Format("{0:00}",Model.FilterViewModel.SelectedDateArrivedMin.Value.Day))" aria-invalid="false">
+                        – <input class="text-box single-line valid" data-val="true" id="DateOfArrived_Max" name="DateOfArrivedMax" type="date" value="@(Model.FilterViewModel.SelectedDateArrivedMax==null?"":Model.FilterViewModel.SelectedDateArrivedMax.Value.Year.ToString()+"-"+String.Format("{0:00}",Model.FilterViewModel.SelectedDateArrivedMax.Value.Month)+"-"+String.Format("{0:00}",Model.FilterViewModel.SelectedDateArrivedMax.Value.Day))" aria-invalid="false">
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-lg-4 col-xl-4 text-right">
+                    <div class="col-md-4 col-lg-4 col-xl-4 text-left">
+                        <label class="control-label">Дата отчисления: </label>
+                    </div>
+                    <div id="DateOfBirth">
+                        <input class="text-box valid" data-val="true" id="DateOfDeduc_Min" name="DateOfDeduchMin" type="date" value="@(Model.FilterViewModel.SelectedDateDeducMin==null?"":Model.FilterViewModel.SelectedDateDeducMin.Value.Year.ToString()+"-"+String.Format("{0:00}",Model.FilterViewModel.SelectedDateDeducMin.Value.Month)+"-"+String.Format("{0:00}",Model.FilterViewModel.SelectedDateDeducMin.Value.Day))" aria-invalid="false">
+                        – <input class="text-box single-line valid" data-val="true" id="DateOfDeduc_Max" name="DateOfDeducMax" type="date" value="@(Model.FilterViewModel.SelectedDateDeducMax==null?"":Model.FilterViewModel.SelectedDateDeducMax.Value.Year.ToString()+"-"+String.Format("{0:00}",Model.FilterViewModel.SelectedDateDeducMax.Value.Month)+"-"+String.Format("{0:00}",Model.FilterViewModel.SelectedDateDeducMax.Value.Day))" aria-invalid="false">
+                    </div>
+                </div>
+
+
+                <div class="col-md-4 col-lg-4 col-xl-4 text-right">
+                    <input id="minGradePoint" name="minGradePoint" type="hidden" value="@Model.FilterViewModel.SelectedGradePointAVG_min.ToString()" />
+                    <input id="maxGradePoint" name="maxGradePoint" type="hidden" value="@Model.FilterViewModel.SelectedGradePointAVG_max.ToString() " />
+                    <label class="control-label" for="slider-range">Средний балл: </label>
+                    <input type="text" id="amount" readonly style="border:0; color:#333; font-weight:bold;">
+                    <div id="slider-range"></div>
+                </div>
+                <div class="col-md-4 col-lg-4 col-xl-4 text-right">
+                    <input id="minYear" name="minYear" type="hidden" value="@Model.FilterViewModel.SelectedYearEducMin" />
+                    <input id="maxYear" name="maxYear" type="hidden" value="@Model.FilterViewModel.SelectedYearEducMax" />
+                    <label class="control-label" for="slider-range-year-edu">Год выпуска: </label>
+                    <input type="text" id="amount-year-edu" readonly style="border:0; color:#333; font-weight:bold;">
+                    <div id="slider-range-year-edu"></div>
+                </div>
+
+                <div class="col-md-12 col-lg-12 col-xl-12 text-right">
+                    <br />
+                </div>
+
+                <div class="col-md-12 col-lg-12 col-xl-12 text-right">
+                    <input type="submit" value="Применить" class="btn btn-default" />
+                    <a asp-action="Index" asp-route-PageViewModel_PageSize="@Model.PageViewModel.PageSize">
+                        <div class="btn btn-default btn-group-lg">Сбросить фильтры</div>
+                    </a>
+                </div>
+
+                <div class="col-md-12 col-lg-12 col-xl-12 text-right">
+                    <hr>
+                </div>
+            </div>
         </div>
     </div>
 
-</form>
 
 
 
-
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                <sort-header action="Index" up="@Model.SortViewModel.Up"
-                             current="@Model.SortViewModel.Current" property="@Model.SortViewModel.ProfNumSort">
-                    @Html.DisplayNameFor(model => model.Enrollees.First().NumOfPersonalFile)
-                </sort-header>
-
-            </th>
-            <th>
-                <sort-header action="Index" up="@Model.SortViewModel.Up"
-                             current="@Model.SortViewModel.Current" property="@Model.SortViewModel.SurnameSort">
-                    @Html.DisplayNameFor(model => model.Enrollees.First().Surname)
-                </sort-header>
-            </th>
-            <th>
-                <sort-header action="Index" up="@Model.SortViewModel.Up"
-                             current="@Model.SortViewModel.Current" property="@Model.SortViewModel.NameSort">
-                    @Html.DisplayNameFor(model => model.Enrollees.First().Name)
-                </sort-header>
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Enrollees.First().Patronymic)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Enrollees.First().DateOfBirth)
-            </th>
-
-            <th>
-                @Html.DisplayNameFor(model => model.Enrollees.First().IdEducationType)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Enrollees.First().YearOfEndingEducation)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Enrollees.First().GradePointAVG)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Enrollees.First().IdFirstSpec)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Enrollees.First().IdGroup)
-            </th>
-            <th>
-                Специа льность
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Enrollees.First().ArrivalDate)
-            </th>
-
-            <th>
-                @Html.DisplayNameFor(model => model.Enrollees.First().DateOfDeduction)
-            </th>
-
-
-            @if (SignInManager.IsSignedIn(User) && (User.IsInRole("Admin") || User.IsInRole("EditAbitur")))
-            {
-                <th />
-            }
-            @if (SignInManager.IsSignedIn(User) && (User.IsInRole("Admin") || User.IsInRole("FullDetailAbitur")))
-            {
-                <th />
-            }
-            @if (SignInManager.IsSignedIn(User) && (User.IsInRole("Admin") || User.IsInRole("DeleteAbitur")))
-            {
-                <th />
-            }
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.Enrollees)
-        {
+    <table class="table">
+        <thead>
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.NumOfPersonalFile)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Surname)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Patronymic)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DateOfBirth)
-                </td>
+                <th>
+                    <sort-header action="Index" up="@Model.SortViewModel.Up"
+                                 current="@Model.SortViewModel.Current" property="@Model.SortViewModel.ProfNumSort">
+                        @Html.DisplayNameFor(model => model.Enrollees.First().NumOfPersonalFile)
+                    </sort-header>
 
-                <td>
-                    @Html.DisplayFor(modelItem => item.IdEducationTypeNavigation.NameEducationType)
-                </td>
+                </th>
+                <th>
+                    <sort-header action="Index" up="@Model.SortViewModel.Up"
+                                 current="@Model.SortViewModel.Current" property="@Model.SortViewModel.SurnameSort">
+                        @Html.DisplayNameFor(model => model.Enrollees.First().Surname)
+                    </sort-header>
+                </th>
+                <th>
+                    <sort-header action="Index" up="@Model.SortViewModel.Up"
+                                 current="@Model.SortViewModel.Current" property="@Model.SortViewModel.NameSort">
+                        @Html.DisplayNameFor(model => model.Enrollees.First().Name)
+                    </sort-header>
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Enrollees.First().Patronymic)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Enrollees.First().DateOfBirth)
+                </th>
 
-                <td>
-                    @Html.DisplayFor(modelItem => item.YearOfEndingEducation)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.GradePointAVG)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.IdFirstSpecNavigation.NameSpeciality)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.IdGroupNavigation.GroupName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.IdCurrentSpecNavigation.NameSpeciality)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ArrivalDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DateOfDeduction)
-                </td>
+                <th>
+                    @Html.DisplayNameFor(model => model.Enrollees.First().IdEducationType)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Enrollees.First().YearOfEndingEducation)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Enrollees.First().GradePointAVG)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Enrollees.First().IdFirstSpec)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Enrollees.First().IdGroup)
+                </th>
+                <th>
+                    Специа льность
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Enrollees.First().ArrivalDate)
+                </th>
+
+                <th>
+                    @Html.DisplayNameFor(model => model.Enrollees.First().DateOfDeduction)
+                </th>
+
 
                 @if (SignInManager.IsSignedIn(User) && (User.IsInRole("Admin") || User.IsInRole("EditAbitur")))
                 {
-                    <td>
-                        <a asp-action="Edit" asp-route-id="@item.IdEnrollee"><img src="~/images/edit.png" width="500" height="500" title="Изменить" class="img-responsive" /></a>
-                    </td>
+                    <th />
                 }
                 @if (SignInManager.IsSignedIn(User) && (User.IsInRole("Admin") || User.IsInRole("FullDetailAbitur")))
                 {
-                    <td>
-                        <a asp-action="Details" asp-route-id="@item.IdEnrollee"><img src="~/images/info.png" width="500" height="500" title="Просмотреть детальную информацию" class="img-responsive" /></a>
-                    </td>
+                    <th />
                 }
                 @if (SignInManager.IsSignedIn(User) && (User.IsInRole("Admin") || User.IsInRole("DeleteAbitur")))
                 {
-                    <td>
-                        <a asp-action="Delete" asp-route-id="@item.IdEnrollee"><img src="~/images/delete.png" width="500" height="500" title="Перейти к удалению данной записи" class="img-responsive" /></a>
-                    </td>
+                    <th />
                 }
-
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Enrollees)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NumOfPersonalFile)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Surname)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Patronymic)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DateOfBirth)
+                    </td>
 
-@if (Model.PageViewModel.HasPreviousPage && Model.PageViewModel.PageNumber != 2)
-{
-    <a asp-action="Index"
-       asp-route-page="1"
-       class="btn btn-default btn">
-        <i class="glyphicon glyphicon-chevron-left"></i>
-        <i class="glyphicon glyphicon-chevron-left"></i>
-        В начало
-    </a>
-}
-@if (Model.PageViewModel.HasPreviousPage)
-{
-    <a asp-action="Index" asp-route-groups="@Model.FilterViewModel.SelectedGroups"
-       asp-route-page="@(Model.PageViewModel.PageNumber - 1)"
-       class="btn btn-default btn">
-        <i class="glyphicon glyphicon-chevron-left"></i>
-        Назад
-    </a>
-}
+                    <td>
+                        @Html.DisplayFor(modelItem => item.IdEducationTypeNavigation.NameEducationType)
+                    </td>
 
-@if (Model.PageViewModel.HasNextPage || Model.PageViewModel.HasPreviousPage)
-{
-    <div class="btn btn-default " style="pointer-events:none;">@Model.PageViewModel.PageNumber / @(Model.PageViewModel.TotalPages)</div>
-}
+                    <td>
+                        @Html.DisplayFor(modelItem => item.YearOfEndingEducation)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.GradePointAVG)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.IdFirstSpecNavigation.NameSpeciality)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.IdGroupNavigation.GroupName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.IdCurrentSpecNavigation.NameSpeciality)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ArrivalDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DateOfDeduction)
+                    </td>
 
-@if (Model.PageViewModel.HasNextPage)
-{
-    <a asp-action="Index" 
-       asp-route-minGradePoint="@Model.FilterViewModel.SelectedGradePointAVG_min"
-       asp-route-maxGradePoint="@Model.FilterViewModel.SelectedGradePointAVG_max"
-       asp-route-minYear="@Model.FilterViewModel.SelectedYearEducMin"
-        asp-route-maxYear="@Model.FilterViewModel.SelectedYearEducMax"
-        asp-route-PageViewModel_PageSize="@Model.PageViewModel.PageSize"
-       asp-route-page="@(Model.PageViewModel.PageNumber + 1)"
-       class="btn btn-default btn">
-        Вперед
-        <i class="glyphicon glyphicon-chevron-right"></i>
-    </a>
-}
+                    @if (SignInManager.IsSignedIn(User) && (User.IsInRole("Admin") || User.IsInRole("EditAbitur")))
+                    {
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.IdEnrollee"><img src="~/images/edit.png" width="500" height="500" title="Изменить" class="img-responsive" /></a>
+                        </td>
+                    }
+                    @if (SignInManager.IsSignedIn(User) && (User.IsInRole("Admin") || User.IsInRole("FullDetailAbitur")))
+                    {
+                        <td>
+                            <a asp-action="Details" asp-route-id="@item.IdEnrollee"><img src="~/images/info.png" width="500" height="500" title="Просмотреть детальную информацию" class="img-responsive" /></a>
+                        </td>
+                    }
+                    @if (SignInManager.IsSignedIn(User) && (User.IsInRole("Admin") || User.IsInRole("DeleteAbitur")))
+                    {
+                        <td>
+                            <a asp-action="Delete" asp-route-id="@item.IdEnrollee"><img src="~/images/delete.png" width="500" height="500" title="Перейти к удалению данной записи" class="img-responsive" /></a>
+                        </td>
+                    }
 
+                </tr>
+            }
+        </tbody>
+    </table>
+    @if (Model.PageViewModel.HasNextPage || Model.PageViewModel.HasPreviousPage)
+    {
+        <div class="col-md-6 col-lg-6 col-xl-6 text-left">
+            <div class="btn-group" data-toggle="buttons">
+                @if (Model.PageViewModel.HasPreviousPage && Model.PageViewModel.PageNumber != 2)
+                {
+                    <input name="page" type="radio" onchange="this.form.submit();" hidden="hidden" checked="checked" value="1">
+                    <label class="btn btn-default">
+                        <input name="page" type="radio" onchange="this.form.submit();" value="1"> <i class="glyphicon glyphicon-chevron-left"></i>
+                        <i class="glyphicon glyphicon-chevron-left"></i> В начало
+                    </label>
+                }
+                @if (Model.PageViewModel.HasPreviousPage)
+                {
+                    <label class="btn btn-default">
+                        <input name="page" type="radio" onchange="this.form.submit();" value="@(Model.PageViewModel.PageNumber - 1)"> <i class="glyphicon glyphicon-chevron-left"></i> Назад
+                    </label>
+                }
+                @if (Model.PageViewModel.HasNextPage || Model.PageViewModel.HasPreviousPage)
+                {
+                    <label class="btn btn-default" style="pointer-events:none;">
+                        <input name="page" type="radio" style="pointer-events:none;" value="@(Model.PageViewModel.PageNumber)"> @(Model.PageViewModel.PageNumber) / @Model.PageViewModel.TotalPages
+                    </label>
+                }
+                @if (Model.PageViewModel.HasNextPage)
+                {
+                    <label class="btn btn-default">
+                        <input name="page" type="radio" onchange="this.form.submit();" value="@(Model.PageViewModel.PageNumber + 1)"> Вперед <i class="glyphicon glyphicon-chevron-right"></i>
+                    </label>
+                }
+                @if (Model.PageViewModel.HasNextPage)
+                {
+                    <label class="btn btn-default">
+                        <input name="page" type="radio" onchange="this.form.submit();" value="@(Model.PageViewModel.TotalPages)">В конец <i class="glyphicon glyphicon-chevron-right"> </i><i class="glyphicon glyphicon-chevron-right"> </i>
+                    </label>
+                }
+            </div>
+        </div>
+    }
+    <br />
+</form>
 
-@if (Model.PageViewModel.HasNextPage)
-{
-    <a asp-action="Index"
-       asp-route-groups="@Model.FilterViewModel.SelectedGroups"
-       
-        asp-route-sortOrder="@Model.SortViewModel.Current"
-
-        asp-route-minYear="@Model.FilterViewModel.SelectedYearEducMin"
-       asp-route-maxYear="@Model.FilterViewModel.SelectedYearEducMax"
-
-        asp-route-maxGradePoint="@Model.FilterViewModel.SelectedGradePointAVG_max"
-        asp-route-minGradePoint="@Model.FilterViewModel.SelectedGradePointAVG_min"
-
-       asp-route-DateOfArrivedMax="@Model.FilterViewModel.SelectedDateArrivedMax"
-        asp-route-DateOfArrivedMin="@Model.FilterViewModel.SelectedDateArrivedMin"
-
-       asp-route-DateOfBirthMax="@Model.FilterViewModel.SelectedDateOfBirthMax"
-        asp-route-DateOfBirthMin="@Model.FilterViewModel.SelectedDateOfBirthMin"
-
-       asp-route-DateOfDeducMax="@Model.FilterViewModel.SelectedDateDeducMax"
-        asp-route-DateOfDeducMin="@Model.FilterViewModel.SelectedDateDeducMin"
-
-       asp-route-NumFile="@Model.FilterViewModel.SelectedNumFile"
-        asp-route-name="@Model.FilterViewModel.SelectedName"
-
-       asp-route-preemptiveRight="@Model.FilterViewModel.SelectedPreemptiveRight"
-        asp-route-maritalStatus="@Model.FilterViewModel.SelectedMaritalStatus"
-
-
-
-       asp-route-PageViewModel_PageSize="@Model.PageViewModel.PageSize"
-       asp-route-page="@(Model.PageViewModel.TotalPages)"
-       class="btn btn-default btn">
-        В конец (@(Model.PageViewModel.TotalPages))
-        <i class="glyphicon glyphicon-chevron-right"></i>
-        <i class="glyphicon glyphicon-chevron-right"></i>
-    </a>
-}
 @section Scripts {
     <script>
         $("#slider-range").slider({
