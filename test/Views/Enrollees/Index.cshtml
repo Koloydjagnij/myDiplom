@@ -125,7 +125,7 @@
     <div id="collapseOne" class="panel-collapse collapse">
         <div class="panel-body">
             <!--Форма фильтров-->
-
+            <input hidden="hidden" name="sortOrder" checked="checked" type="radio" onchange="this.form.submit();" value="@Model.SortViewModel.Current">
             <div class="row">
                 <div class="col-md-4 col-lg-4 col-xl-4 text-right">
                     <div class="col-md-7 col-lg-7 col-xl-7 text-left">
@@ -251,14 +251,14 @@
                         @if (Model.SortViewModel.Up)
                         {
                             <label class="btn-link">
-                                <input hidden="hidden" name="sortOrder" type="radio" onchange="this.form.submit();" value="@Model.SortViewModel.ProfNumSort"> <i class="glyphicon glyphicon-chevron-up"></i><span style="line-height: 1.6;font-weight: 700;font-size: 14px;">Личное дело</span>
+                                <input hidden="hidden" name="sortOrder" type="radio" onchange="this.form.submit();" value="7"> <i class="glyphicon glyphicon-chevron-up"></i><span style="line-height: 1.6;font-weight: 700;font-size: 14px;">Личное дело</span>
                             </label>
 
                         }
                         else
                         {
                             <label class="btn-link ">
-                                <input hidden="hidden" name="sortOrder" type="radio" onchange="this.form.submit();" value="@Model.SortViewModel.ProfNumSort"> <i class="glyphicon glyphicon-chevron-down"></i><span style="line-height: 1.6;font-weight: 700;font-size: 14px;">Личное дело</span>
+                                <input hidden="hidden" name="sortOrder" type="radio" onchange="this.form.submit();" value="6"> <i class="glyphicon glyphicon-chevron-down"></i><span style="line-height: 1.6;font-weight: 700;font-size: 14px;">Личное дело</span>
                             </label>
                         }
                     }
@@ -276,14 +276,14 @@
                         @if (Model.SortViewModel.Up)
                         {
                     <label class="btn-link">
-                        <input hidden="hidden" name="sortOrder" type="radio" onchange="this.form.submit();" value="@Model.SortViewModel.SurnameSort"> <i class="glyphicon glyphicon-chevron-up"></i><span style="line-height: 1.6;font-weight: 700;font-size: 14px;">Фамилия</span>
+                        <input hidden="hidden" name="sortOrder" type="radio" onchange="this.form.submit();" value="3"> <i class="glyphicon glyphicon-chevron-up"></i><span style="line-height: 1.6;font-weight: 700;font-size: 14px;">Фамилия</span>
                     </label>
                             
                         }
                         else
                         {
                     <label class="btn-link ">
-                        <input hidden="hidden" name="sortOrder" type="radio" onchange="this.form.submit();" value="@Model.SortViewModel.SurnameSort"> <i class="glyphicon glyphicon-chevron-down"></i><span style="line-height: 1.6;font-weight: 700;font-size: 14px;">Фамилия</span>
+                        <input hidden="hidden" name="sortOrder" type="radio" onchange="this.form.submit();" value="2"> <i class="glyphicon glyphicon-chevron-down"></i><span style="line-height: 1.6;font-weight: 700;font-size: 14px;">Фамилия</span>
                     </label>
                         }
                     }
@@ -301,14 +301,14 @@
                         @if (Model.SortViewModel.Up)
                         {
                             <label class="btn-link">
-                                <input hidden="hidden" name="sortOrder" type="radio" onchange="this.form.submit();" value="@Model.SortViewModel.NameSort"> <i class="glyphicon glyphicon-chevron-up"></i><span style="line-height: 1.6;font-weight: 700;font-size: 14px;">Имя</span>
+                                <input hidden="hidden" name="sortOrder" type="radio" onchange="this.form.submit();" value="1"> <i class="glyphicon glyphicon-chevron-up"></i><span style="line-height: 1.6;font-weight: 700;font-size: 14px;">Имя</span>
                             </label>
 
                         }
                         else
                         {
                             <label class="btn-link ">
-                                <input hidden="hidden" name="sortOrder" type="radio" onchange="this.form.submit();" value="@Model.SortViewModel.NameSort"> <i class="glyphicon glyphicon-chevron-down"></i><span style="line-height: 1.6;font-weight: 700;font-size: 14px;">Имя</span>
+                                <input hidden="hidden" name="sortOrder" type="radio" onchange="this.form.submit();" value="0"> <i class="glyphicon glyphicon-chevron-down"></i><span style="line-height: 1.6;font-weight: 700;font-size: 14px;">Имя</span>
                             </label>
                         }
                     }
@@ -326,14 +326,14 @@
                         @if (Model.SortViewModel.Up)
                         {
                             <label class="btn-link">
-                                <input hidden="hidden" name="sortOrder" type="radio" onchange="this.form.submit();" value="@Model.SortViewModel.PatrSort"> <i class="glyphicon glyphicon-chevron-up"></i><span style="line-height: 1.6;font-weight: 700;font-size: 14px;">Отчество</span>
+                                <input hidden="hidden" name="sortOrder" type="radio" onchange="this.form.submit();" value="25"> <i class="glyphicon glyphicon-chevron-up"></i><span style="line-height: 1.6;font-weight: 700;font-size: 14px;">Отчество</span>
                             </label>
 
                         }
                         else
                         {
                             <label class="btn-link ">
-                                <input hidden="hidden" name="sortOrder" type="radio" onchange="this.form.submit();" value="@Model.SortViewModel.PatrSort"> <i class="glyphicon glyphicon-chevron-down"></i><span style="line-height: 1.6;font-weight: 700;font-size: 14px;">Отчество</span>
+                                <input hidden="hidden" name="sortOrder" type="radio" onchange="this.form.submit();" value="24"> <i class="glyphicon glyphicon-chevron-down"></i><span style="line-height: 1.6;font-weight: 700;font-size: 14px;">Отчество</span>
                             </label>
                         }
                     }
@@ -350,14 +350,14 @@
                         @if (Model.SortViewModel.Up)
                         {
                             <label class="btn-link">
-                                <input hidden="hidden" name="sortOrder" type="radio" onchange="this.form.submit();" value="@Model.SortViewModel.DateOfBirthSort"> <i class="glyphicon glyphicon-chevron-up"></i><span style="line-height: 1.6;font-weight: 700;font-size: 14px;">Дата рождения</span>
+                                <input hidden="hidden" name="sortOrder" type="radio" onchange="this.form.submit();" value="11"> <i class="glyphicon glyphicon-chevron-up"></i><span style="line-height: 1.6;font-weight: 700;font-size: 14px;">Дата рождения</span>
                             </label>
 
                         }
                         else
                         {
                             <label class="btn-link ">
-                                <input hidden="hidden" name="sortOrder" type="radio" onchange="this.form.submit();" value="@Model.SortViewModel.DateOfBirthSort"> <i class="glyphicon glyphicon-chevron-down"></i><span style="line-height: 1.6;font-weight: 700;font-size: 14px;">Дата рождения</span>
+                                <input hidden="hidden" name="sortOrder" type="radio" onchange="this.form.submit();" value="10"> <i class="glyphicon glyphicon-chevron-down"></i><span style="line-height: 1.6;font-weight: 700;font-size: 14px;">Дата рождения</span>
                             </label>
                         }
                     }
@@ -370,7 +370,28 @@
                 </th>
 
                 <th>
-                    @Html.DisplayNameFor(model => model.Enrollees.First().IdEducationType)
+                    @if (Model.SortViewModel.Current == Model.SortViewModel.EduTypeSort)
+                    {
+                        @if (Model.SortViewModel.Up)
+                        {
+                            <label class="btn-link">
+                                <input hidden="hidden" name="sortOrder"  type="radio" onchange="this.form.submit();" value="19"> <i class="glyphicon glyphicon-chevron-up"></i><span style="line-height: 1.6;font-weight: 700;font-size: 14px;">Тип образования</span>
+                            </label>
+
+                        }
+                        else
+                        {
+                            <label class="btn-link ">
+                                <input hidden="hidden" name="sortOrder" type="radio" onchange="this.form.submit();" value="18"> <i class="glyphicon glyphicon-chevron-down"></i><span style="line-height: 1.6;font-weight: 700;font-size: 14px;">Тип образования</span>
+                            </label>
+                        }
+                    }
+                    else
+                    {
+                        <label class="btn-link">
+                            <input hidden="hidden" name="sortOrder" type="radio" onchange="this.form.submit();" value="@Model.SortViewModel.EduTypeSort"><span style="line-height: 1.6;font-weight: 700;font-size: 14px;">Тип образования</span>
+                        </label>
+                    }
                 </th>
                 <th>
                     @if (Model.SortViewModel.Current == Model.SortViewModel.EduYearSort)
@@ -378,14 +399,14 @@
                         @if (Model.SortViewModel.Up)
                         {
                             <label class="btn-link">
-                                <input hidden="hidden" name="sortOrder" type="radio" onchange="this.form.submit();" value="@Model.SortViewModel.EduYearSort"> <i class="glyphicon glyphicon-chevron-up"></i><span style="line-height: 1.6;font-weight: 700;font-size: 14px;">Год выпуска</span>
+                                <input hidden="hidden" name="sortOrder" type="radio" onchange="this.form.submit();" value="9"> <i class="glyphicon glyphicon-chevron-up"></i><span style="line-height: 1.6;font-weight: 700;font-size: 14px;">Год выпуска</span>
                             </label>
 
                         }
                         else
                         {
                             <label class="btn-link ">
-                                <input hidden="hidden" name="sortOrder" type="radio" onchange="this.form.submit();" value="@Model.SortViewModel.EduYearSort"> <i class="glyphicon glyphicon-chevron-down"></i><span style="line-height: 1.6;font-weight: 700;font-size: 14px;">Год выпуска</span>
+                                <input hidden="hidden" name="sortOrder" type="radio" onchange="this.form.submit();" value="8"> <i class="glyphicon glyphicon-chevron-down"></i><span style="line-height: 1.6;font-weight: 700;font-size: 14px;">Год выпуска</span>
                             </label>
                         }
                     }
@@ -402,14 +423,14 @@
                         @if (Model.SortViewModel.Up)
                         {
                             <label class="btn-link">
-                                <input hidden="hidden" name="sortOrder" type="radio" onchange="this.form.submit();" value="@Model.SortViewModel.gpAVGSort"> <i class="glyphicon glyphicon-chevron-up"></i><span style="line-height: 1.6;font-weight: 700;font-size: 14px;">Ср балл ат.</span>
+                                <input hidden="hidden" name="sortOrder" type="radio" onchange="this.form.submit();" value="17"> <i class="glyphicon glyphicon-chevron-up"></i><span style="line-height: 1.6;font-weight: 700;font-size: 14px;">Ср балл ат.</span>
                             </label>
 
                         }
                         else
                         {
                             <label class="btn-link ">
-                                <input hidden="hidden" name="sortOrder" type="radio" onchange="this.form.submit();" value="@Model.SortViewModel.gpAVGSort"> <i class="glyphicon glyphicon-chevron-down"></i><span style="line-height: 1.6;font-weight: 700;font-size: 14px;">Ср балл ат.</span>
+                                <input hidden="hidden" name="sortOrder" type="radio" onchange="this.form.submit();" value="16"> <i class="glyphicon glyphicon-chevron-down"></i><span style="line-height: 1.6;font-weight: 700;font-size: 14px;">Ср балл ат.</span>
                             </label>
                         }
                     }
@@ -421,13 +442,76 @@
                     }
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Enrollees.First().IdFirstSpec)
+                    @if (Model.SortViewModel.Current == Model.SortViewModel.fSpecSort)
+                    {
+                        @if (Model.SortViewModel.Up)
+                        {
+                            <label class="btn-link">
+                                <input hidden="hidden" name="sortOrder" type="radio" onchange="this.form.submit();" value="21"> <i class="glyphicon glyphicon-chevron-up"></i><span style="line-height: 1.6;font-weight: 700;font-size: 14px;">Первый приоритет</span>
+                            </label>
+
+                        }
+                        else
+                        {
+                            <label class="btn-link ">
+                                <input hidden="hidden" name="sortOrder" type="radio" onchange="this.form.submit();" value="20"> <i class="glyphicon glyphicon-chevron-down"></i><span style="line-height: 1.6;font-weight: 700;font-size: 14px;">Первый приоритет</span>
+                            </label>
+                        }
+                    }
+                    else
+                    {
+                        <label class="btn-link">
+                            <input hidden="hidden" name="sortOrder" type="radio" onchange="this.form.submit();" value="@Model.SortViewModel.fSpecSort"><span style="line-height: 1.6;font-weight: 700;font-size: 14px;">Первый приоритет</span>
+                        </label>
+                    }
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Enrollees.First().IdGroup)
+                    @if (Model.SortViewModel.Current == Model.SortViewModel.GroupSort)
+                    {
+                        @if (Model.SortViewModel.Up)
+                        {
+                            <label class="btn-link">
+                                <input hidden="hidden" name="sortOrder" type="radio" onchange="this.form.submit();" value="5"> <i class="glyphicon glyphicon-chevron-up"></i><span style="line-height: 1.6;font-weight: 700;font-size: 14px;">Группа</span>
+                            </label>
+
+                        }
+                        else
+                        {
+                            <label class="btn-link ">
+                                <input hidden="hidden" name="sortOrder" type="radio" onchange="this.form.submit();" value="4"> <i class="glyphicon glyphicon-chevron-down"></i><span style="line-height: 1.6;font-weight: 700;font-size: 14px;">Группа</span>
+                            </label>
+                        }
+                    }
+                    else
+                    {
+                        <label class="btn-link">
+                            <input hidden="hidden" name="sortOrder" type="radio" onchange="this.form.submit();" value="@Model.SortViewModel.GroupSort"><span style="line-height: 1.6;font-weight: 700;font-size: 14px;">Группа</span>
+                        </label>
+                    }
                 </th>
                 <th>
-                    Специа льность
+                    @if (Model.SortViewModel.Current == Model.SortViewModel.cSpecSort)
+                    {
+                        @if (Model.SortViewModel.Up)
+                        {
+                            <label class="btn-link">
+                                <input hidden="hidden" name="sortOrder" type="radio" onchange="this.form.submit();" value="23"> <i class="glyphicon glyphicon-chevron-up"></i><span style="line-height: 1.6;font-weight: 700;font-size: 14px;">Специа льность</span>
+                            </label>
+
+                        }
+                        else
+                        {
+                            <label class="btn-link ">
+                                <input hidden="hidden" name="sortOrder" type="radio" onchange="this.form.submit();" value="22"> <i class="glyphicon glyphicon-chevron-down"></i><span style="line-height: 1.6;font-weight: 700;font-size: 14px;">Специа льность</span>
+                            </label>
+                        }
+                    }
+                    else
+                    {
+                        <label class="btn-link">
+                            <input hidden="hidden" name="sortOrder" type="radio" onchange="this.form.submit();" value="@Model.SortViewModel.cSpecSort"><span style="line-height: 1.6;font-weight: 700;font-size: 14px;">Специа льность</span>
+                        </label>
+                    }
                 </th>
                 <th>
                     @if (Model.SortViewModel.Current == Model.SortViewModel.DateArrivedSort)
@@ -435,14 +519,14 @@
                         @if (Model.SortViewModel.Up)
                         {
                             <label class="btn-link">
-                                <input hidden="hidden" name="sortOrder" type="radio" onchange="this.form.submit();" value="@Model.SortViewModel.DateArrivedSort"> <i class="glyphicon glyphicon-chevron-up"></i><span style="line-height: 1.6;font-weight: 700;font-size: 14px;">Дата прибытия</span>
+                                <input hidden="hidden" name="sortOrder" type="radio" onchange="this.form.submit();" value="13"> <i class="glyphicon glyphicon-chevron-up"></i><span style="line-height: 1.6;font-weight: 700;font-size: 14px;">Дата прибытия</span>
                             </label>
 
                         }
                         else
                         {
                             <label class="btn-link ">
-                                <input hidden="hidden" name="sortOrder" type="radio" onchange="this.form.submit();" value="@Model.SortViewModel.DateArrivedSort"> <i class="glyphicon glyphicon-chevron-down"></i><span style="line-height: 1.6;font-weight: 700;font-size: 14px;">Дата прибытия</span>
+                                <input hidden="hidden" name="sortOrder" type="radio" onchange="this.form.submit();" value="12"> <i class="glyphicon glyphicon-chevron-down"></i><span style="line-height: 1.6;font-weight: 700;font-size: 14px;">Дата прибытия</span>
                             </label>
                         }
                     }
@@ -460,14 +544,14 @@
                         @if (Model.SortViewModel.Up)
                         {
                             <label class="btn-link">
-                                <input hidden="hidden" name="sortOrder" type="radio" onchange="this.form.submit();" value="@Model.SortViewModel.DateDeducSort"> <i class="glyphicon glyphicon-chevron-up"></i><span style="line-height: 1.6;font-weight: 700;font-size: 14px;">Дата отчисления</span>
+                                <input hidden="hidden" name="sortOrder" type="radio" onchange="this.form.submit();" value="15"> <i class="glyphicon glyphicon-chevron-up"></i><span style="line-height: 1.6;font-weight: 700;font-size: 14px;">Дата отчисления</span>
                             </label>
 
                         }
                         else
                         {
                             <label class="btn-link ">
-                                <input hidden="hidden" name="sortOrder" type="radio" onchange="this.form.submit();" value="@Model.SortViewModel.DateDeducSort"> <i class="glyphicon glyphicon-chevron-down"></i><span style="line-height: 1.6;font-weight: 700;font-size: 14px;">Дата отчисления</span>
+                                <input hidden="hidden" name="sortOrder" type="radio" onchange="this.form.submit();" value="14"> <i class="glyphicon glyphicon-chevron-down"></i><span style="line-height: 1.6;font-weight: 700;font-size: 14px;">Дата отчисления</span>
                             </label>
                         }
                     }
@@ -596,7 +680,7 @@
                 @if (Model.PageViewModel.HasNextPage)
                 {
                     <label class="btn btn-default">
-                        <input name="page" type="radio" onchange="this.form.submit();" value="@(Model.PageViewModel.TotalPages)">В конец <i class="glyphicon glyphicon-chevron-right"> </i><i class="glyphicon glyphicon-chevron-right"> </i>
+                        <input name="page" type="radio" onchange="this.form.submit();" value="@(Model.PageViewModel.TotalPages)">В конец (@Model.PageViewModel.TotalPages)<i class="glyphicon glyphicon-chevron-right"> </i><i class="glyphicon glyphicon-chevron-right"> </i>
                     </label>
                 }
             </div>

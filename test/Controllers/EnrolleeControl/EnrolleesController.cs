@@ -99,44 +99,44 @@ namespace test.Controllers.EnrolleeControl
         //виды сортировки
         public enum SortState
         {
-            NameAsc,    // по имени по возрастанию
-            NameDesc,   // по имени по убыванию
+            NameAsc,    // по имени по возрастанию 0
+            NameDesc,   // по имени по убыванию 1
 
-            SurnameAsc, // по фамилии по возрастанию по умолчанию
-            SurnameDesc,    // по фамилии по убыванию
+            SurnameAsc, // по фамилии по возрастанию по умолчанию 2
+            SurnameDesc,    // по фамилии по убыванию 3
 
-            GroupAsc, // по группе по возрастанию
-            GroupDesc, // по группе по убыванию
+            GroupAsc, // по группе по возрастанию 4
+            GroupDesc, // по группе по убыванию 5
 
-            ProfNumAsc, //по номеру дела по возрастанию
-            ProfNumDesc,// по номеру дела по убыванию
+            ProfNumAsc, //по номеру дела по возрастанию 6
+            ProfNumDesc,// по номеру дела по убыванию 7
 
-            EduYearAsc, //
-            EduYearDesc,//
+            EduYearAsc, // 8
+            EduYearDesc,// 9 
 
-            DateOfBirthAsc,//
-            DateOfBirthDesc,//
+            DateOfBirthAsc,// 10
+            DateOfBirthDesc,// 11
 
-            DateArrivedAsc,//
-            DateArrivedDesc,//
+            DateArrivedAsc,// 12
+            DateArrivedDesc,// 13 
 
-            DateDeducAsc,//
-            DateDeducDesc,//
+            DateDeducAsc,// 14 
+            DateDeducDesc,// 15
 
-            gpAVG_Asc,//
-            gpAVG_Desc,//
+            gpAVG_Asc,// 16 
+            gpAVG_Desc,// 17
 
-            EduTypeAsc,//
-            EduTypeDesc,//
+            EduTypeAsc,// 18
+            EduTypeDesc,// 19
 
-            fSpecAsc,//
-            fSpecDesc,//
+            fSpecAsc,// 20
+            fSpecDesc,// 21
 
-            cSpecAsc,//
-            cSpecDesc,//
+            cSpecAsc,// 22
+            cSpecDesc,// 23
 
-            PatrAsc,//
-            PatrDesc//
+            PatrAsc,// 24
+            PatrDesc// 25
         }
 
         /// <summary>
@@ -162,7 +162,7 @@ namespace test.Controllers.EnrolleeControl
             #region SortedAndFiltratedAbitur
             ViewData["NameSort"] = sortOrder == SortState.NameAsc ? SortState.NameDesc : SortState.NameAsc;
             ViewData["SurnameSort"] = sortOrder == SortState.SurnameAsc ? SortState.SurnameDesc : SortState.SurnameAsc;
-           //- ViewData["GroupSort"] = sortOrder == SortState.GroupAsc ? SortState.GroupDesc : SortState.GroupAsc;
+            ViewData["GroupSort"] = sortOrder == SortState.GroupAsc ? SortState.GroupDesc : SortState.GroupAsc;
             ViewData["ProfNumSort"] = sortOrder == SortState.ProfNumAsc ? SortState.ProfNumDesc : SortState.ProfNumAsc;
             ViewData["PatrSort"] = sortOrder == SortState.PatrAsc ? SortState.PatrDesc : SortState.PatrAsc;
             ViewData["EduYearSort"] = sortOrder == SortState.EduYearAsc ? SortState.EduYearDesc : SortState.EduYearAsc;
@@ -170,9 +170,9 @@ namespace test.Controllers.EnrolleeControl
             ViewData["DateArrivedSort"] = sortOrder == SortState.DateArrivedAsc ? SortState.DateArrivedDesc : SortState.DateArrivedAsc;
             ViewData["DateDeducSort"] = sortOrder == SortState.DateDeducAsc ? SortState.DateDeducDesc : SortState.DateOfBirthAsc;
             ViewData["gpAVGSort"] = sortOrder == SortState.gpAVG_Asc ? SortState.gpAVG_Desc : SortState.gpAVG_Asc;
-            //-ViewData["EduTypeSort"] = sortOrder == SortState.EduTypeAsc ? SortState.EduTypeDesc: SortState.EduTypeAsc;
-           //- ViewData["fSpecSort"] = sortOrder == SortState.fSpecAsc ? SortState.fSpecDesc : SortState.fSpecAsc;
-            //-ViewData["cSpecSort"] = sortOrder == SortState.cSpecAsc ? SortState.cSpecDesc : SortState.cSpecAsc;
+            ViewData["EduTypeSort"] = sortOrder == SortState.EduTypeAsc ? SortState.EduTypeDesc: SortState.EduTypeAsc;
+            ViewData["fSpecSort"] = sortOrder == SortState.fSpecAsc ? SortState.fSpecDesc : SortState.fSpecAsc;
+            ViewData["cSpecSort"] = sortOrder == SortState.cSpecAsc ? SortState.cSpecDesc : SortState.cSpecAsc;
             
 
             IQueryable<Enrollee> source = _context.Enrollee;
@@ -274,6 +274,34 @@ namespace test.Controllers.EnrolleeControl
             #region Sorts
             switch (sortOrder)
             {
+                case SortState.EduTypeAsc:
+                    source = source.OrderBy(s => s.IdEducationTypeNavigation.NameEducationType);
+                    break;
+                case SortState.EduTypeDesc:
+                    source = source.OrderByDescending(s => s.IdEducationTypeNavigation.NameEducationType);
+                    break;
+
+                case SortState.GroupAsc:
+                    source = source.OrderBy(s => s.IdGroupNavigation.GroupName);
+                    break;
+                case SortState.GroupDesc:
+                    source = source.OrderByDescending(s => s.IdGroupNavigation.GroupName);
+                    break;
+
+                case SortState.fSpecAsc:
+                    source = source.OrderBy(s => s.IdFirstSpecNavigation.NameSpeciality);
+                    break;
+                case SortState.fSpecDesc:
+                    source = source.OrderByDescending(s => s.IdFirstSpecNavigation.NameSpeciality);
+                    break;
+
+                case SortState.cSpecAsc:
+                    source = source.OrderBy(s => s.IdCurrentSpecNavigation.NameSpeciality);
+                    break;
+                case SortState.cSpecDesc:
+                    source = source.OrderByDescending(s => s.IdCurrentSpecNavigation.NameSpeciality);
+                    break;
+
                 case SortState.EduYearAsc:
                     source = source.OrderBy(s => s.YearOfEndingEducation);
                     break;
