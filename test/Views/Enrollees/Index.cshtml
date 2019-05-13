@@ -321,20 +321,104 @@
                 </th>
                 <th>
 
-                    @Html.DisplayNameFor(model => model.Enrollees.First().Patronymic)
+                    @if (Model.SortViewModel.Current == Model.SortViewModel.PatrSort)
+                    {
+                        @if (Model.SortViewModel.Up)
+                        {
+                            <label class="btn-link">
+                                <input hidden="hidden" name="sortOrder" type="radio" onchange="this.form.submit();" value="@Model.SortViewModel.PatrSort"> <i class="glyphicon glyphicon-chevron-up"></i><span style="line-height: 1.6;font-weight: 700;font-size: 14px;">Отчество</span>
+                            </label>
+
+                        }
+                        else
+                        {
+                            <label class="btn-link ">
+                                <input hidden="hidden" name="sortOrder" type="radio" onchange="this.form.submit();" value="@Model.SortViewModel.PatrSort"> <i class="glyphicon glyphicon-chevron-down"></i><span style="line-height: 1.6;font-weight: 700;font-size: 14px;">Отчество</span>
+                            </label>
+                        }
+                    }
+                    else
+                    {
+                        <label class="btn-link">
+                            <input hidden="hidden" name="sortOrder" type="radio" onchange="this.form.submit();" value="@Model.SortViewModel.PatrSort"><span style="line-height: 1.6;font-weight: 700;font-size: 14px;">Отчество</span>
+                        </label>
+                    }
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Enrollees.First().DateOfBirth)
+                    @if (Model.SortViewModel.Current == Model.SortViewModel.DateOfBirthSort)
+                    {
+                        @if (Model.SortViewModel.Up)
+                        {
+                            <label class="btn-link">
+                                <input hidden="hidden" name="sortOrder" type="radio" onchange="this.form.submit();" value="@Model.SortViewModel.DateOfBirthSort"> <i class="glyphicon glyphicon-chevron-up"></i><span style="line-height: 1.6;font-weight: 700;font-size: 14px;">Дата рождения</span>
+                            </label>
+
+                        }
+                        else
+                        {
+                            <label class="btn-link ">
+                                <input hidden="hidden" name="sortOrder" type="radio" onchange="this.form.submit();" value="@Model.SortViewModel.DateOfBirthSort"> <i class="glyphicon glyphicon-chevron-down"></i><span style="line-height: 1.6;font-weight: 700;font-size: 14px;">Дата рождения</span>
+                            </label>
+                        }
+                    }
+                    else
+                    {
+                        <label class="btn-link">
+                            <input hidden="hidden" name="sortOrder" type="radio" onchange="this.form.submit();" value="@Model.SortViewModel.DateOfBirthSort"><span style="line-height: 1.6;font-weight: 700;font-size: 14px;">Дата рождения</span>
+                        </label>
+                    }
                 </th>
 
                 <th>
                     @Html.DisplayNameFor(model => model.Enrollees.First().IdEducationType)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Enrollees.First().YearOfEndingEducation)
+                    @if (Model.SortViewModel.Current == Model.SortViewModel.EduYearSort)
+                    {
+                        @if (Model.SortViewModel.Up)
+                        {
+                            <label class="btn-link">
+                                <input hidden="hidden" name="sortOrder" type="radio" onchange="this.form.submit();" value="@Model.SortViewModel.EduYearSort"> <i class="glyphicon glyphicon-chevron-up"></i><span style="line-height: 1.6;font-weight: 700;font-size: 14px;">Год выпуска</span>
+                            </label>
+
+                        }
+                        else
+                        {
+                            <label class="btn-link ">
+                                <input hidden="hidden" name="sortOrder" type="radio" onchange="this.form.submit();" value="@Model.SortViewModel.EduYearSort"> <i class="glyphicon glyphicon-chevron-down"></i><span style="line-height: 1.6;font-weight: 700;font-size: 14px;">Год выпуска</span>
+                            </label>
+                        }
+                    }
+                    else
+                    {
+                        <label class="btn-link">
+                            <input hidden="hidden" name="sortOrder" type="radio" onchange="this.form.submit();" value="@Model.SortViewModel.EduYearSort"><span style="line-height: 1.6;font-weight: 700;font-size: 14px;">Год выпуска</span>
+                        </label>
+                    }
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Enrollees.First().GradePointAVG)
+                    @if (Model.SortViewModel.Current == Model.SortViewModel.gpAVGSort)
+                    {
+                        @if (Model.SortViewModel.Up)
+                        {
+                            <label class="btn-link">
+                                <input hidden="hidden" name="sortOrder" type="radio" onchange="this.form.submit();" value="@Model.SortViewModel.gpAVGSort"> <i class="glyphicon glyphicon-chevron-up"></i><span style="line-height: 1.6;font-weight: 700;font-size: 14px;">Ср балл ат.</span>
+                            </label>
+
+                        }
+                        else
+                        {
+                            <label class="btn-link ">
+                                <input hidden="hidden" name="sortOrder" type="radio" onchange="this.form.submit();" value="@Model.SortViewModel.gpAVGSort"> <i class="glyphicon glyphicon-chevron-down"></i><span style="line-height: 1.6;font-weight: 700;font-size: 14px;">Ср балл ат.</span>
+                            </label>
+                        }
+                    }
+                    else
+                    {
+                        <label class="btn-link">
+                            <input hidden="hidden" name="sortOrder" type="radio" onchange="this.form.submit();" value="@Model.SortViewModel.gpAVGSort"><span style="line-height: 1.6;font-weight: 700;font-size: 14px;">Ср балл ат.</span>
+                        </label>
+                    }
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.Enrollees.First().IdFirstSpec)
@@ -346,11 +430,53 @@
                     Специа льность
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Enrollees.First().ArrivalDate)
+                    @if (Model.SortViewModel.Current == Model.SortViewModel.DateArrivedSort)
+                    {
+                        @if (Model.SortViewModel.Up)
+                        {
+                            <label class="btn-link">
+                                <input hidden="hidden" name="sortOrder" type="radio" onchange="this.form.submit();" value="@Model.SortViewModel.DateArrivedSort"> <i class="glyphicon glyphicon-chevron-up"></i><span style="line-height: 1.6;font-weight: 700;font-size: 14px;">Дата прибытия</span>
+                            </label>
+
+                        }
+                        else
+                        {
+                            <label class="btn-link ">
+                                <input hidden="hidden" name="sortOrder" type="radio" onchange="this.form.submit();" value="@Model.SortViewModel.DateArrivedSort"> <i class="glyphicon glyphicon-chevron-down"></i><span style="line-height: 1.6;font-weight: 700;font-size: 14px;">Дата прибытия</span>
+                            </label>
+                        }
+                    }
+                    else
+                    {
+                        <label class="btn-link">
+                            <input hidden="hidden" name="sortOrder" type="radio" onchange="this.form.submit();" value="@Model.SortViewModel.DateArrivedSort"><span style="line-height: 1.6;font-weight: 700;font-size: 14px;">Дата прибытия</span>
+                        </label>
+                    }
                 </th>
 
                 <th>
-                    @Html.DisplayNameFor(model => model.Enrollees.First().DateOfDeduction)
+                    @if (Model.SortViewModel.Current == Model.SortViewModel.DateDeducSort)
+                    {
+                        @if (Model.SortViewModel.Up)
+                        {
+                            <label class="btn-link">
+                                <input hidden="hidden" name="sortOrder" type="radio" onchange="this.form.submit();" value="@Model.SortViewModel.DateDeducSort"> <i class="glyphicon glyphicon-chevron-up"></i><span style="line-height: 1.6;font-weight: 700;font-size: 14px;">Дата отчисления</span>
+                            </label>
+
+                        }
+                        else
+                        {
+                            <label class="btn-link ">
+                                <input hidden="hidden" name="sortOrder" type="radio" onchange="this.form.submit();" value="@Model.SortViewModel.DateDeducSort"> <i class="glyphicon glyphicon-chevron-down"></i><span style="line-height: 1.6;font-weight: 700;font-size: 14px;">Дата отчисления</span>
+                            </label>
+                        }
+                    }
+                    else
+                    {
+                        <label class="btn-link">
+                            <input hidden="hidden" name="sortOrder" type="radio" onchange="this.form.submit();" value="@Model.SortViewModel.DateDeducSort"><span style="line-height: 1.6;font-weight: 700;font-size: 14px;">Дата отчисления</span>
+                        </label>
+                    }
                 </th>
 
 

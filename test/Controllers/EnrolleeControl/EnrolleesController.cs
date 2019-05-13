@@ -101,12 +101,42 @@ namespace test.Controllers.EnrolleeControl
         {
             NameAsc,    // по имени по возрастанию
             NameDesc,   // по имени по убыванию
+
             SurnameAsc, // по фамилии по возрастанию по умолчанию
             SurnameDesc,    // по фамилии по убыванию
+
             GroupAsc, // по группе по возрастанию
             GroupDesc, // по группе по убыванию
+
             ProfNumAsc, //по номеру дела по возрастанию
-            ProfNumDesc// по номеру дела по убыванию
+            ProfNumDesc,// по номеру дела по убыванию
+
+            EduYearAsc, //
+            EduYearDesc,//
+
+            DateOfBirthAsc,//
+            DateOfBirthDesc,//
+
+            DateArrivedAsc,//
+            DateArrivedDesc,//
+
+            DateDeducAsc,//
+            DateDeducDesc,//
+
+            gpAVG_Asc,//
+            gpAVG_Desc,//
+
+            EduTypeAsc,//
+            EduTypeDesc,//
+
+            fSpecAsc,//
+            fSpecDesc,//
+
+            cSpecAsc,//
+            cSpecDesc,//
+
+            PatrAsc,//
+            PatrDesc//
         }
 
         /// <summary>
@@ -132,14 +162,23 @@ namespace test.Controllers.EnrolleeControl
             #region SortedAndFiltratedAbitur
             ViewData["NameSort"] = sortOrder == SortState.NameAsc ? SortState.NameDesc : SortState.NameAsc;
             ViewData["SurnameSort"] = sortOrder == SortState.SurnameAsc ? SortState.SurnameDesc : SortState.SurnameAsc;
-            //ViewData["GroupSort"] = sortOrder == SortState.GroupAsc ? SortState.GroupDesc : SortState.GroupAsc;
+           //- ViewData["GroupSort"] = sortOrder == SortState.GroupAsc ? SortState.GroupDesc : SortState.GroupAsc;
             ViewData["ProfNumSort"] = sortOrder == SortState.ProfNumAsc ? SortState.ProfNumDesc : SortState.ProfNumAsc;
-
+            ViewData["PatrSort"] = sortOrder == SortState.PatrAsc ? SortState.PatrDesc : SortState.PatrAsc;
+            ViewData["EduYearSort"] = sortOrder == SortState.EduYearAsc ? SortState.EduYearDesc : SortState.EduYearAsc;
+            ViewData["DateOfBirthSort"] = sortOrder == SortState.DateOfBirthAsc ? SortState.DateOfBirthDesc : SortState.DateOfBirthAsc;
+            ViewData["DateArrivedSort"] = sortOrder == SortState.DateArrivedAsc ? SortState.DateArrivedDesc : SortState.DateArrivedAsc;
+            ViewData["DateDeducSort"] = sortOrder == SortState.DateDeducAsc ? SortState.DateDeducDesc : SortState.DateOfBirthAsc;
+            ViewData["gpAVGSort"] = sortOrder == SortState.gpAVG_Asc ? SortState.gpAVG_Desc : SortState.gpAVG_Asc;
+            //-ViewData["EduTypeSort"] = sortOrder == SortState.EduTypeAsc ? SortState.EduTypeDesc: SortState.EduTypeAsc;
+           //- ViewData["fSpecSort"] = sortOrder == SortState.fSpecAsc ? SortState.fSpecDesc : SortState.fSpecAsc;
+            //-ViewData["cSpecSort"] = sortOrder == SortState.cSpecAsc ? SortState.cSpecDesc : SortState.cSpecAsc;
             
+
             IQueryable<Enrollee> source = _context.Enrollee;
 
             //фильтрация 
-            
+            #region Filters      
             //по группе
             if ((groups.Length != 0 && (groups.Length == 1 && groups[0] != 0)) || (groups.Length > 1))
             {
@@ -230,10 +269,47 @@ namespace test.Controllers.EnrolleeControl
                 source = source.Where(p => p.DateOfDeduction <= DateOfDeducMax);
             }
 
-
-                //сортировка
-                switch (sortOrder)
+            #endregion
+            //сортировка
+            #region Sorts
+            switch (sortOrder)
             {
+                case SortState.EduYearAsc:
+                    source = source.OrderBy(s => s.YearOfEndingEducation);
+                    break;
+                case SortState.EduYearDesc:
+                    source = source.OrderByDescending(s => s.YearOfEndingEducation);
+                    break;
+
+
+                case SortState.gpAVG_Asc:
+                    source = source.OrderBy(s => s.GradePointAVG);
+                    break;
+                case SortState.gpAVG_Desc:
+                    source = source.OrderByDescending(s => s.GradePointAVG);
+                    break;
+
+                case SortState.DateArrivedAsc:
+                    source = source.OrderBy(s => s.ArrivalDate);
+                    break;
+                case SortState.DateArrivedDesc:
+                    source = source.OrderByDescending(s => s.ArrivalDate);
+                    break;
+
+                case SortState.DateDeducAsc:
+                    source = source.OrderBy(s => s.DateOfDeduction);
+                    break;
+                case SortState.DateDeducDesc:
+                    source = source.OrderByDescending(s => s.DateOfDeduction);
+                    break;
+
+                case SortState.DateOfBirthAsc:
+                    source = source.OrderBy(s => s.DateOfBirth);
+                    break;
+                case SortState.DateOfBirthDesc:
+                    source = source.OrderByDescending(s => s.DateOfBirth);
+                    break;
+
                 case SortState.NameDesc:
                     source = source.OrderByDescending(s => s.Name);
                     break;
@@ -242,6 +318,12 @@ namespace test.Controllers.EnrolleeControl
                     break;
                 case SortState.SurnameDesc:
                     source = source.OrderByDescending(s => s.Surname);
+                    break;
+                case SortState.PatrAsc:
+                    source = source.OrderBy(s => s.Patronymic);
+                    break;
+                case SortState.PatrDesc:
+                    source = source.OrderByDescending(s => s.Patronymic);
                     break;
                 case SortState.ProfNumAsc:
                     source = source.OrderBy(s => s.NumOfPersonalFile);
@@ -270,6 +352,9 @@ namespace test.Controllers.EnrolleeControl
                 SortViewModel = new SortViewModel(sortOrder),
                 Enrollees = items
             };
+            #endregion
+
+
 
             return View(viewModel);
 
@@ -297,7 +382,7 @@ namespace test.Controllers.EnrolleeControl
         }
 
 
-        [Authorize(Roles = "Admin,FullDetailAbitur")]
+        [Authorize(Roles = "Admin,FullDetailAbitur,FullDetailNotMarkAbitur")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)

@@ -43,6 +43,11 @@ namespace test
             {
                 await roleManager.CreateAsync(new IdentityRole("FullDetailAbitur"));
             }
+            //Просмотр полной информации об абитуриенте, но без оценок в аттестате и экзаменов
+            if (await roleManager.FindByNameAsync("FullDetailNotMarkAbitur") == null)
+            {
+                await roleManager.CreateAsync(new IdentityRole("FullDetailNotMarkAbitur"));
+            }
             //Просмотр редактирование информации об абитуриенте
             if (await roleManager.FindByNameAsync("EditAbitur") == null)
             {
