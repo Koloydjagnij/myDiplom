@@ -59,7 +59,7 @@ namespace test.Data
             modelBuilder.Entity<Group>(entity =>
             {
                 entity.HasKey(e => e.IdGroup);
-
+                entity.HasIndex(e => e.IdGroup);
                 entity.ToTable("Groups");
 
                 entity.Property(e => e.IdGroup)
@@ -73,6 +73,7 @@ namespace test.Data
             modelBuilder.Entity<ChangeHistory>(entity =>
             {
                 entity.HasKey(e => e.ChangeHistoryId);
+                entity.HasIndex(e => e.ChangeHistoryId);
 
                 entity.ToTable("change_history");
 
@@ -92,6 +93,7 @@ namespace test.Data
             modelBuilder.Entity<DocumentFile>(entity =>
             {
                 entity.HasKey(e => e.Id);
+                entity.HasIndex(e => e.Id);
 
                 entity.ToTable("DocumentFile");
 
@@ -122,6 +124,7 @@ namespace test.Data
             modelBuilder.Entity<Achievement>(entity =>
             {
                 entity.HasKey(e => e.IdAchievement);
+                entity.HasIndex(e => e.IdAchievement);
 
                 entity.ToTable("achievement");
 
@@ -136,6 +139,7 @@ namespace test.Data
             {
                 entity.Property(e => e.IdApplicationToSpeciality).ValueGeneratedOnAdd();
                 entity.HasKey(e => e.IdApplicationToSpeciality);
+                entity.HasIndex(e => e.IdApplicationToSpeciality);
 
                 entity.ToTable("application_to_speciality");
 
@@ -181,6 +185,7 @@ namespace test.Data
                 entity.HasIndex(p => new { p.NameArea, p.IdRegion })
                 .IsUnique(true);
                 entity.HasKey(e => e.IdArea);
+                entity.HasIndex(e => e.IdArea);
 
                 entity.ToTable("area");
 
@@ -207,6 +212,7 @@ namespace test.Data
                 entity.HasIndex(p => new { p.NameCity, p.IdArea })
                 .IsUnique(true);
                 entity.HasKey(e => e.IdTown);
+                entity.HasIndex(e => e.IdTown);
 
                 entity.ToTable("city");
 
@@ -228,6 +234,7 @@ namespace test.Data
             modelBuilder.Entity<Document>(entity =>
             {
                 entity.HasKey(e => e.IdDocument);
+                entity.HasIndex(e => e.IdDocument);
 
                 entity.ToTable("document");
 
@@ -241,6 +248,7 @@ namespace test.Data
             modelBuilder.Entity<EducationalInstitution>(entity =>
             {
                 entity.HasKey(e => e.IdEducationalInstitution);
+                entity.HasIndex(e => e.IdEducationalInstitution);
 
                 entity.ToTable("educational_institution");
 
@@ -262,6 +270,7 @@ namespace test.Data
             modelBuilder.Entity<EducationType>(entity =>
             {
                 entity.HasKey(e => e.IdEducationType);
+                entity.HasIndex(e => e.IdEducationType);
 
                 entity.ToTable("education_type");
 
@@ -275,6 +284,7 @@ namespace test.Data
             modelBuilder.Entity<Enrollee>(entity =>
             {
                 entity.HasKey(e => e.IdEnrollee);
+                entity.HasIndex(e => e.IdEnrollee);
 
                 entity.ToTable("enrollee");
 
@@ -326,12 +336,14 @@ namespace test.Data
                     .OnDelete(DeleteBehavior.ClientSetNull);
 
                 entity.Property(e => e.GradePointAVG).HasColumnName("grade_point_AVG");
+                entity.HasIndex(e => e.GradePointAVG);
 
                 entity.Property(e => e.AdmitSsgt).HasColumnName("admit_ssgt");
 
                 entity.Property(e => e.ArrivalDate)
                     .HasColumnName("arrival_date")
                     .HasColumnType("date");
+                entity.HasIndex(e => e.ArrivalDate);
 
                 entity.Property(e => e.CardPpo).HasColumnName("card_ppo");
 
@@ -340,10 +352,12 @@ namespace test.Data
                 entity.Property(e => e.DateOfBirth)
                     .HasColumnName("date_of_birth")
                     .HasColumnType("date");
+                entity.HasIndex(e => e.DateOfBirth);
 
                 entity.Property(e => e.DateOfDeduction)
                     .HasColumnName("date_of_deduction")
                     .HasColumnType("date");
+                entity.HasIndex(e => e.DateOfDeduction);
 
                 entity.Property(e => e.IdCategoryMs).HasColumnName("id_category_ms");
 
@@ -382,6 +396,7 @@ namespace test.Data
                 entity.Property(e => e.NotesEducationalInstitution).HasColumnName("notes_educational_institution");
 
                 entity.Property(e => e.NumOfPersonalFile).HasColumnName("num_of_personal_file");
+                entity.HasIndex(e => e.NumOfPersonalFile);
 
                 entity.Property(e => e.OtherNotes).HasColumnName("other_notes");
 
@@ -407,10 +422,12 @@ namespace test.Data
                 entity.Property(e => e.StockPositionMs).HasColumnName("stock_position_ms");
 
                 entity.Property(e => e.Surname).HasColumnName("surname");
+                entity.HasIndex(e => e.Surname);
 
                 entity.Property(e => e.YearOfEndingEducation)
                     .HasColumnName("year_of_ending_education")
                     .HasColumnType("date");
+                entity.HasIndex(e => e.YearOfEndingEducation);
 
                 entity.HasOne(d => d.IdCategoryMsNavigation)
                     .WithMany(p => p.Enrollee)
@@ -502,6 +519,7 @@ namespace test.Data
                 entity.Property(e => e.IdEnrolleeAchievement)
                 .ValueGeneratedOnAdd();
                 entity.HasKey(e => e.IdEnrolleeAchievement);
+                entity.HasIndex(e => e.IdEnrolleeAchievement);
 
                 entity.ToTable("enrollee_achievement");
 
@@ -530,6 +548,7 @@ namespace test.Data
                 .ValueGeneratedOnAdd();
 
                 entity.HasKey(e => e.IdEnrolleeDocument);
+                entity.HasIndex(e => e.IdEnrolleeDocument);
 
                 entity.ToTable("enrollee_documents");
 
@@ -559,6 +578,7 @@ namespace test.Data
             modelBuilder.Entity<EntranceExams>(entity =>
             {
                 entity.HasKey(e => e.IdEntranceExam);
+                entity.HasIndex(e => e.IdEntranceExam);
 
                 entity.ToTable("entrance_exams");
 
@@ -577,6 +597,7 @@ namespace test.Data
                 .ValueGeneratedOnAdd();
 
                 entity.HasKey(e => e.IdExamForSpeciality);
+                entity.HasIndex(e => e.IdExamForSpeciality);
 
                 entity.ToTable("exam_for_speciality");
 
@@ -600,6 +621,7 @@ namespace test.Data
             modelBuilder.Entity<FactOfProsecution>(entity =>
             {
                 entity.HasKey(e => e.IdFactOfProsecution);
+                entity.HasIndex(e => e.IdFactOfProsecution);
 
                 entity.ToTable("fact_of_prosecution");
 
@@ -616,6 +638,7 @@ namespace test.Data
                 .ValueGeneratedOnAdd();
 
                 entity.HasKey(e => e.IdFamily);
+                entity.HasIndex(e => e.IdFamily);
 
                 entity.ToTable("family");
 
@@ -647,6 +670,7 @@ namespace test.Data
             modelBuilder.Entity<FamilyType>(entity =>
             {
                 entity.HasKey(e => e.IdFamilyType);
+                entity.HasIndex(e => e.IdFamilyType);
 
                 entity.ToTable("family_type");
 
@@ -660,6 +684,7 @@ namespace test.Data
             modelBuilder.Entity<MaritalStatus>(entity =>
             {
                 entity.HasKey(e => e.IdMaritalStatus);
+                entity.HasIndex(e => e.IdMaritalStatus);
 
                 entity.ToTable("marital_status");
 
@@ -673,6 +698,7 @@ namespace test.Data
             modelBuilder.Entity<MilitaryDistrict>(entity =>
             {
                 entity.HasKey(e => e.IdMilitaryDistrict);
+                entity.HasIndex(e => e.IdMilitaryDistrict);
 
                 entity.ToTable("military_district");
 
@@ -686,6 +712,7 @@ namespace test.Data
             modelBuilder.Entity<MilitaryOffice>(entity =>
             {
                 entity.HasKey(e => e.IdMilitaryOffice);
+                entity.HasIndex(e => e.IdMilitaryOffice);
 
                 entity.ToTable("military_office");
 
@@ -711,6 +738,7 @@ namespace test.Data
             modelBuilder.Entity<MilitaryRank>(entity =>
             {
                 entity.HasKey(e => e.IdMilitaryRank);
+                entity.HasIndex(e => e.IdMilitaryRank);
 
                 entity.ToTable("military_rank");
 
@@ -724,6 +752,7 @@ namespace test.Data
             modelBuilder.Entity<MilitaryServiceCategory>(entity =>
             {
                 entity.HasKey(e => e.IdCategoryMs);
+                entity.HasIndex(e => e.IdCategoryMs);
 
                 entity.ToTable("military_service_category");
 
@@ -737,6 +766,7 @@ namespace test.Data
             modelBuilder.Entity<MilitaryUnit>(entity =>
             {
                 entity.HasKey(e => e.IdMilitaryUnit);
+                entity.HasIndex(e => e.IdMilitaryUnit);
 
                 entity.ToTable("military_unit");
 
@@ -758,6 +788,7 @@ namespace test.Data
             modelBuilder.Entity<Nationality>(entity =>
             {
                 entity.HasKey(e => e.IdNationality);
+                entity.HasIndex(e => e.IdNationality);
 
                 entity.ToTable("nationality");
 
@@ -771,6 +802,7 @@ namespace test.Data
             modelBuilder.Entity<Parent>(entity =>
             {
                 entity.HasKey(e => e.IdParent);
+                entity.HasIndex(e => e.IdParent);
 
                 entity.ToTable("parent");
 
@@ -828,6 +860,7 @@ namespace test.Data
             modelBuilder.Entity<ParentType>(entity =>
             {
                 entity.HasKey(e => e.IdParentType);
+                entity.HasIndex(e => e.IdParentType);
 
                 entity.ToTable("parent_type");
 
@@ -841,6 +874,7 @@ namespace test.Data
             modelBuilder.Entity<PreemptiveRight>(entity =>
             {
                 entity.HasKey(e => e.IdPreemptiveRight);
+                entity.HasIndex(e => e.IdPreemptiveRight);
 
                 entity.ToTable("preemptive_right");
 
@@ -854,6 +888,7 @@ namespace test.Data
             modelBuilder.Entity<ReasonForDeduction>(entity =>
             {
                 entity.HasKey(e => e.IdReasonForDeduction);
+                entity.HasIndex(e => e.IdReasonForDeduction);
 
                 entity.ToTable("reason_for_deduction");
 
@@ -869,6 +904,7 @@ namespace test.Data
                 entity.HasIndex(p => new { p.NameRegion, p.IdMilitaryDistrict })
                 .IsUnique(true);
                 entity.HasKey(e => e.IdRegion);
+                entity.HasIndex(e => e.IdRegion);
 
                 entity.ToTable("region");
 
@@ -907,6 +943,7 @@ namespace test.Data
             modelBuilder.Entity<SocialBackground>(entity =>
             {
                 entity.HasKey(e => e.IdSocialBackground);
+                entity.HasIndex(e => e.IdSocialBackground);
 
                 entity.ToTable("social_background");
 
@@ -920,6 +957,7 @@ namespace test.Data
             modelBuilder.Entity<SocialStatus>(entity =>
             {
                 entity.HasKey(e => e.IdSocialStatus);
+                entity.HasIndex(e => e.IdSocialStatus);
 
                 entity.ToTable("social_status");
 
@@ -933,6 +971,7 @@ namespace test.Data
             modelBuilder.Entity<Speciality>(entity =>
             {
                 entity.HasKey(e => e.IdSpeciality);
+                entity.HasIndex(e => e.IdSpeciality);
 
                 entity.ToTable("speciality");
 
@@ -946,6 +985,7 @@ namespace test.Data
             modelBuilder.Entity<Subject>(entity =>
             {
                 entity.HasKey(e => e.IdSubject);
+                entity.HasIndex(e => e.IdSubject);
 
                 entity.ToTable("subject");
 
@@ -959,7 +999,8 @@ namespace test.Data
             modelBuilder.Entity<SubjectMark>(entity =>
             {                
                 entity.HasKey(e => e.IdSubjectMark);
-                           
+                entity.HasIndex(e => e.IdSubjectMark);
+
                 entity.ToTable("subject_mark");
 
                 entity.Property(e => e.IdSubjectMark).HasColumnName("id_subject_mark").ValueGeneratedOnAdd();
@@ -986,6 +1027,7 @@ namespace test.Data
             modelBuilder.Entity<TestType>(entity =>
             {
                 entity.HasKey(e => e.IdTestType);
+                entity.HasIndex(e => e.IdTestType);
 
                 entity.ToTable("test_type");
 
