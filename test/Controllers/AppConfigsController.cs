@@ -68,7 +68,7 @@ namespace test.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Key,Value")] AppConfig appConfig)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Key,Value")] AppConfig appConfig)
         {
             if (id != appConfig.Id)
             {
